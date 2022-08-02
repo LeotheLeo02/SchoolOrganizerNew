@@ -15,7 +15,7 @@ struct AddTestView: View {
     @State private var testtopic = ""
     @State private var addtopic = false
     @State private var newtopic = ""
-    @State private var testdate = Date()
+    @State private var newtestdate = Date()
     var body: some View {
         NavigationView{
             VStack{
@@ -81,7 +81,7 @@ struct AddTestView: View {
                         }.buttonStyle(.bordered)
                     }
                     Section {
-                        DatePicker("Select The Day Of Your Test", selection: $testdate, in: Date.now..., displayedComponents: .date)
+                        DatePicker("Select The Day Of Your Test", selection: $newtestdate, in: Date.now..., displayedComponents: .date)
                             .datePickerStyle(.graphical)
                             .frame(maxHeight: 400)
                     } header: {
@@ -94,7 +94,7 @@ struct AddTestView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
-                        TestDataController().addTest(testname: testname, topic: testtopic, testdate: testdate, context: managedObjContext)
+                        TestDataController().addTest(testname: testname, topic: testtopic, testdate: newtestdate, context: managedObjContext)
                         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                             if success{
                                 print("All Set For Test!")
@@ -109,7 +109,7 @@ struct AddTestView: View {
                             secondcontent.title = testname
                             secondcontent.subtitle = "\(testname) is Tomorrow! Make Sure To Study!"
                             secondcontent.sound = UNNotificationSound.default
-                            let date = testdate
+                            let date = newtestdate
                             let TwoDaysEarly = Calendar.current.date(byAdding: .day, value: -2, to: date)
                             let OneDayEarly = Calendar.current.date(byAdding: .day, value: -1, to: date)
                             content.sound = UNNotificationSound.default

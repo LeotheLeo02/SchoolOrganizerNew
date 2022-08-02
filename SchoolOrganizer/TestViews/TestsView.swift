@@ -16,6 +16,8 @@ struct TestsView: View {
             List{
                 ForEach(test){tes in
                     Text(tes.testname!)
+                    //For some reason the date is nil even though its added
+                    Text(tes.testdate!.addingTimeInterval(600), style: .date)
                 }
             }
             .sheet(isPresented: $AddTest, content: {
