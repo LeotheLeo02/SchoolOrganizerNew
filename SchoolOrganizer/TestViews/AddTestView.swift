@@ -29,9 +29,12 @@ struct AddTestView: View {
                     Section {
                         if testtopic.isEmpty{
                             Text("No topic is selected")
+                                .bold()
                                 .foregroundColor(.gray)
                         }else{
                         Text(testtopic)
+                                .bold()
+                                .foregroundColor(.blue)
                         }
                         ScrollView(.horizontal){
                             HStack{
@@ -126,6 +129,14 @@ struct AddTestView: View {
                         dismiss()
                     } label: {
                         Text("Confirm")
+                    }
+
+                }
+                ToolbarItem(placement: .cancellationAction) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text("Cancel")
                     }
 
                 }

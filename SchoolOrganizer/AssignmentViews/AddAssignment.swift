@@ -31,9 +31,12 @@ struct AddAssignment: View {
             Section {
                 if topics.isEmpty{
                     Text("No topic selected")
+                        .bold()
                         .foregroundColor(.gray)
                 }else{
                 Text(topics)
+                        .bold()
+                        .foregroundColor(.blue)
                 }
                 ScrollView(.horizontal){
                 HStack{
@@ -186,6 +189,14 @@ struct AddAssignment: View {
                 } label: {
                     Text("Add")
                 }
+            }
+            ToolbarItem(placement: .cancellationAction) {
+                Button {
+                    dismiss()
+                } label: {
+                    Text("Cancel")
+                }
+
             }
         }
         }

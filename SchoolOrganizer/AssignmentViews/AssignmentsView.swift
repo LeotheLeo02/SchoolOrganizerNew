@@ -106,7 +106,7 @@ struct AssignmentsView: View {
                         }
                     }.disabled(assignment.isEmpty)
                     .sheet(isPresented: $Schedule) {
-                        ScheduleDetails()
+                        AssignmentScheduleDetails()
                     }
 
                 }

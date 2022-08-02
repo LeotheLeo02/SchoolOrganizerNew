@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ScheduleDetails: View {
+struct AssignmentScheduleDetails: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
     @Environment(\.dismiss) var dismiss
@@ -94,6 +94,6 @@ struct ScheduleDetails: View {
 
 struct ScheduleDetails_Previews: PreviewProvider {
     static var previews: some View {
-        ScheduleDetails()
+        AssignmentScheduleDetails()
     }
 }

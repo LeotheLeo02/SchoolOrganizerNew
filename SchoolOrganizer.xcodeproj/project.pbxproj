@@ -12,7 +12,7 @@
 		4333E9E02899A4B800E80A67 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4333E9DF2899A4B800E80A67 /* Preview Assets.xcassets */; };
 		4333E9E72899A4D400E80A67 /* AssignmentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333E9E62899A4D400E80A67 /* AssignmentsView.swift */; };
 		4333E9E92899A51900E80A67 /* FolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333E9E82899A51900E80A67 /* FolderView.swift */; };
-		4333E9EB2899A52800E80A67 /* ScheduleDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333E9EA2899A52800E80A67 /* ScheduleDetails.swift */; };
+		4333E9EB2899A52800E80A67 /* AssignmentScheduleDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333E9EA2899A52800E80A67 /* AssignmentScheduleDetails.swift */; };
 		4333E9ED2899A53500E80A67 /* EditAssignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333E9EC2899A53500E80A67 /* EditAssignment.swift */; };
 		4333E9EF2899A53B00E80A67 /* AddAssignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333E9EE2899A53B00E80A67 /* AddAssignment.swift */; };
 		4333E9F22899A57300E80A67 /* LinksDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333E9F12899A57300E80A67 /* LinksDataController.swift */; };
@@ -33,7 +33,7 @@
 		4333E9DF2899A4B800E80A67 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4333E9E62899A4D400E80A67 /* AssignmentsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssignmentsView.swift; sourceTree = "<group>"; };
 		4333E9E82899A51900E80A67 /* FolderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderView.swift; sourceTree = "<group>"; };
-		4333E9EA2899A52800E80A67 /* ScheduleDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleDetails.swift; sourceTree = "<group>"; };
+		4333E9EA2899A52800E80A67 /* AssignmentScheduleDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssignmentScheduleDetails.swift; sourceTree = "<group>"; };
 		4333E9EC2899A53500E80A67 /* EditAssignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditAssignment.swift; sourceTree = "<group>"; };
 		4333E9EE2899A53B00E80A67 /* AddAssignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddAssignment.swift; sourceTree = "<group>"; };
 		4333E9F12899A57300E80A67 /* LinksDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinksDataController.swift; sourceTree = "<group>"; };
@@ -78,14 +78,10 @@
 			isa = PBXGroup;
 			children = (
 				4333E9D82899A4B700E80A67 /* SchoolOrganizerApp.swift */,
-				4333E9E62899A4D400E80A67 /* AssignmentsView.swift */,
 				4333EA002899AAA600E80A67 /* TabManager.swift */,
-				4333EA042899B28200E80A67 /* TestsView.swift */,
-				4333E9EC2899A53500E80A67 /* EditAssignment.swift */,
-				4333E9EA2899A52800E80A67 /* ScheduleDetails.swift */,
 				4333E9E82899A51900E80A67 /* FolderView.swift */,
-				4333EA022899ABF500E80A67 /* AddTestView.swift */,
-				4333E9EE2899A53B00E80A67 /* AddAssignment.swift */,
+				43E4B5E72899D02E0064A107 /* AssignmentViews */,
+				43E4B5E62899CF2A0064A107 /* TestViews */,
 				4333E9DC2899A4B800E80A67 /* Assets.xcassets */,
 				4333E9F02899A56100E80A67 /* Models */,
 				4333E9DE2899A4B800E80A67 /* Preview Content */,
@@ -112,6 +108,26 @@
 				4333E9F92899A58300E80A67 /* SchoolModel.xcdatamodeld */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		43E4B5E62899CF2A0064A107 /* TestViews */ = {
+			isa = PBXGroup;
+			children = (
+				4333EA042899B28200E80A67 /* TestsView.swift */,
+				4333EA022899ABF500E80A67 /* AddTestView.swift */,
+			);
+			path = TestViews;
+			sourceTree = "<group>";
+		};
+		43E4B5E72899D02E0064A107 /* AssignmentViews */ = {
+			isa = PBXGroup;
+			children = (
+				4333E9EA2899A52800E80A67 /* AssignmentScheduleDetails.swift */,
+				4333E9E62899A4D400E80A67 /* AssignmentsView.swift */,
+				4333E9EC2899A53500E80A67 /* EditAssignment.swift */,
+				4333E9EE2899A53B00E80A67 /* AddAssignment.swift */,
+			);
+			path = AssignmentViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,7 +213,7 @@
 				4333E9D92899A4B700E80A67 /* SchoolOrganizerApp.swift in Sources */,
 				4333E9F22899A57300E80A67 /* LinksDataController.swift in Sources */,
 				4333E9E92899A51900E80A67 /* FolderView.swift in Sources */,
-				4333E9EB2899A52800E80A67 /* ScheduleDetails.swift in Sources */,
+				4333E9EB2899A52800E80A67 /* AssignmentScheduleDetails.swift in Sources */,
 				4333E9F82899A57F00E80A67 /* FolderDataController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
