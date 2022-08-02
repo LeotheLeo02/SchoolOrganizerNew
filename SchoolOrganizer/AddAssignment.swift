@@ -132,7 +132,7 @@ struct AddAssignment: View {
             
             Section {
                 DatePicker("Choose a Due Date", selection: $duedate, in: Date.now..., displayedComponents: .date)
-                    .datePickerStyle(GraphicalDatePickerStyle())
+                    .datePickerStyle(.graphical)
                     .frame(maxHeight: 400)
                 Toggle("Want to be reminded Two Days Prior to due date of \(assigname)", isOn: $twodaysearly)
             } header: {
@@ -173,7 +173,7 @@ struct AddAssignment: View {
 
                         let calendarTriggerTwo  = UNCalendarNotificationTrigger(dateMatching: twoComp, repeats: false)
                         
-                        let request = UNNotificationRequest(identifier: topics, content: content, trigger: twodaysearly ? calendarTriggerTwo : calendarTrigger)
+                        let request = UNNotificationRequest(identifier: assigname, content: content, trigger: twodaysearly ? calendarTriggerTwo : calendarTrigger)
                         
                         UNUserNotificationCenter.current().add(request)
                     }

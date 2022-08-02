@@ -31,11 +31,12 @@ class TestDataController: ObservableObject {
         }
     }
     
-    func addTest(testname: String, topic: String, context: NSManagedObjectContext) {
+    func addTest(testname: String, topic: String, testdate: Date, context: NSManagedObjectContext) {
         let test = Tests(context: context)
         test.id = UUID()
         test.testname = testname
         test.testtopic = topic
+        test.testdate = test.testdate
         save(context: context)
     }
     

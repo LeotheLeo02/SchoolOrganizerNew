@@ -24,7 +24,7 @@ struct EditAssignment: View {
                 }
                 Button {
                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                        var identifiers: [String] = [assignment.topic!]
+                        var identifiers: [String] = [assignment.name!]
                        for notification:UNNotificationRequest in notificationRequests {
                            if notification.identifier == "identifierCancel" {
                               identifiers.append(notification.identifier)

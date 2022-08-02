@@ -15,6 +15,7 @@ struct AddTestView: View {
     @State private var testtopic = ""
     @State private var addtopic = false
     @State private var newtopic = ""
+    @State private var testdate = Date()
     var body: some View {
         NavigationView{
             VStack{
@@ -70,7 +71,13 @@ struct AddTestView: View {
                                 .foregroundColor(.red)
                                 .bold()
                         }.buttonStyle(.bordered)
-
+                    }
+                    Section {
+                        DatePicker("Select The Day Of Your Test", selection: $testdate, in: Date.now..., displayedComponents: .date)
+                            .datePickerStyle(.graphical)
+                            .frame(maxHeight: 400)
+                    } header: {
+                        Text("Test Date")
                     }
 
 
@@ -79,7 +86,38 @@ struct AddTestView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
-                        TestDataController().addTest(testname: testname, topic: testtopic, context: managedObjContext)
+                        TestDataController().addTest(testname: testname, topic: testtopic, testdate: testdate, context: managedObjContext)
+                        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                            if success{
+                                print("All Set!")
+                            }else if let error = error{
+                                print(error.localizedDescription)
+                            }
+                            
+                            let content = UNMutableNotificationContent()
+                            content.title = testname
+                            content.subtitle = "\(testname) is in Two Days! Make Sure To Study!"
+                            let secondcontent = UNMutableNotificationContent()
+                            secondcontent.title = testname
+                            secondcontent.subtitle = "\(testname) is Tomorrow! Make Sure To Study!"
+                            secondcontent.sound = UNNotificationSound.default
+                            let date = testdate
+                            let TwoDaysEarly = Calendar.current.date(byAdding: .day, value: -2, to: date)
+                            let OneDayEarly = Calendar.current.date(byAdding: .day, value: -1, to: date)
+                            content.sound = UNNotificationSound.default
+                            let dateComp = Calendar.current.dateComponents([.year, .month, .day], from: OneDayEarly!)
+                            let twoComp = Calendar.current.dateComponents([.year,.month,.day], from: TwoDaysEarly!)
+                            
+                            let calendarTrigger  = UNCalendarNotificationTrigger(dateMatching: dateComp, repeats: false)
+
+                            let calendarTriggerTwo  = UNCalendarNotificationTrigger(dateMatching: twoComp, repeats: false)
+                            
+                            let request = UNNotificationRequest(identifier: testname, content: content, trigger: calendarTriggerTwo)
+                            let request2 = UNNotificationRequest(identifier: testname, content: content, trigger: calendarTrigger)
+                            
+                            UNUserNotificationCenter.current().add(request)
+                            UNUserNotificationCenter.current().add(request2)
+                        }
                         dismiss()
                     } label: {
                         Text("Confirm")
