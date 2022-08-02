@@ -27,7 +27,12 @@ struct AddTestView: View {
                     }
                     
                     Section {
+                        if testtopic.isEmpty{
+                            Text("No topic is selected")
+                                .foregroundColor(.gray)
+                        }else{
                         Text(testtopic)
+                        }
                         ScrollView(.horizontal){
                             HStack{
                                 if !topic.isEmpty{
@@ -89,7 +94,7 @@ struct AddTestView: View {
                         TestDataController().addTest(testname: testname, topic: testtopic, testdate: testdate, context: managedObjContext)
                         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                             if success{
-                                print("All Set!")
+                                print("All Set For Test!")
                             }else if let error = error{
                                 print(error.localizedDescription)
                             }

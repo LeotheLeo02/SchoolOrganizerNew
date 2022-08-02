@@ -29,7 +29,12 @@ struct AddAssignment: View {
         Form{
             TextField("Name Of Assignment", text: $assigname)
             Section {
+                if topics.isEmpty{
+                    Text("No topic selected")
+                        .foregroundColor(.gray)
+                }else{
                 Text(topics)
+                }
                 ScrollView(.horizontal){
                 HStack{
                     if topic.isEmpty{
