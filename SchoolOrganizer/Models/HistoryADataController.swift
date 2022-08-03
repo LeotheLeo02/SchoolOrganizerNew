@@ -1,16 +1,15 @@
 //
-//  HistoryDataController.swift
+//  HistoryAssignments.swift
 //  SchoolOrganizerHelper
 //
 //  Created by Nate on 8/3/22.
 //
-
 import Foundation
 import CoreData
 
-class HistoryDataController: ObservableObject {
+class   HistoryADataController: ObservableObject {
     // Responsible for preparing a model
-    let container = NSPersistentContainer(name: "History")
+    let container = NSPersistentContainer(name: "Tests")
     
     init() {
         container.loadPersistentStores { description, error in
@@ -31,15 +30,10 @@ class HistoryDataController: ObservableObject {
         }
     }
     
-    func addHistoryTest(testnames: String, context: NSManagedObjectContext) {
-        let history = History(context: context)
-        history.testnames = testnames
-        save(context: context)
-    }
-    
-    func addHistroyAssignment(assignmentnames: String, context: NSManagedObjectContext) {
-        let history = History(context: context)
-        history.assignmentnames = assignmentnames
+    func addhistoryA(historynamea: String, dateadded: Date, context: NSManagedObjectContext) {
+        let historya = HistoryA(context: context)
+        historya.id = UUID()
+        historya.dateadded = dateadded
         save(context: context)
     }
 }

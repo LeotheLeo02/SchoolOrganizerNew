@@ -8,8 +8,23 @@
 import SwiftUI
 
 struct HistoryView: View {
+    @Environment(\.managedObjectContext) var managedObjContext
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.dateadded)]) var historyassignment: FetchedResults<HistoryA>
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView{
+        VStack{
+            List{
+                ForEach(historyassignment){hisa in
+                    HStack{
+                    Text(hisa.historynamea!)
+                        .font(.system(size: 25, weight: .heavy, design: .rounded))
+                        Spacer()
+                        Text(hisa.dateadded ?? Date.distantFuture.addingTimeInterval(600), style: .time)
+                    }
+                }
+            }
+        }
+        }
     }
 }
 

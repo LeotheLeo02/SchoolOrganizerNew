@@ -84,10 +84,27 @@ struct AssignmentsView: View {
                                 .cornerRadius(20)
                                 .overlay{
                             Button {
-                                assign.complete.toggle()
+                                assign.complete = true
                                 AssignmentDataController().editAssign(assign: assign, complete: assign.complete, context: managedObjContext)
                                 if assign.complete{
                                     simpleSuccess()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                        withAnimation{
+                                            UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+                                                var identifiers: [String] = [assign.name!]
+                                               for notification:UNNotificationRequest in notificationRequests {
+                                                   if notification.identifier == "identifierCancel" {
+                                                      identifiers.append(notification.identifier)
+                                                   }
+                                               }
+                                               UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                                print("Deleted Notifcation")
+                                            }
+                                            HistoryADataController().addhistoryA(historynamea: assign.name!, dateadded: Date.now, context: managedObjContext)
+                                        assign.managedObjectContext?.delete(assign)
+                                            AssignmentDataController().save(context: managedObjContext)
+                                        }
+                                    }
                                 }
                             } label: {
                                 HStack{
