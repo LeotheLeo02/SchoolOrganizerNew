@@ -11,7 +11,6 @@ struct AssignmentsView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.foldername)]) var folder: FetchedResults<Folder>
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.testname)]) var test: FetchedResults<Tests>
     @Environment(\.dismiss) var dismiss
     @State private var Add = false
     @State private var Schedule = false
@@ -37,6 +36,7 @@ struct AssignmentsView: View {
                 }
                 LazyVGrid(columns: adaptiveColumns) {
                     ForEach(assignment){assign in
+                        VStack{
                         NavigationLink(destination: EditAssignment(assignment: assign)){
                             Rectangle()
                                 .frame(width: 160, height: 160)
@@ -60,7 +60,7 @@ struct AssignmentsView: View {
                                             .fontWeight(.heavy)
                                             .foregroundColor(.white)
                                         Text(assign.duedate?.addingTimeInterval(600) ?? Date.now, style: .date)
-                                            .bold()
+                                            .font(.system(size: 15, weight: .heavy, design: .rounded))
                                             .if(days >= 7){ view in
                                                 view.foregroundColor(.green)
                                             }
@@ -71,11 +71,28 @@ struct AssignmentsView: View {
                                                 view.foregroundColor(.red)
                                             }
                                             .padding()
-                                            .background(Color.black)
+                                            .background(Color(.systemGray4))
                                             .cornerRadius(20)
                                     }
                                 }
                                 .navigationViewStyle(.stack)
+                    }
+                            Rectangle()
+                                .foregroundColor(Color(.systemGray6))
+                                .frame(width: 160, height: 50)
+                                .cornerRadius(20)
+                                .overlay{
+                            Button {
+                                assign.complete.toggle()
+                                AssignmentDataController().editAssign(assign: assign, complete: assign.complete, context: managedObjContext)
+                            } label: {
+                                HStack{
+                                    Image(systemName: assign.complete ? "checkmark.circle.fill" : "circle")
+                                        .font(.largeTitle)
+                                    .foregroundColor(.green)
+                                }
+                            }
+                                }
                     }
                     }
                 }
@@ -105,6 +122,7 @@ struct AssignmentsView: View {
                         Image(systemName: "calendar")
                         }
                     }.disabled(assignment.isEmpty)
+                        .buttonStyle(.borderedProminent)
                     .sheet(isPresented: $Schedule) {
                         AssignmentScheduleDetails()
                     }

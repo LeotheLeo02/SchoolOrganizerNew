@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreHaptics
 
 struct EditTestView: View {
     @Environment(\.managedObjectContext) var managedObjContext
@@ -15,6 +16,7 @@ struct EditTestView: View {
     @State private var goodscore = false
     @State private var badscore = false
     @State private var name = ""
+    @State private var engine: CHHapticEngine?
     var body: some View {
         Form {
             Section{
@@ -30,6 +32,7 @@ struct EditTestView: View {
                         let initial = String(test.score)
                         score = initial
                         name = test.testname!
+                        prepareHaptics()
                     }
                     .onSubmit {
                         if number > 100{
@@ -37,6 +40,7 @@ struct EditTestView: View {
                         }
                         if number >= 80{
                             goodscore.toggle()
+                            complexSuccess()
                         }
                         if number < 70 {
                             badscore.toggle()
@@ -83,6 +87,36 @@ struct EditTestView: View {
         withAnimation {
             test.managedObjectContext?.delete(test)
             TestDataController().save(context: managedObjContext)
+        }
+    }
+    func prepareHaptics() {
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+
+        do {
+            engine = try CHHapticEngine()
+            try engine?.start()
+        } catch {
+            print("There was an error creating the engine: \(error.localizedDescription)")
+        }
+    }
+    func complexSuccess() {
+        // make sure that the device supports haptics
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        var events = [CHHapticEvent]()
+
+        // create one intense, sharp tap
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 1)
+        let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
+        let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
+        events.append(event)
+
+        // convert those events into a pattern and play it immediately
+        do {
+            let pattern = try CHHapticPattern(events: events, parameters: [])
+            let player = try engine?.makePlayer(with: pattern)
+            try player?.start(atTime: 0)
+        } catch {
+            print("Failed to play pattern: \(error.localizedDescription).")
         }
     }
 }

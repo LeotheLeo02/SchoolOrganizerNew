@@ -159,7 +159,7 @@ struct AddAssignment: View {
                         NotComplete.toggle()
                         complexSuccess()
                     }else{
-                    AssignmentDataController().addAssign(notes: details, topic: topics, color: color.trimmingCharacters(in: .whitespaces), duedate: duedate, name: assigname, context: managedObjContext)
+                    AssignmentDataController().addAssign(notes: details, topic: topics, color: color.trimmingCharacters(in: .whitespaces), duedate: duedate, name: assigname, complete: false, context: managedObjContext)
                     dismiss()
                     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                         if success{
