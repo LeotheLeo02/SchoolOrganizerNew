@@ -22,12 +22,17 @@ struct AddAssignment: View {
     @State private var NotComplete = false
     @State private var twodaysearly = false
     @State private var assigname = ""
+    @State private var undosignal = false
+    @State private var undoall = false
     @State private var engine: CHHapticEngine?
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
         Form{
             TextField("Name Of Assignment", text: $assigname)
+                .onChange(of: undoall) { newValue in
+                assigname = ""
+            }
             Section {
                 if topics.isEmpty{
                     Text("No topic selected")
@@ -37,6 +42,9 @@ struct AddAssignment: View {
                 Text(topics)
                         .bold()
                         .foregroundColor(.blue)
+                        .onChange(of: undoall, perform: { newValue in
+                            topics = ""
+                        })
                 }
                 ScrollView(.horizontal){
                 HStack{
@@ -64,7 +72,7 @@ struct AddAssignment: View {
                 if addtopic{
                         TextField("Enter New Topic Name", text: $newname)
                         .onSubmit {
-                            TopicDataController().addTopic(topicname: newname, context: managedObjContext)
+                            TopicDataController().addTopic(topicname: newname.trimmingCharacters(in: .whitespaces), context: managedObjContext)
                             withAnimation{
                             addtopic.toggle()
                             }
@@ -87,12 +95,18 @@ struct AddAssignment: View {
             
             Section {
                 TextEditor(text: $details)
+                    .onChange(of: undoall) { newValue in
+                        details = ""
+                    }
             } header: {
                 Text("Details")
             }
             
             Section {
                 TextField("Enter Color", text: $color)
+                    .onChange(of: undoall) { V in
+                        color = ""
+                    }
                     HStack{
                     Text("Red")
                             .foregroundColor(color.trimmingCharacters(in: .whitespaces) == "Red" ? .white: .red)
@@ -142,11 +156,25 @@ struct AddAssignment: View {
                 DatePicker("Choose a Due Date", selection: $duedate, in: Date.now..., displayedComponents: .date)
                     .datePickerStyle(.graphical)
                     .frame(maxHeight: 400)
+                    .onChange(of: undoall) { newValue in
+                        duedate = Date.now
+                    }
                 Toggle("Want to be reminded Two Days Prior to due date of \(assigname)", isOn: $twodaysearly)
+                    .onShake {
+                        undosignal.toggle()
+                    }
             } header: {
                 Text("Select Due Date")
             }
 
+        }
+        .alert("Undo All?", isPresented: $undosignal) {
+            Button("Yes") {
+                undoall.toggle()
+            }
+            Button("No"){
+                
+            }
         }
         .alert(isPresented: $NotComplete){
             Alert(title: Text("Not Complete"), message: Text("Name, Topic, and Color need to be assigned"), dismissButton: .cancel(Text("Ok")))
@@ -245,5 +273,37 @@ struct AddAssignment: View {
 struct AddAssignment_Previews: PreviewProvider {
     static var previews: some View {
         AddAssignment()
+    }
+}
+extension UIDevice {
+    static let deviceDidShakeNotification = Notification.Name(rawValue: "deviceDidShakeNotification")
+}
+
+//  Override the default behavior of shake gestures to send our notification instead.
+extension UIWindow {
+     open override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            NotificationCenter.default.post(name: UIDevice.deviceDidShakeNotification, object: nil)
+        }
+     }
+}
+
+// A view modifier that detects shaking and calls a function of our choosing.
+struct DeviceShakeViewModifier: ViewModifier {
+    let action: () -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear()
+            .onReceive(NotificationCenter.default.publisher(for: UIDevice.deviceDidShakeNotification)) { _ in
+                action()
+            }
+    }
+}
+
+// A View extension to make the modifier easier to use.
+extension View {
+    func onShake(perform action: @escaping () -> Void) -> some View {
+        self.modifier(DeviceShakeViewModifier(action: action))
     }
 }

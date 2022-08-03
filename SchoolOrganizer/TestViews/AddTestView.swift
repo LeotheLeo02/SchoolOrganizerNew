@@ -15,6 +15,8 @@ struct AddTestView: View {
     @State private var testtopic = ""
     @State private var addtopic = false
     @State private var newtopic = ""
+    @State private var undosignal = false
+    @State private var undo = false
     @State private var newtestdate = Date()
     var body: some View {
         NavigationView{
@@ -22,8 +24,14 @@ struct AddTestView: View {
                 Form{
                     Section {
                         TextField("Test Name...", text: $testname)
+                            .onChange(of: undo, perform: { newValue in
+                                testname = ""
+                            })
                     } header: {
                         Text("Test Name")
+                            .onShake {
+                                undosignal.toggle()
+                            }
                     }
                     
                     Section {
@@ -35,6 +43,10 @@ struct AddTestView: View {
                         Text(testtopic)
                                 .bold()
                                 .foregroundColor(.blue)
+                                .onChange(of: undo, perform: { newValue in
+                                    testtopic = ""
+                                })
+                             
                         }
                         ScrollView(.horizontal){
                             HStack{
@@ -63,7 +75,7 @@ struct AddTestView: View {
                         if addtopic{
                             TextField("Enter New Topic Name", text: $newtopic)
                                 .onSubmit {
-                                    TopicDataController().addTopic(topicname: newtopic, context: managedObjContext)
+                                    TopicDataController().addTopic(topicname: newtopic.trimmingCharacters(in: .whitespaces), context: managedObjContext)
                                     withAnimation {
                                         addtopic.toggle()
                                     }
@@ -84,11 +96,21 @@ struct AddTestView: View {
                         DatePicker("Select The Day Of Your Test", selection: $newtestdate, in: Date.now...)
                             .datePickerStyle(.graphical)
                             .frame(maxHeight: 400)
+                            .onChange(of: undo, perform: { newValue in
+                                newtestdate = Date.now
+                            })
                     } header: {
                         Text("Test Date")
                     }
 
 
+                }
+            }.alert("Undo All?", isPresented: $undosignal) {
+                Button("Yes") {
+                    undo.toggle()
+                }
+                Button("No"){
+                    
                 }
             }
             .toolbar {
