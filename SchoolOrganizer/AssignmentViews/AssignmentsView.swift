@@ -100,7 +100,6 @@ struct AssignmentsView: View {
                                                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
                                                 print("Deleted Notifcation")
                                             }
-                                            HistoryADataController().addhistoryA(historynamea: assign.name!, dateadded: Date.now, context: managedObjContext)
                                         assign.managedObjectContext?.delete(assign)
                                             AssignmentDataController().save(context: managedObjContext)
                                         }

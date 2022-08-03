@@ -14,7 +14,6 @@ struct SchoolOrganizerApp: App {
     @StateObject private var folderdatacontroller = FolderDataController()
     @StateObject private var linkdatacontroller = LinksDataController()
     @StateObject private var testdatacontroller = TestDataController()
-    @StateObject private var historyadatacontroller = HistoryADataController()
     var body: some Scene {
         WindowGroup {
             TabManager()
@@ -23,7 +22,6 @@ struct SchoolOrganizerApp: App {
                 .environment(\.managedObjectContext, folderdatacontroller.container.viewContext)
                 .environment(\.managedObjectContext, linkdatacontroller.container.viewContext)
                 .environment(\.managedObjectContext, testdatacontroller.container.viewContext)
-                .environment(\.managedObjectContext, historyadatacontroller.container.viewContext)
         }
     }
 }

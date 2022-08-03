@@ -24,8 +24,6 @@
 		4333EA012899AAA600E80A67 /* TabManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333EA002899AAA600E80A67 /* TabManager.swift */; };
 		4333EA032899ABF500E80A67 /* AddTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333EA022899ABF500E80A67 /* AddTestView.swift */; };
 		4333EA052899B28200E80A67 /* TestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333EA042899B28200E80A67 /* TestsView.swift */; };
-		43A20F1F289B08C4006E8C8C /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A20F1E289B08C4006E8C8C /* HistoryView.swift */; };
-		43A20F22289B0B83006E8C8C /* HistoryADataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A20F21289B0B83006E8C8C /* HistoryADataController.swift */; };
 		43E4E6992899FCC3001CCE9C /* EditTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E4E6982899FCC3001CCE9C /* EditTestView.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,8 +46,6 @@
 		4333EA002899AAA600E80A67 /* TabManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManager.swift; sourceTree = "<group>"; };
 		4333EA022899ABF500E80A67 /* AddTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTestView.swift; sourceTree = "<group>"; };
 		4333EA042899B28200E80A67 /* TestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsView.swift; sourceTree = "<group>"; };
-		43A20F1E289B08C4006E8C8C /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
-		43A20F21289B0B83006E8C8C /* HistoryADataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryADataController.swift; sourceTree = "<group>"; };
 		43E4E6982899FCC3001CCE9C /* EditTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTestView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,7 +82,6 @@
 				4333E9D82899A4B700E80A67 /* SchoolOrganizerApp.swift */,
 				4333EA002899AAA600E80A67 /* TabManager.swift */,
 				4333E9E82899A51900E80A67 /* FolderView.swift */,
-				43A20F20289B08EB006E8C8C /* History */,
 				43E4B5E72899D02E0064A107 /* AssignmentViews */,
 				43E4B5E62899CF2A0064A107 /* TestViews */,
 				4333E9DC2899A4B800E80A67 /* Assets.xcassets */,
@@ -112,18 +107,9 @@
 				4333E9F12899A57300E80A67 /* LinksDataController.swift */,
 				4333E9F72899A57F00E80A67 /* FolderDataController.swift */,
 				4333E9FC2899A66100E80A67 /* TestDataController.swift */,
-				43A20F21289B0B83006E8C8C /* HistoryADataController.swift */,
 				4333E9F92899A58300E80A67 /* SchoolModel.xcdatamodeld */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		43A20F20289B08EB006E8C8C /* History */ = {
-			isa = PBXGroup;
-			children = (
-				43A20F1E289B08C4006E8C8C /* HistoryView.swift */,
-			);
-			path = History;
 			sourceTree = "<group>";
 		};
 		43E4B5E62899CF2A0064A107 /* TestViews */ = {
@@ -219,10 +205,8 @@
 			files = (
 				4333E9F42899A57700E80A67 /* AssignmentDataController.swift in Sources */,
 				4333E9F62899A57B00E80A67 /* TopicDataController.swift in Sources */,
-				43A20F1F289B08C4006E8C8C /* HistoryView.swift in Sources */,
 				4333EA032899ABF500E80A67 /* AddTestView.swift in Sources */,
 				4333E9FB2899A58300E80A67 /* SchoolModel.xcdatamodeld in Sources */,
-				43A20F22289B0B83006E8C8C /* HistoryADataController.swift in Sources */,
 				4333EA052899B28200E80A67 /* TestsView.swift in Sources */,
 				4333EA012899AAA600E80A67 /* TabManager.swift in Sources */,
 				4333E9EF2899A53B00E80A67 /* AddAssignment.swift in Sources */,

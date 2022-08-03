@@ -13,15 +13,6 @@
         <attribute name="foldername" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
     </entity>
-    <entity name="HistoryA" representedClassName="HistoryA" syncable="YES" codeGenerationType="class">
-        <attribute name="dateadded" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="historynamea" optional="YES" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-    </entity>
-    <entity name="HistoryB" representedClassName="HistoryB" syncable="YES" codeGenerationType="class">
-        <attribute name="historynamet" optional="YES" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-    </entity>
     <entity name="Images" representedClassName="Images" syncable="YES" codeGenerationType="class">
         <attribute name="imageD" optional="YES" attributeType="Binary"/>
     </entity>
@@ -46,8 +37,6 @@
     <elements>
         <element name="Assignment" positionX="-63" positionY="-18" width="128" height="134"/>
         <element name="Folder" positionX="-54" positionY="27" width="128" height="59"/>
-        <element name="HistoryA" positionX="-36" positionY="81" width="128" height="74"/>
-        <element name="HistoryB" positionX="-27" positionY="90" width="128" height="59"/>
         <element name="Images" positionX="-36" positionY="45" width="128" height="44"/>
         <element name="Links" positionX="-36" positionY="45" width="128" height="74"/>
         <element name="Tests" positionX="-27" positionY="54" width="128" height="134"/>
