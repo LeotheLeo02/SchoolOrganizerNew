@@ -24,6 +24,7 @@
 		4333EA012899AAA600E80A67 /* TabManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333EA002899AAA600E80A67 /* TabManager.swift */; };
 		4333EA032899ABF500E80A67 /* AddTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333EA022899ABF500E80A67 /* AddTestView.swift */; };
 		4333EA052899B28200E80A67 /* TestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333EA042899B28200E80A67 /* TestsView.swift */; };
+		43E4E6992899FCC3001CCE9C /* EditTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E4E6982899FCC3001CCE9C /* EditTestView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		4333EA002899AAA600E80A67 /* TabManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManager.swift; sourceTree = "<group>"; };
 		4333EA022899ABF500E80A67 /* AddTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTestView.swift; sourceTree = "<group>"; };
 		4333EA042899B28200E80A67 /* TestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsView.swift; sourceTree = "<group>"; };
+		43E4E6982899FCC3001CCE9C /* EditTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTestView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				4333EA042899B28200E80A67 /* TestsView.swift */,
+				43E4E6982899FCC3001CCE9C /* EditTestView.swift */,
 				4333EA022899ABF500E80A67 /* AddTestView.swift */,
 			);
 			path = TestViews;
@@ -214,6 +217,7 @@
 				4333E9F22899A57300E80A67 /* LinksDataController.swift in Sources */,
 				4333E9E92899A51900E80A67 /* FolderView.swift in Sources */,
 				4333E9EB2899A52800E80A67 /* AssignmentScheduleDetails.swift in Sources */,
+				43E4E6992899FCC3001CCE9C /* EditTestView.swift in Sources */,
 				4333E9F82899A57F00E80A67 /* FolderDataController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

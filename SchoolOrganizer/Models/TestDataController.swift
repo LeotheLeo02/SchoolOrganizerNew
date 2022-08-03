@@ -36,7 +36,7 @@ class TestDataController: ObservableObject {
         test.id = UUID()
         test.testname = testname
         test.testtopic = topic
-        test.testdate = test.testdate
+        test.testdate = testdate
         save(context: context)
     }
     

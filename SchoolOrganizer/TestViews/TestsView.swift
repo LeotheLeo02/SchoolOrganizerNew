@@ -8,16 +8,134 @@
 import SwiftUI
 
 struct TestsView: View {
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.testname)]) var test: FetchedResults<Tests>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.testdate)]) var test: FetchedResults<Tests>
     @Environment(\.managedObjectContext) var managedObjContext
     @State private var AddTest = false
     var body: some View {
         NavigationView{
             List{
                 ForEach(test){tes in
-                    Text(tes.testname!)
-                    //For some reason the date is nil even though its added
-                    Text(tes.testdate!.addingTimeInterval(600), style: .date)
+                    NavigationLink(destination: EditTestView(test: tes)){
+                    let days = daysBetween(start: Date.now, end: tes.testdate ?? Date.now)
+                    if days >= 7 && days < 14{
+                        VStack(alignment: .leading){
+                        HStack{
+                        Text(tes.testname!)
+                            Spacer()
+                            if tes.score != 0{
+                            Text("\(tes.score)")
+                                    .if(tes.score < 70){ view in
+                                        view.foregroundColor(.red)
+                                }
+                                    .if(tes.score >= 70){ view in
+                                        view.foregroundColor(.green)
+                                    }
+                                .font(.system(size: 40, weight: .heavy, design: .rounded))
+                            }else{
+                            Text("Test is next week, start studying soon.")
+                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                                .foregroundColor(.green)
+                                .multilineTextAlignment(.center)
+                                .allowsTightening(true)
+                            }
+                        }
+                            HStack{
+                            Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                                .bold()
+                                Image(systemName: "calendar.circle.fill")
+                                    .foregroundColor(.green)
+                            }
+                        }
+                    } else if days >= 14{
+                        VStack(alignment: .leading){
+                        HStack{
+                        Text(tes.testname!)
+                            Spacer()
+                            if tes.score != 0{
+                                Text("\(tes.score)")
+                                    .if(tes.score < 70){ view in
+                                        view.foregroundColor(.red)
+                                }
+                                    .if(tes.score >= 70){ view in
+                                        view.foregroundColor(.green)
+                                    }
+                                    .font(.system(size: 40, weight: .heavy, design: .rounded))
+                            }else{
+                            Text("No need to worry, this is test is pretty far")
+                                .foregroundColor(.gray)
+                                .multilineTextAlignment(.center)
+                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                                .allowsTightening(true)
+                            }
+                        }
+                            HStack{
+                            Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                                .bold()
+                                Image(systemName: "calendar.circle.fill")
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                    }
+                    if days < 7 && days > 3 {
+                        VStack(alignment: .leading){
+                        HStack{
+                        Text(tes.testname!)
+                            Spacer()
+                            if tes.score != 0{
+                                Text("\(tes.score)")
+                                    .if(tes.score < 70){ view in
+                                        view.foregroundColor(.red)
+                                }
+                                    .if(tes.score >= 70){ view in
+                                        view.foregroundColor(.green)
+                                    }
+                                    .font(.system(size: 40, weight: .heavy, design: .rounded))
+                            }else{
+                            Text("Test is less than 7 days away, be ready.")
+                                .foregroundColor(.yellow)
+                                .multilineTextAlignment(.center)
+                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                                .allowsTightening(true)
+                            }
+                        }
+                            HStack{
+                            Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                                .bold()
+                                Image(systemName: "calendar.circle.fill")
+                                    .foregroundColor(.yellow)
+                            }
+                        }
+                    }
+                    if days <= 3{
+                        VStack(alignment: .leading){
+                        HStack{
+                        Text(tes.testname!)
+                            Spacer()
+                            if tes.score != 0 {
+                            Text("\(tes.score)")
+                                    .if(tes.score < 70){ view in
+                                        view.foregroundColor(.red)
+                                }
+                                    .if(tes.score >= 70){ view in
+                                        view.foregroundColor(.green)
+                                    }
+                                .font(.system(size: 40, weight: .heavy, design: .rounded))
+                            }else{
+                            Text("Test is coming really soon!")
+                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                                .foregroundColor(.red)
+                                .multilineTextAlignment(.center)
+                            }
+                        }
+                            HStack{
+                            Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                                .bold()
+                                Image(systemName: "calendar.circle.fill")
+                                    .foregroundColor(.red)
+                            }
+                        }
+                    }
+                }
                 }
             }
             .sheet(isPresented: $AddTest, content: {
@@ -35,7 +153,26 @@ struct TestsView: View {
                 }
             }
             .navigationTitle("Tests")
+            .toolbar {
+                ToolbarItem(placement: .bottomBar){
+                    Button {
+                        
+                    } label: {
+                        HStack{
+                        Text("Delete Items")
+                                .bold()
+                                .foregroundColor(.red)
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                        }
+                    }
+
+                }
+            }
         }
+    }
+    func daysBetween(start: Date, end: Date) -> Int {
+        return Calendar.current.dateComponents([.day], from: start, to: end).day!
     }
 }
 
