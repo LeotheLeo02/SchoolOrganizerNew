@@ -21,6 +21,11 @@ struct TabManager: View {
                     Text("Tests")
                     Image(systemName: "doc.on.clipboard")
                 }
+            HistoryView()
+                .tabItem {
+                    Text("History")
+                    Image(systemName: "doc.text.magnifyingglass")
+                }
         }
     }
 }

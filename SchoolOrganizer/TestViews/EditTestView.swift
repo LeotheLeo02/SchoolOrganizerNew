@@ -55,6 +55,7 @@ struct EditTestView: View {
             Button {
                 UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
                     var identifiers: [String] = [name]
+                    print("\(name)")
                    for notification:UNNotificationRequest in notificationRequests {
                        if notification.identifier == "identifierCancel" {
                           identifiers.append(notification.identifier)
@@ -76,7 +77,8 @@ struct EditTestView: View {
             }
 
 
-        }.alert(isPresented: $goodscore){
+        } // Try on beta test
+        .alert(isPresented: $goodscore){
             Alert(title: Text("Nice Job!👍"), message: Text("You Earned This!"), dismissButton: .cancel(Text("Thanks!")))
         }
         .alert(isPresented: $badscore){
