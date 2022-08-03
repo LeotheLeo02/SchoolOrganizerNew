@@ -79,12 +79,16 @@ struct AssignmentsView: View {
                     }
                             Rectangle()
                                 .foregroundColor(Color(.systemGray6))
-                                .frame(width: 160, height: 50)
+                                .frame(width: assign.complete ? 175 : 160, height: 50)
+                                .animation(.spring(), value: assign.complete)
                                 .cornerRadius(20)
                                 .overlay{
                             Button {
                                 assign.complete.toggle()
                                 AssignmentDataController().editAssign(assign: assign, complete: assign.complete, context: managedObjContext)
+                                if assign.complete{
+                                    simpleSuccess()
+                                }
                             } label: {
                                 HStack{
                                     Image(systemName: assign.complete ? "checkmark.circle.fill" : "circle")
@@ -183,6 +187,10 @@ struct AssignmentsView: View {
             // Saves to our database
             FolderDataController().save(context: managedObjContext)
         }
+    }
+    func simpleSuccess() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
     }
 }
 
