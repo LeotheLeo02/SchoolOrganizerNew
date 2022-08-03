@@ -81,7 +81,7 @@ struct AddTestView: View {
                         }.buttonStyle(.bordered)
                     }
                     Section {
-                        DatePicker("Select The Day Of Your Test", selection: $newtestdate, in: Date.now..., displayedComponents: .date)
+                        DatePicker("Select The Day Of Your Test", selection: $newtestdate, in: Date.now...)
                             .datePickerStyle(.graphical)
                             .frame(maxHeight: 400)
                     } header: {
@@ -113,8 +113,8 @@ struct AddTestView: View {
                             let TwoDaysEarly = Calendar.current.date(byAdding: .day, value: -2, to: date)
                             let OneDayEarly = Calendar.current.date(byAdding: .day, value: -1, to: date)
                             content.sound = UNNotificationSound.default
-                            let dateComp = Calendar.current.dateComponents([.year, .month, .day], from: OneDayEarly!)
-                            let twoComp = Calendar.current.dateComponents([.year,.month,.day], from: TwoDaysEarly!)
+                            let dateComp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: OneDayEarly!)
+                            let twoComp = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute], from: TwoDaysEarly!)
                             
                             let calendarTrigger  = UNCalendarNotificationTrigger(dateMatching: dateComp, repeats: false)
 

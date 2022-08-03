@@ -11,6 +11,7 @@ struct TestsView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.testdate)]) var test: FetchedResults<Tests>
     @Environment(\.managedObjectContext) var managedObjContext
     @State private var AddTest = false
+    @State private var Delete = false
     var body: some View {
         NavigationView{
             List{
@@ -137,8 +138,7 @@ struct TestsView: View {
                     }
                 }
                 }
-            }
-            .sheet(isPresented: $AddTest, content: {
+            }.sheet(isPresented: $AddTest, content: {
                 AddTestView()
             })
             .toolbar {
@@ -153,22 +153,6 @@ struct TestsView: View {
                 }
             }
             .navigationTitle("Tests")
-            .toolbar {
-                ToolbarItem(placement: .bottomBar){
-                    Button {
-                        
-                    } label: {
-                        HStack{
-                        Text("Delete Items")
-                                .bold()
-                                .foregroundColor(.red)
-                            Image(systemName: "trash")
-                                .foregroundColor(.red)
-                        }
-                    }
-
-                }
-            }
         }
     }
     func daysBetween(start: Date, end: Date) -> Int {

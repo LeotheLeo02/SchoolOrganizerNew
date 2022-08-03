@@ -14,6 +14,7 @@ struct EditTestView: View {
     @State private var score = ""
     @State private var goodscore = false
     @State private var badscore = false
+    @State private var name = ""
     var body: some View {
         Form {
             Section{
@@ -28,6 +29,7 @@ struct EditTestView: View {
                     .onAppear(){
                         let initial = String(test.score)
                         score = initial
+                        name = test.testname!
                     }
                     .onSubmit {
                         if number > 100{
@@ -46,12 +48,41 @@ struct EditTestView: View {
                 Text("Score")
                     .font(.system(size: 25, weight: .heavy, design: .rounded))
             }
+            Button {
+                UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+                    var identifiers: [String] = [name]
+                   for notification:UNNotificationRequest in notificationRequests {
+                       if notification.identifier == "identifierCancel" {
+                          identifiers.append(notification.identifier)
+                       }
+                   }
+                   UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                    print("Deleted Notifcation")
+                }
+                dismiss()
+                deleteTest()
+            } label: {
+                HStack{
+                    Spacer()
+                Text("Delete Test")
+                    .bold()
+                    .foregroundColor(.red)
+                    Spacer()
+                }
+            }
+
 
         }.alert(isPresented: $goodscore){
             Alert(title: Text("Nice Job!👍"), message: Text("You Earned This!"), dismissButton: .cancel(Text("Thanks!")))
         }
         .alert(isPresented: $badscore){
             Alert(title: Text("It's Ok.😌"), message: Text("You learned your mistakes"), dismissButton: .cancel(Text("Agreed")))
+        }
+    }
+    private func deleteTest() {
+        withAnimation {
+            test.managedObjectContext?.delete(test)
+            TestDataController().save(context: managedObjContext)
         }
     }
 }
