@@ -118,6 +118,19 @@ struct AssignmentsView: View {
                                         }
                                     }
                                         }
+                            }.contextMenu{
+                                Button {
+                                    withAnimation {
+                                        assign.managedObjectContext?.delete(assign)
+                                        AssignmentDataController().save(context: managedObjContext)
+                                    }
+                                } label: {
+                                    HStack{
+                                    Text("Delete")
+                                        Image(systemName: "trash")
+                                    }
+                                }
+
                             }
                             }
                         }else{
@@ -198,6 +211,19 @@ struct AssignmentsView: View {
                                 }
                             }
                                 }
+                    }.contextMenu{
+                        Button {
+                            withAnimation {
+                                assign.managedObjectContext?.delete(assign)
+                                AssignmentDataController().save(context: managedObjContext)
+                            }
+                        } label: {
+                            HStack{
+                            Text("Delete")
+                                Image(systemName: "trash")
+                            }
+                        }
+
                     }
                     }
                     }

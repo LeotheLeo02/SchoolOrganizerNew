@@ -20,7 +20,6 @@ struct EditTestView: View {
     var body: some View {
         Form {
             Section{
-                var number: Int64 = NumberFormatter().number(from: "0" + score) as! Int64
                 TextField("Score", text: Binding(
                     get: {score},
                     set: {score = $0.filter{"0123456789".contains($0)}}))
@@ -33,20 +32,6 @@ struct EditTestView: View {
                         score = initial
                         name = test.testname!
                         prepareHaptics()
-                    }
-                    .onSubmit {
-                        if number > 100{
-                            number = 100
-                        }
-                        if number >= 80{
-                            goodscore.toggle()
-                            complexSuccess()
-                        }
-                        if number < 70 {
-                            badscore.toggle()
-                        }
-                        TestDataController().editTestScore(test: test, testscore: number, context: managedObjContext)
-                        dismiss()
                     }
             } header: {
                 Text("Score")
@@ -75,7 +60,32 @@ struct EditTestView: View {
                     Spacer()
                 }
             }
+            .toolbar{
+                ToolbarItem(placement: .keyboard){
+                    Button {
+                        var number: Int64 = NumberFormatter().number(from: "0" + score) as! Int64
+                        if number > 100{
+                            number = 100
+                        }
+                        if number >= 80{
+                            goodscore.toggle()
+                            complexSuccess()
+                        }
+                        if number < 70 {
+                            badscore.toggle()
+                        }
+                        TestDataController().editTestScore(test: test, testscore: number, context: managedObjContext)
+                        dismiss()
+                    } label: {
+                        HStack{
+                        Text("Add Score")
+                            .font(.system(size: 20, weight: .heavy, design: .rounded))
+                            Image(systemName: "plus.app.fill")
+                        }
+                    }
 
+                }
+            }
 
         }
         .alert(Text("Good Job! 👍"), isPresented: $goodscore, actions: {

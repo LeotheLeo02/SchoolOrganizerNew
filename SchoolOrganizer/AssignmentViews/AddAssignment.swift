@@ -36,6 +36,10 @@ struct AddAssignment: View {
             }
             List{
                 Section(header: Text("Past Names")){
+                    if pastname.isEmpty{
+                        Text("No History")
+                            .foregroundColor(.gray)
+                    }else{
             ForEach(pastname){pass in
                 Button {
                     assigname = pass.pastnames!
@@ -61,6 +65,7 @@ struct AddAssignment: View {
                     }
                 }
             }
+                }
                 }
             }
             Section {
