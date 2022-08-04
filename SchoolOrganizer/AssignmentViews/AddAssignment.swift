@@ -13,6 +13,7 @@ struct AddAssignment: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.pastnames)]) var pastname: FetchedResults<PastNames>
+    @FocusState private var focusonTopic: Bool
     @State private var topics = ""
     @State private var details = ""
     @State private var color  = ""
@@ -104,6 +105,7 @@ struct AddAssignment: View {
                     Button {
                         withAnimation{
                             addtopic.toggle()
+                            focusonTopic.toggle()
                         }
                     } label: {
                         Image(systemName: "plus")
@@ -112,6 +114,7 @@ struct AddAssignment: View {
                 }
                 if addtopic{
                         TextField("Enter New Topic Name", text: $newname)
+                        .focused($focusonTopic)
                         .onSubmit {
                             TopicDataController().addTopic(topicname: newname.trimmingCharacters(in: .whitespaces), context: managedObjContext)
                             withAnimation{
@@ -201,7 +204,7 @@ struct AddAssignment: View {
                     .onChange(of: undoall) { newValue in
                         duedate = Date.now
                     }
-                Toggle("Want to be reminded Two Days Prior to due date of \(assigname)", isOn: $twodaysearly)
+                Toggle("Want to be reminded Two Days Prior to due date of \(assigname.isEmpty ? "(NO NAME)" : "\(assigname)")", isOn: $twodaysearly)
                     .onShake {
                         undosignal.toggle()
                     }

@@ -113,7 +113,7 @@ struct AssignmentsView: View {
                                     }
                                         
                             }.contextMenu{
-                                Button {
+                                Button(role: .destructive) {
                                     withAnimation {
                                         assign.managedObjectContext?.delete(assign)
                                         AssignmentDataController().save(context: managedObjContext)
@@ -200,7 +200,7 @@ struct AssignmentsView: View {
                             }
                                 
                     }.contextMenu{
-                        Button {
+                        Button(role: .destructive) {
                             withAnimation {
                                 assign.managedObjectContext?.delete(assign)
                                 AssignmentDataController().save(context: managedObjContext)
