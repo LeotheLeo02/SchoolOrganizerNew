@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreHaptics
+import AlertToast
 
 struct EditTestView: View {
     @Environment(\.managedObjectContext) var managedObjContext
@@ -75,7 +76,9 @@ struct EditTestView: View {
                             badscore.toggle()
                         }
                         TestDataController().editTestScore(test: test, testscore: number, context: managedObjContext)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
                         dismiss()
+                        }
                     } label: {
                         HStack{
                         Text("Add Score")
@@ -88,18 +91,11 @@ struct EditTestView: View {
             }
 
         }
-        .alert(Text("Good Job! 👍"), isPresented: $goodscore, actions: {
-            Button {
-                
-            } label: {
-                Text("Thanks!")
-            }
-
-        }, message: {
-            Text("You Earned This!")
-        })
-        .alert(isPresented: $badscore){
-            Alert(title: Text("It's Ok.😌"), message: Text("You learned your mistakes"), dismissButton: .cancel(Text("Agreed")))
+        .toast(isPresenting: $badscore) {
+            AlertToast(displayMode: .alert, type: .regular, title: "It's Ok. 😌", subTitle: "You learn from your mistakes.", style: .style(backgroundColor: .gray, titleColor: .white, subTitleColor: .white, titleFont: .largeTitle, subTitleFont: .title))
+        }
+        .toast(isPresenting: $goodscore) {
+            AlertToast(displayMode: .alert, type: .regular, title: "Good Job! 👍", subTitle: "You Earned This!", style: .style(backgroundColor: .green, titleColor: .white, subTitleColor: .white, titleFont: .largeTitle, subTitleFont: .title))
         }
     }
     private func deleteTest() {
@@ -124,7 +120,7 @@ struct EditTestView: View {
         var events = [CHHapticEvent]()
 
         // create one intense, sharp tap
-        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 1)
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 3)
         let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
         let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
         events.append(event)
