@@ -13,6 +13,7 @@ struct FolderView: View {
     @State private var siteLink = ""
     @State private var linkname = ""
     @State private var showAlert = false
+    @State private var addresource = false
     var body: some View {
         VStack{
             Form{
@@ -39,6 +40,17 @@ struct FolderView: View {
                                     .cornerRadius(20)
                                     Spacer()
                             }
+                            }
+                            Button {
+                                addresource.toggle()
+                            } label: {
+                                HStack{
+                                    Spacer()
+                                Image(systemName: "plus")
+                                    Spacer()
+                                }
+                            }.sheet(isPresented: $addresource) {
+                                AddingResourceManagerView(link: lin)
                             }
                         }.onDelete(perform: deleteLink)
                     }

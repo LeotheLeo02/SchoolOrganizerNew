@@ -21,6 +21,7 @@ struct EditAssignment: View {
                 Text(assignment.name!)
                     .font(.largeTitle)
                     .bold()
+                    Link("\(assignment.link!)", destination: URL(string: assignment.link!)!)
                 }
                 Button {
                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in

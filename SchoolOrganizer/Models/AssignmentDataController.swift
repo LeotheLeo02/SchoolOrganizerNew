@@ -47,4 +47,8 @@ class AssignmentDataController: ObservableObject {
         assign.complete = complete
         save(context: context)
     }
+    func editAssignResource(assign: Assignment, link: String, context: NSManagedObjectContext){
+        assign.link = link
+        save(context: context)
+    }
 }
