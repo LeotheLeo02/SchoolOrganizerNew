@@ -89,6 +89,7 @@ struct AssignmentsView: View {
                                             simpleSuccess()
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                                 withAnimation{
+                                                    if assign.complete != false{
                                                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
                                                         var identifiers: [String] = [assign.name!]
                                                        for notification:UNNotificationRequest in notificationRequests {
@@ -102,6 +103,7 @@ struct AssignmentsView: View {
                                                 assign.managedObjectContext?.delete(assign)
                                                     AssignmentDataController().save(context: managedObjContext)
                                                 }
+                                            }
                                             }
                                         }
                                     } label: {
@@ -176,6 +178,7 @@ struct AssignmentsView: View {
                                     simpleSuccess()
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                         withAnimation{
+                                            if assign.complete != false{
                                             UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
                                                 var identifiers: [String] = [assign.name!]
                                                for notification:UNNotificationRequest in notificationRequests {
@@ -189,6 +192,7 @@ struct AssignmentsView: View {
                                         assign.managedObjectContext?.delete(assign)
                                             AssignmentDataController().save(context: managedObjContext)
                                         }
+                                    }
                                     }
                                 }
                             } label: {
