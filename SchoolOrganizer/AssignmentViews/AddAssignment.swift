@@ -66,7 +66,7 @@ struct AddAssignment: View {
 
                     }
                 }.onChange(of: assigname, perform: { V in
-                    if assigname == pass.pastnames! {
+                    if assigname.trimmingCharacters(in: .whitespaces) == pass.pastnames?.trimmingCharacters(in: .whitespaces) {
                         exists = true
                     }
                 })
@@ -127,6 +127,7 @@ struct AddAssignment: View {
             footer: {
                 Button {
                     deleteTopics()
+                    topics = ""
                 } label: {
                     Text("Delete All Topics")
                         .bold()

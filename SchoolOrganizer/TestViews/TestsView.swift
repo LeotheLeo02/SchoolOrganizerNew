@@ -41,10 +41,12 @@ struct TestsView: View {
                             }
                         }
                             HStack{
+                                if tes.score == 0{
                             Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
                                 .bold()
                                 Image(systemName: "calendar.circle.fill")
                                     .foregroundColor(.green)
+                                }
                             }
                         }
                     } else if days >= 14{
@@ -70,10 +72,12 @@ struct TestsView: View {
                             }
                         }
                             HStack{
+                                if tes.score == 0{
                             Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
                                 .bold()
                                 Image(systemName: "calendar.circle.fill")
                                     .foregroundColor(.gray)
+                                }
                             }
                         }
                     }
@@ -100,10 +104,12 @@ struct TestsView: View {
                             }
                         }
                             HStack{
+                                if tes.score == 0{
                             Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
                                 .bold()
                                 Image(systemName: "calendar.circle.fill")
                                     .foregroundColor(.yellow)
+                                }
                             }
                         }
                     }
@@ -129,10 +135,12 @@ struct TestsView: View {
                             }
                         }
                             HStack{
+                                if tes.score == 0{
                             Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
                                 .bold()
                                 Image(systemName: "calendar.circle.fill")
                                     .foregroundColor(.red)
+                                }
                             }
                         }
                     }

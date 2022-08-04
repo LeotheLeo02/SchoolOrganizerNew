@@ -46,7 +46,10 @@ struct FolderView: View {
                             } label: {
                                 HStack{
                                     Spacer()
-                                Image(systemName: "plus")
+                                Image(systemName: "plus.app.fill")
+                                        .symbolRenderingMode(.hierarchical)
+                                        .foregroundColor(.blue)
+                                        .font(.largeTitle)
                                     Spacer()
                                 }
                             }.sheet(isPresented: $addresource) {
