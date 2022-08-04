@@ -12,6 +12,7 @@ import CoreHaptics
 struct AddAssignment: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.pastnames)]) var pastname: FetchedResults<PastNames>
     @State private var topics = ""
     @State private var details = ""
     @State private var color  = ""
@@ -32,6 +33,35 @@ struct AddAssignment: View {
             TextField("Name Of Assignment", text: $assigname)
                 .onChange(of: undoall) { newValue in
                 assigname = ""
+            }
+            List{
+                Section(header: Text("Past Names")){
+            ForEach(pastname){pass in
+                Button {
+                    assigname = pass.pastnames!
+                } label: {
+                    HStack{
+                    Text(pass.pastnames!)
+                        Spacer()
+                        Button {
+                            withAnimation {
+                                    pass
+                                    .managedObjectContext?.delete(pass)
+                                
+                                // Saves to our database
+                                PastNamesDataController().save(context: managedObjContext)
+                            }
+                        } label: {
+                            Text("Delete")
+                                .foregroundColor(.red)
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                        }
+
+                    }
+                }
+            }
+                }
             }
             Section {
                 if topics.isEmpty{
@@ -187,6 +217,7 @@ struct AddAssignment: View {
                         NotComplete.toggle()
                         complexSuccess()
                     }else{
+                        PastNamesDataController().addName(pastnames: assigname, context: managedObjContext)
                     AssignmentDataController().addAssign(notes: details, topic: topics, color: color.trimmingCharacters(in: .whitespaces), duedate: duedate, name: assigname, complete: false, context: managedObjContext)
                     dismiss()
                     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in

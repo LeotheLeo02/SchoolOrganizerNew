@@ -22,7 +22,7 @@
         <attribute name="linname" optional="YES" attributeType="String"/>
     </entity>
     <entity name="PastNames" representedClassName="PastNames" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="pastnames" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Tests" representedClassName="Tests" syncable="YES" codeGenerationType="class">
