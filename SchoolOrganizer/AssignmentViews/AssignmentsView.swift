@@ -11,6 +11,7 @@ struct AssignmentsView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.foldername)]) var folder: FetchedResults<Folder>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
     @Environment(\.dismiss) var dismiss
     @State private var Add = false
     @State private var Schedule = false
@@ -18,6 +19,8 @@ struct AssignmentsView: View {
     @State private var foldername = ""
     @State private var editname = false
     @State private var showFolder = false
+    @State private var filter = false
+    @State private var filtername = ""
    private let adaptiveColumns = [
     GridItem(.adaptive(minimum: 160))
    ]
@@ -36,6 +39,88 @@ struct AssignmentsView: View {
                 }
                 LazyVGrid(columns: adaptiveColumns) {
                     ForEach(assignment){assign in
+                        if filter{
+                            if assign.topic == filtername{
+                                VStack{
+                                NavigationLink(destination: EditAssignment(assignment: assign)){
+                                    Rectangle()
+                                        .frame(width: 160, height: 160)
+                                        .cornerRadius(30)
+                                        .if(assign.color == "Blue"){view in
+                                            view.foregroundColor(.blue)
+                                        }
+                                        .if(assign.color == "Yellow"){ view in
+                                            view.foregroundColor(.yellow)
+                                        }
+                                        .if(assign.color == "Red"){ view in
+                                            view.foregroundColor(.red)
+                                        }
+                                        .overlay {
+                                            VStack{
+                                                let days = daysBetween(start: Date.now, end: assign.duedate!)
+                                            Text(assign.topic!)
+                                                    .fontWeight(.light)
+                                                .foregroundColor(.white)
+                                                Text(assign.name!)
+                                                    .fontWeight(.heavy)
+                                                    .foregroundColor(.white)
+                                                Text(assign.duedate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                                                    .font(.system(size: 15, weight: .heavy, design: .rounded))
+                                                    .if(days >= 7){ view in
+                                                        view.foregroundColor(.green)
+                                                    }
+                                                    .if( days < 7 && days > 3){ view in
+                                                        view.foregroundColor(.yellow)
+                                                    }
+                                                    .if(days <= 3){ view in
+                                                        view.foregroundColor(.red)
+                                                    }
+                                                    .padding()
+                                                    .background(Color(.systemGray4))
+                                                    .cornerRadius(20)
+                                            }
+                                        }
+                                        .navigationViewStyle(.stack)
+                            }
+                                    Rectangle()
+                                        .foregroundColor(Color(.systemGray6))
+                                        .frame(width: assign.complete ? 175 : 160, height: 50)
+                                        .animation(.spring(), value: assign.complete)
+                                        .cornerRadius(20)
+                                        .overlay{
+                                    Button {
+                                        assign.complete = true
+                                        AssignmentDataController().editAssign(assign: assign, complete: assign.complete, context: managedObjContext)
+                                        if assign.complete{
+                                            simpleSuccess()
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                                withAnimation{
+                                                    UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+                                                        var identifiers: [String] = [assign.name!]
+                                                       for notification:UNNotificationRequest in notificationRequests {
+                                                           if notification.identifier == "identifierCancel" {
+                                                              identifiers.append(notification.identifier)
+                                                           }
+                                                       }
+                                                       UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                                        print("Deleted Notifcation")
+                                                    }
+                                                assign.managedObjectContext?.delete(assign)
+                                                    AssignmentDataController().save(context: managedObjContext)
+                                                }
+                                            }
+                                        }
+                                    } label: {
+                                        HStack{
+                                            Image(systemName: assign.complete ? "checkmark.circle.fill" : "circle")
+                                                .font(.largeTitle)
+                                            .foregroundColor(.green)
+                                        }
+                                    }
+                                        }
+                            }
+                            }
+                        }else{
                         VStack{
                         NavigationLink(destination: EditAssignment(assignment: assign)){
                             Rectangle()
@@ -115,6 +200,7 @@ struct AssignmentsView: View {
                                 }
                     }
                     }
+                    }
                 }
             }.sheet(isPresented: $showFolder, content: {
                 FolderView()
@@ -187,6 +273,33 @@ struct AssignmentsView: View {
                     } label: {
                         Text("Edit")
                     }.disabled(folder.isEmpty)
+
+                }
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Menu{
+                        ForEach(topic){top in
+                            Button {
+                                withAnimation{
+                                filter = true
+                                filtername = top.topicname!
+                                }
+                            } label: {
+                                Text(top.topicname!)
+                                if top.topicname! == filtername && filter{
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        }
+                        Button {
+                            withAnimation {
+                                filter = false
+                            }
+                        } label: {
+                            Text("All")
+                        }
+                    }label:{
+                        Image(systemName: filter ? "line.3.horizontal.decrease.circle.fill" :"line.3.horizontal.decrease.circle")
+                    }
 
                 }
             }

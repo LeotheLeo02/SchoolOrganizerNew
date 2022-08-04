@@ -77,10 +77,17 @@ struct EditTestView: View {
             }
 
 
-        } // Try on beta test
-        .alert(isPresented: $goodscore){
-            Alert(title: Text("Nice Job!👍"), message: Text("You Earned This!"), dismissButton: .cancel(Text("Thanks!")))
         }
+        .alert(Text("Good Job! 👍"), isPresented: $goodscore, actions: {
+            Button {
+                
+            } label: {
+                Text("Thanks!")
+            }
+
+        }, message: {
+            Text("You Earned This!")
+        })
         .alert(isPresented: $badscore){
             Alert(title: Text("It's Ok.😌"), message: Text("You learned your mistakes"), dismissButton: .cancel(Text("Agreed")))
         }
