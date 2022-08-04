@@ -82,14 +82,8 @@ struct AssignmentsView: View {
                                         }
                                         .navigationViewStyle(.stack)
                             }
-                                    Rectangle()
-                                        .foregroundColor(Color(.systemGray6))
-                                        .frame(width: assign.complete ? 175 : 160, height: 50)
-                                        .animation(.spring(), value: assign.complete)
-                                        .cornerRadius(20)
-                                        .overlay{
                                     Button {
-                                        assign.complete = true
+                                        assign.complete.toggle()
                                         AssignmentDataController().editAssign(assign: assign, complete: assign.complete, context: managedObjContext)
                                         if assign.complete{
                                             simpleSuccess()
@@ -117,7 +111,7 @@ struct AssignmentsView: View {
                                             .foregroundColor(.green)
                                         }
                                     }
-                                        }
+                                        
                             }.contextMenu{
                                 Button {
                                     withAnimation {
@@ -175,14 +169,8 @@ struct AssignmentsView: View {
                                 }
                                 .navigationViewStyle(.stack)
                     }
-                            Rectangle()
-                                .foregroundColor(Color(.systemGray6))
-                                .frame(width: assign.complete ? 175 : 160, height: 50)
-                                .animation(.spring(), value: assign.complete)
-                                .cornerRadius(20)
-                                .overlay{
                             Button {
-                                assign.complete = true
+                                assign.complete.toggle()
                                 AssignmentDataController().editAssign(assign: assign, complete: assign.complete, context: managedObjContext)
                                 if assign.complete{
                                     simpleSuccess()
@@ -210,7 +198,7 @@ struct AssignmentsView: View {
                                     .foregroundColor(.green)
                                 }
                             }
-                                }
+                                
                     }.contextMenu{
                         Button {
                             withAnimation {

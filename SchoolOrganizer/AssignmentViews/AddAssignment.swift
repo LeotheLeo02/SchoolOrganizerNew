@@ -26,6 +26,7 @@ struct AddAssignment: View {
     @State private var undosignal = false
     @State private var undoall = false
     @State private var engine: CHHapticEngine?
+    @State private var exists = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
@@ -43,6 +44,7 @@ struct AddAssignment: View {
             ForEach(pastname){pass in
                 Button {
                     assigname = pass.pastnames!
+                    exists = true
                 } label: {
                     HStack{
                     Text(pass.pastnames!)
@@ -63,7 +65,11 @@ struct AddAssignment: View {
                         }
 
                     }
-                }
+                }.onChange(of: assigname, perform: { V in
+                    if assigname == pass.pastnames! {
+                        exists = true
+                    }
+                })
             }
                 }
                 }
@@ -222,7 +228,9 @@ struct AddAssignment: View {
                         NotComplete.toggle()
                         complexSuccess()
                     }else{
-                        PastNamesDataController().addName(pastnames: assigname, context: managedObjContext)
+                        if exists == false{
+                    PastNamesDataController().addName(pastnames: assigname, context: managedObjContext)
+                        }
                     AssignmentDataController().addAssign(notes: details, topic: topics, color: color.trimmingCharacters(in: .whitespaces), duedate: duedate, name: assigname, complete: false, context: managedObjContext)
                     dismiss()
                     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in

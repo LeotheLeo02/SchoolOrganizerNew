@@ -26,6 +26,7 @@
 		4333EA032899ABF500E80A67 /* AddTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333EA022899ABF500E80A67 /* AddTestView.swift */; };
 		4333EA052899B28200E80A67 /* TestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333EA042899B28200E80A67 /* TestsView.swift */; };
 		43D57A3E289C51B800F37A34 /* AddingResourceManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D57A3D289C51B800F37A34 /* AddingResourceManagerView.swift */; };
+		43D57A41289C5F1000F37A34 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 43D57A40289C5F1000F37A34 /* AlertToast */; };
 		43E4E6992899FCC3001CCE9C /* EditTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E4E6982899FCC3001CCE9C /* EditTestView.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43D57A41289C5F1000F37A34 /* AlertToast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +157,9 @@
 			dependencies = (
 			);
 			name = SchoolOrganizerHelper;
+			packageProductDependencies = (
+				43D57A40289C5F1000F37A34 /* AlertToast */,
+			);
 			productName = SchoolOrganizer;
 			productReference = 4333E9D52899A4B700E80A67 /* SchoolOrganizerHelper.app */;
 			productType = "com.apple.product-type.application";
@@ -183,6 +188,9 @@
 				Base,
 			);
 			mainGroup = 4333E9CC2899A4B700E80A67;
+			packageReferences = (
+				43D57A3F289C5F1000F37A34 /* XCRemoteSwiftPackageReference "AlertToast" */,
+			);
 			productRefGroup = 4333E9D62899A4B700E80A67 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -427,6 +435,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		43D57A3F289C5F1000F37A34 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		43D57A40289C5F1000F37A34 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 43D57A3F289C5F1000F37A34 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		4333E9F92899A58300E80A67 /* SchoolModel.xcdatamodeld */ = {
