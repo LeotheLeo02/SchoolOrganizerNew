@@ -11,6 +11,7 @@ struct FolderView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.link)]) var link: FetchedResults<Links>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.imagetitle)]) var Images: FetchedResults<Images>
+    @FocusState private var focusontitle: Bool
     @State private var siteLink = ""
     @State private var linkname = ""
     @State private var showAlert = false
@@ -19,6 +20,7 @@ struct FolderView: View {
     @State private var imagetitle = ""
     @State private var imagepicker = false
     @State private var addimage = false
+    @State private var camera = false
     var body: some View {
         VStack{
             Form{
@@ -85,6 +87,88 @@ struct FolderView: View {
                         Spacer()
                     }
                 }
+            
+                Section{
+                    HStack{
+            if image.count != 0 {
+                Menu {
+                    Button {
+                        imagepicker.toggle()
+                        camera = false
+                    } label: {
+                        Text("Photos Library")
+                        Image(systemName: "photo.on.rectangle.angled")
+                    }
+                    Button {
+                        imagepicker.toggle()
+                        camera = true
+                    } label: {
+                        Text("Use Camera")
+                        Image(systemName: "camera.fill")
+                    }
+
+                } label: {
+                    HStack{
+                    Image(uiImage: UIImage(data: image)!)
+                        .resizable()
+                        .renderingMode(.original)
+                        .frame(width: 150, height: 150)
+                        .cornerRadius(20)
+                    }
+                }
+                VStack{
+                TextField("Title of Picture", text: $imagetitle)
+                    .textFieldStyle(.roundedBorder)
+                    .focused($focusontitle)
+                    if !imagetitle.trimmingCharacters(in: .whitespaces).isEmpty{
+                        Button {
+                            withAnimation{
+                            ImageDataController().addImage(imagetitle: imagetitle, imageD: image, context: managedObjContext)
+                            image.count = 0
+                            imagetitle = ""
+                            }
+                        } label: {
+                            Text("Submit")
+                        }
+
+                    }
+                }
+            
+            }else{
+                Menu{
+                            Button {
+                                imagepicker.toggle()
+                                camera = false
+                            } label: {
+                                Text("Photos Library")
+                                Image(systemName: "photo.on.rectangle.angled")
+                            }
+                            Button {
+                                imagepicker.toggle()
+                                camera = true
+                            } label: {
+                                Text("Use Camera")
+                                Image(systemName: "camera.fill")
+                            }
+
+
+                        }label: {
+                            Image(systemName: "photo.fill")
+                                .resizable()
+                                .frame(width: 150, height: 150)
+                                .cornerRadius(20)
+                                .foregroundColor(.accentColor)
+                        }
+                Text("No Photo Seleted")
+                    .bold()
+                    .foregroundColor(.gray)
+                    .padding()
+                    
+            }
+                    }.onChange(of: image.count) { newValue in
+                        focusontitle.toggle()
+                    }
+                }
                 Section{
                     ForEach(Images){imag in
                         HStack{
@@ -101,64 +185,22 @@ struct FolderView: View {
                                     addimage.toggle()
                                 } label: {
                                     Image(systemName: "plus")
+                                        .font(.title)
                                 }.sheet(isPresented: $addimage) {
                                     AddingImageManagerView(image: imag)
                                 }
+                                .padding()
 
                             }
                         }
                     }.onDelete(perform: deleteImage)
-                    HStack{
-                        Spacer()
-                if image.count != 0 {
-                    Button {
-                        imagepicker.toggle()
-                    } label: {
-                        HStack{
-                        Image(uiImage: UIImage(data: image)!)
-                            .resizable()
-                            .renderingMode(.original)
-                            .frame(width: 150, height: 150)
-                            .cornerRadius(20)
-                        }
-                    }
-                
-                }else{
-                    Button {
-                        imagepicker.toggle()
-                    } label: {
-                        Image(systemName: "photo.fill")
-                            .resizable()
-                            .frame(width: 150, height: 150)
-                            .cornerRadius(20)
-                            .foregroundColor(.accentColor)
-                    }
-
-                }
-                        Spacer()
-                    }
-                TextField("Title of Image", text: $imagetitle)
-                        .multilineTextAlignment(.center)
-                Button {
-                    withAnimation{
-                    ImageDataController().addImage(imagetitle: imagetitle, imageD: image, context: managedObjContext)
-                    image.count = 0
-                    imagetitle = ""
-                    }
-                } label: {
-                    HStack{
-                        Spacer()
-                    Text("Submit")
-                        Spacer()
-                    }
-                }
             }
 
             }.alert(isPresented: $showAlert){
                 Alert(title: Text("Missing Information"), message: Text("You must have a valid link and a name"), dismissButton: .cancel(Text("Ok")))
             }
             .sheet(isPresented: $imagepicker) {
-                ImagePicker(images: $image, show: $imagepicker)
+                ImagePicker(images: $image, show: $imagepicker, camera: $camera)
             }
         }
     }
