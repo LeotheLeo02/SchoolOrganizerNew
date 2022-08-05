@@ -24,7 +24,50 @@ struct EditAssignment: View {
                     if assignment.link != nil {
                     Link("\(assignment.link!)", destination: URL(string: assignment.link!)!)
                     }
+                    if assignment.imagedata != nil{
+                        VStack{
+                        Image(uiImage: UIImage(data: assignment.imagedata!)!)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 150, height: 150, alignment: .center)
+                            Text(assignment.imagetitle!)
+                        }.padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(20)
+                        .contextMenu{
+                            Button(role: .destructive) {
+                                withAnimation{
+                                assignment.imagedata = nil
+                                    assignment.imagetitle = nil
+                                }
+                            } label: {
+                                HStack{
+                                Text("Delete Image")
+                                    Image(systemName: "trash")
+                                }
+                            }
+
+                        }
+                    }
                 }
+            }.sheet(isPresented: $FolderOn, content: {
+                FolderView()
+            })
+            .navigationBarHidden(true)
+            .toolbar{
+            ToolbarItem(placement: .bottomBar) {
+                ForEach(folder){fold in
+                    Button(action: {
+                        FolderOn.toggle()
+                    },label: {
+                    VStack{
+                        Image(systemName: "folder.fill")
+                        Text(fold.foldername!)
+                    }
+                    })
+                }
+            }
+            ToolbarItem(placement: .bottomBar) {
                 Button {
                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
                         var identifiers: [String] = [assignment.name!]
@@ -46,24 +89,8 @@ struct EditAssignment: View {
                             .foregroundColor(.red)
                     }
                 }.buttonStyle(.bordered)
-            }.sheet(isPresented: $FolderOn, content: {
-                FolderView()
-            })
-            .toolbar {
-                ToolbarItem(placement: .bottomBar) {
-                    ForEach(folder){fold in
-                        Button(action: {
-                            FolderOn.toggle()
-                        },label: {
-                        VStack{
-                            Image(systemName: "folder.fill")
-                            Text(fold.foldername!)
-                        }
-                        })
-                    }
-                }
             }
-            .navigationBarHidden(true)
+            }
         }
     }
     private func deleteAssignment(){

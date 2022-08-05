@@ -14,10 +14,11 @@ struct FolderView: View {
     @State private var siteLink = ""
     @State private var linkname = ""
     @State private var showAlert = false
-    @State private var addresource = false
+    @State private var addlink = false
     @State private var image: Data = .init(count: 0)
     @State private var imagetitle = ""
     @State private var imagepicker = false
+    @State private var addimage = false
     var body: some View {
         VStack{
             Form{
@@ -46,7 +47,7 @@ struct FolderView: View {
                             }
                             }
                             Button {
-                                addresource.toggle()
+                                addlink.toggle()
                             } label: {
                                 HStack{
                                     Spacer()
@@ -56,7 +57,7 @@ struct FolderView: View {
                                         .font(.largeTitle)
                                     Spacer()
                                 }
-                            }.sheet(isPresented: $addresource) {
+                            }.sheet(isPresented: $addlink) {
                                 AddingResourceManagerView(link: lin)
                             }
                         }.onDelete(perform: deleteLink)
@@ -93,8 +94,18 @@ struct FolderView: View {
                             .aspectRatio(contentMode: .fit)
                             .cornerRadius(15)
                             .padding()
+                            VStack{
                         Text(imag.imagetitle!)
                                 .font(.system(size: 20, weight: .heavy, design: .rounded))
+                                Button {
+                                    addimage.toggle()
+                                } label: {
+                                    Image(systemName: "plus")
+                                }.sheet(isPresented: $addimage) {
+                                    AddingImageManagerView(image: imag)
+                                }
+
+                            }
                         }
                     }.onDelete(perform: deleteImage)
                     HStack{

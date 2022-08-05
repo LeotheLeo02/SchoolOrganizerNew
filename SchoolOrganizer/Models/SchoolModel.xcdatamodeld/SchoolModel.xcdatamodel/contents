@@ -5,6 +5,8 @@
         <attribute name="complete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="duedate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="imagedata" optional="YES" attributeType="Binary"/>
+        <attribute name="imagetitle" optional="YES" attributeType="String"/>
         <attribute name="link" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
@@ -42,7 +44,7 @@
         <attribute name="topicname" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Assignment" positionX="-63" positionY="-18" width="128" height="149"/>
+        <element name="Assignment" positionX="-63" positionY="-18" width="128" height="179"/>
         <element name="Folder" positionX="-54" positionY="27" width="128" height="59"/>
         <element name="Images" positionX="-36" positionY="45" width="128" height="74"/>
         <element name="Links" positionX="-36" positionY="45" width="128" height="74"/>
