@@ -143,8 +143,9 @@ struct AddTestView: View {
                             let calendarTriggerTwo  = UNCalendarNotificationTrigger(dateMatching: twoComp, repeats: false)
                             
                             let request = UNNotificationRequest(identifier: testname, content: content, trigger: calendarTriggerTwo)
-                            let request2 = UNNotificationRequest(identifier: testname, content: content, trigger: calendarTrigger)
+                            let request2 = UNNotificationRequest(identifier: testname, content: secondcontent, trigger: calendarTrigger)
                             
+                            //Solve Issue Later
                             UNUserNotificationCenter.current().add(request)
                             UNUserNotificationCenter.current().add(request2)
                         }

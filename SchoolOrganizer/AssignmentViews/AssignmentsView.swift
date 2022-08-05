@@ -10,12 +10,10 @@ import SwiftUI
 struct AssignmentsView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.foldername)]) var folder: FetchedResults<Folder>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
     @Environment(\.dismiss) var dismiss
     @State private var Add = false
     @State private var Schedule = false
-    @State private var addfolder = false
     @State private var foldername = ""
     @State private var editname = false
     @State private var showFolder = false
@@ -27,16 +25,6 @@ struct AssignmentsView: View {
     var body: some View{
         NavigationView{
             ScrollView{
-                if addfolder{
-                    VStack{
-                        TextField("Folder Name", text: $foldername)
-                            .onSubmit {
-                                FolderDataController().addFolder(foldername: foldername, context: managedObjContext)
-                                addfolder = false
-                            }
-                            .textFieldStyle(.roundedBorder)
-                    }.padding()
-                }
                 LazyVGrid(columns: adaptiveColumns) {
                     ForEach(assignment){assign in
                         if filter{
@@ -253,44 +241,11 @@ struct AssignmentsView: View {
 
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
-                    if folder.isEmpty{
-                        Button {
-                            withAnimation{
-                            addfolder.toggle()
-                            }
-                        } label: {
-                            Image(systemName: "folder.fill.badge.plus")
-                                .font(.title)
-                        }
-                    }else{
-                    ForEach(folder){fol in
-                        Button {
-                            showFolder.toggle()
-                        } label: {
-                        VStack{
-                            Image(systemName: "folder.fill")
-                                .font(.title2)
-                            Text(fol.foldername!)
-                                .multilineTextAlignment(.center)
-                                .font(.caption)
-                                .onLongPressGesture {
-                                    withAnimation{
-                                    deleteFolder()
-                                    addfolder.toggle()
-                                    }
-                                }
-                        }
-                        }
-                    }
-                }
-                }
-                ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        addfolder.toggle()
-                        deleteFolder()
+                        showFolder.toggle()
                     } label: {
-                        Text("Edit")
-                    }.disabled(folder.isEmpty)
+                        Image(systemName: "folder.fill")
+                    }
 
                 }
                 ToolbarItem(placement: .navigationBarTrailing){
@@ -325,15 +280,6 @@ struct AssignmentsView: View {
     }
     func daysBetween(start: Date, end: Date) -> Int {
         return Calendar.current.dateComponents([.day], from: start, to: end).day!
-    }
-    private func deleteFolder() {
-        withAnimation {
-            folder
-            .forEach(managedObjContext.delete)
-            
-            // Saves to our database
-            FolderDataController().save(context: managedObjContext)
-        }
     }
     func simpleSuccess() {
         let generator = UINotificationFeedbackGenerator()

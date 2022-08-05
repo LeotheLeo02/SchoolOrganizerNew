@@ -11,7 +11,6 @@ import SwiftUI
 struct SchoolOrganizerApp: App {
     @StateObject private var assigndatacontroller  = AssignmentDataController()
     @StateObject private var topicdatacontroller = TopicDataController()
-    @StateObject private var folderdatacontroller = FolderDataController()
     @StateObject private var linkdatacontroller = LinksDataController()
     @StateObject private var testdatacontroller = TestDataController()
     @StateObject private var pastnamedatacontroller = PastNamesDataController()
@@ -21,7 +20,6 @@ struct SchoolOrganizerApp: App {
             TabManager()
                 .environment(\.managedObjectContext,assigndatacontroller.container.viewContext)
                 .environment(\.managedObjectContext, topicdatacontroller.container.viewContext)
-                .environment(\.managedObjectContext, folderdatacontroller.container.viewContext)
                 .environment(\.managedObjectContext, linkdatacontroller.container.viewContext)
                 .environment(\.managedObjectContext, testdatacontroller.container.viewContext)
                 .environment(\.managedObjectContext, pastnamedatacontroller.container.viewContext)

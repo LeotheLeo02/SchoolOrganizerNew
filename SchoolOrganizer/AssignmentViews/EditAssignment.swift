@@ -11,7 +11,6 @@ import UserNotifications
 struct EditAssignment: View {
     @Environment(\.managedObjectContext) var managedObjContext
     var assignment: FetchedResults<Assignment>.Element
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.foldername)]) var folder: FetchedResults<Folder>
     @Environment(\.dismiss) var dismiss
     @State private var FolderOn = false
     var body: some View {
@@ -61,23 +60,17 @@ struct EditAssignment: View {
                         }
                     }
                 }
+                Button {
+                    FolderOn.toggle()
+                } label: {
+                    Image(systemName: "folder.fill")
+                        .font(.largeTitle)
+                }.padding()
             }.sheet(isPresented: $FolderOn, content: {
                 FolderView()
             })
             .navigationBarHidden(true)
             .toolbar{
-            ToolbarItem(placement: .bottomBar) {
-                ForEach(folder){fold in
-                    Button(action: {
-                        FolderOn.toggle()
-                    },label: {
-                    VStack{
-                        Image(systemName: "folder.fill")
-                        Text(fold.foldername!)
-                    }
-                    })
-                }
-            }
             ToolbarItem(placement: .bottomBar) {
                 Button {
                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in

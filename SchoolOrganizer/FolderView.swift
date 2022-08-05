@@ -192,59 +192,60 @@ struct FolderView: View {
                 Section{
                     ForEach(Images){imag in
                         HStack{
+                            VStack{
                         Image(uiImage: UIImage(data: imag.imageD ?? image)!)
                             .resizable()
                             .frame(width: 200, height: 200, alignment: .center)
                             .aspectRatio(contentMode: .fit)
                             .cornerRadius(15)
                             .padding()
-                            VStack{
                         Text(imag.imagetitle!)
                                 .font(.system(size: 20, weight: .heavy, design: .rounded))
-                                    Menu{
-                                         ForEach(assignment){assign in
-                                             Button {
-                                                 FrameImage.toggle()
-                                             } label: {
-                                                 HStack{
-                                                 Text(assign.name!)
-                                                     Spacer()
-                                                     Image(systemName: "plus")
-                                                 }.onChange(of: addingValue) { V in
-                                                     AssignmentDataController().editAssignImage(assign: assign, imagedata: imag.imageD!, imagetitle: imag.imagetitle!, imagesize: addingValue, context: managedObjContext)
-                                                     Added.toggle()
-                                                     simpleSuccess()
-                                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
-                                                         dismiss()
-                                                     }
-                                                 }
+                        }
+                            Menu{
+                                 ForEach(assignment){assign in
+                                     Button {
+                                         FrameImage.toggle()
+                                     } label: {
+                                         HStack{
+                                         Text(assign.name!)
+                                             Spacer()
+                                             Image(systemName: "plus")
+                                         }.onChange(of: addingValue) { V in
+                                             AssignmentDataController().editAssignImage(assign: assign, imagedata: imag.imageD!, imagetitle: imag.imagetitle!, imagesize: addingValue, context: managedObjContext)
+                                             Added.toggle()
+                                             simpleSuccess()
+                                             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
+                                                 dismiss()
                                              }
-
                                          }
-                                    }label: {
-                                        Text("Add To")
-                                            .bold()
-                                    }
-                                .padding()
+                                     }
 
-                            }.confirmationDialog("Select Image Size", isPresented: $FrameImage, titleVisibility: .visible){
-                                Button {
-                                    addingValue = 3
-                                } label: {
-                                    Text("Large")
-                                }
-                                Button {
-                                    addingValue = 2
-                                } label: {
-                                    Text("Medium")
-                                }
-                                Button {
-                                    addingValue = 1
-                                } label: {
-                                    Text("Small")
-                                }
-
+                                 }
+                            }label: {
+                                Image(systemName: "plus.app.fill")
+                                        .symbolRenderingMode(.hierarchical)
+                                        .foregroundColor(.blue)
+                                        .font(.largeTitle)
                             }
+                        }.padding()
+                        .confirmationDialog("Select Image Size", isPresented: $FrameImage, titleVisibility: .visible){
+                            Button {
+                                addingValue = 3
+                            } label: {
+                                Text("Large")
+                            }
+                            Button {
+                                addingValue = 2
+                            } label: {
+                                Text("Medium")
+                            }
+                            Button {
+                                addingValue = 1
+                            } label: {
+                                Text("Small")
+                            }
+
                         }
                     }.onDelete(perform: deleteImage)
             }
