@@ -7,10 +7,13 @@
 
 import SwiftUI
 import AVKit
+import AlertToast
 struct FolderView: View {
     @Environment(\.managedObjectContext) var managedObjContext
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.link)]) var link: FetchedResults<Links>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.imagetitle)]) var Images: FetchedResults<Images>
+    @Environment(\.dismiss) var dismiss
     @FocusState private var focusontitle: Bool
     @State private var siteLink = ""
     @State private var linkname = ""
@@ -21,6 +24,8 @@ struct FolderView: View {
     @State private var imagepicker = false
     @State private var addimage = false
     @State private var camera = false
+    @State private var Added = false
+    @State private var AddedLink = false
     var body: some View {
         VStack{
             Form{
@@ -48,8 +53,23 @@ struct FolderView: View {
                                     Spacer()
                             }
                             }
-                            Button {
-                                addlink.toggle()
+                            Menu {
+                                ForEach(assignment){assign in
+                                    Button {
+                                        AddedLink.toggle()
+                                        AssignmentDataController().editAssignLink(assign: assign, link: lin.link!, context: managedObjContext)
+                                        simpleSuccess()
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
+                                            dismiss()
+                                        }
+                                    } label: {
+                                        HStack{
+                                        Text(assign.name!)
+                                            Spacer()
+                                            Image(systemName: "plus")
+                                        }
+                                    }
+                                }
                             } label: {
                                 HStack{
                                     Spacer()
@@ -59,8 +79,6 @@ struct FolderView: View {
                                         .font(.largeTitle)
                                     Spacer()
                                 }
-                            }.sheet(isPresented: $addlink) {
-                                AddingResourceManagerView(link: lin)
                             }
                         }.onDelete(perform: deleteLink)
                     }
@@ -181,13 +199,32 @@ struct FolderView: View {
                             VStack{
                         Text(imag.imagetitle!)
                                 .font(.system(size: 20, weight: .heavy, design: .rounded))
-                                Button {
-                                    addimage.toggle()
+                                Menu{
+                                    Menu{
+                                         ForEach(assignment){assign in
+                                             Button {
+                                                 Added.toggle()
+                                                 AssignmentDataController().editAssignImage(assign: assign, imagedata: imag.imageD!, imagetitle: imag.imagetitle!, context: managedObjContext)
+                                                 simpleSuccess()
+                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
+                                                     dismiss()
+                                                 }
+                                             } label: {
+                                                 HStack{
+                                                 Text(assign.name!)
+                                                     Spacer()
+                                                     Image(systemName: "plus")
+                                                 }
+                                             }
+
+                                         }
+                                    }label: {
+                                        Text("Add To")
+                                            .bold()
+                                    }
                                 } label: {
                                     Image(systemName: "plus")
                                         .font(.title)
-                                }.sheet(isPresented: $addimage) {
-                                    AddingImageManagerView(image: imag)
                                 }
                                 .padding()
 
@@ -202,7 +239,17 @@ struct FolderView: View {
             .sheet(isPresented: $imagepicker) {
                 ImagePicker(images: $image, show: $imagepicker, camera: $camera)
             }
+            .toast(isPresenting: $Added) {
+                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Image Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
+            }
+            .toast(isPresenting: $AddedLink) {
+                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Link Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
+            }
         }
+    }
+    func simpleSuccess() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
     }
     func canOpenURL(_ string: String?) -> Bool {
         guard let urlString = string,
