@@ -15,7 +15,9 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
     </entity>
     <entity name="Images" representedClassName="Images" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="imageD" optional="YES" attributeType="Binary"/>
+        <attribute name="imagetitle" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Links" representedClassName="Links" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -42,7 +44,7 @@
     <elements>
         <element name="Assignment" positionX="-63" positionY="-18" width="128" height="149"/>
         <element name="Folder" positionX="-54" positionY="27" width="128" height="59"/>
-        <element name="Images" positionX="-36" positionY="45" width="128" height="44"/>
+        <element name="Images" positionX="-36" positionY="45" width="128" height="74"/>
         <element name="Links" positionX="-36" positionY="45" width="128" height="74"/>
         <element name="PastNames" positionX="-36" positionY="81" width="128" height="59"/>
         <element name="Tests" positionX="-27" positionY="54" width="128" height="134"/>

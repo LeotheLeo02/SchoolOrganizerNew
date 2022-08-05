@@ -10,10 +10,14 @@ import AVKit
 struct FolderView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.link)]) var link: FetchedResults<Links>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.imagetitle)]) var Images: FetchedResults<Images>
     @State private var siteLink = ""
     @State private var linkname = ""
     @State private var showAlert = false
     @State private var addresource = false
+    @State private var image: Data = .init(count: 0)
+    @State private var imagetitle = ""
+    @State private var imagepicker = false
     var body: some View {
         VStack{
             Form{
@@ -80,9 +84,70 @@ struct FolderView: View {
                         Spacer()
                     }
                 }
+                Section{
+                    ForEach(Images){imag in
+                        HStack{
+                        Image(uiImage: UIImage(data: imag.imageD ?? image)!)
+                            .resizable()
+                            .frame(width: 200, height: 200, alignment: .center)
+                            .aspectRatio(contentMode: .fit)
+                            .cornerRadius(15)
+                            .padding()
+                        Text(imag.imagetitle!)
+                                .font(.system(size: 20, weight: .heavy, design: .rounded))
+                        }
+                    }.onDelete(perform: deleteImage)
+                    HStack{
+                        Spacer()
+                if image.count != 0 {
+                    Button {
+                        imagepicker.toggle()
+                    } label: {
+                        HStack{
+                        Image(uiImage: UIImage(data: image)!)
+                            .resizable()
+                            .renderingMode(.original)
+                            .frame(width: 150, height: 150)
+                            .cornerRadius(20)
+                        }
+                    }
+                
+                }else{
+                    Button {
+                        imagepicker.toggle()
+                    } label: {
+                        Image(systemName: "photo.fill")
+                            .resizable()
+                            .frame(width: 150, height: 150)
+                            .cornerRadius(20)
+                            .foregroundColor(.accentColor)
+                    }
+
+                }
+                        Spacer()
+                    }
+                TextField("Title of Image", text: $imagetitle)
+                        .multilineTextAlignment(.center)
+                Button {
+                    withAnimation{
+                    ImageDataController().addImage(imagetitle: imagetitle, imageD: image, context: managedObjContext)
+                    image.count = 0
+                    imagetitle = ""
+                    }
+                } label: {
+                    HStack{
+                        Spacer()
+                    Text("Submit")
+                        Spacer()
+                    }
+                }
+            }
 
             }.alert(isPresented: $showAlert){
                 Alert(title: Text("Missing Information"), message: Text("You must have a valid link and a name"), dismissButton: .cancel(Text("Ok")))
+            }
+            .sheet(isPresented: $imagepicker) {
+                ImagePicker(images: $image, show: $imagepicker)
             }
         }
     }
@@ -104,6 +169,15 @@ struct FolderView: View {
             
             // Saves to our database
             LinksDataController().save(context: managedObjContext)
+        }
+    }
+    private func deleteImage(offsets: IndexSet) {
+        withAnimation {
+            offsets.map { Images[$0] }
+            .forEach(managedObjContext.delete)
+            
+            // Saves to our database
+            ImageDataController().save(context: managedObjContext)
         }
     }
 }
