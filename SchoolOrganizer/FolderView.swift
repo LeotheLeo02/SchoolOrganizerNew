@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AVKit
 import AlertToast
 struct FolderView: View {
     @Environment(\.managedObjectContext) var managedObjContext
@@ -29,6 +28,7 @@ struct FolderView: View {
     @State private var FrameImage = false
     @State private var addingValue: Int64 = 0
     var body: some View {
+        NavigationView{
         VStack{
             Form{
                 Section{
@@ -188,6 +188,8 @@ struct FolderView: View {
                     }.onChange(of: image.count) { newValue in
                         focusontitle.toggle()
                     }
+                }header: {
+                    Text("Add a Photo")
                 }
                 Section{
                     ForEach(Images){imag in
@@ -263,6 +265,19 @@ struct FolderView: View {
                 AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Link Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
             }
         }
+        .navigationTitle("Folder")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction){
+                Button {
+                    dismiss()
+                } label: {
+                    Text("Cancel")
+                }
+
+            }
+        }
+    }
     }
     func simpleSuccess() {
         let generator = UINotificationFeedbackGenerator()

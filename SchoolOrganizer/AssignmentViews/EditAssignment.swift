@@ -17,9 +17,6 @@ struct EditAssignment: View {
         NavigationView{
             VStack{
                 if assignment.name != nil{
-                Text(assignment.name!)
-                    .font(.largeTitle)
-                    .bold()
                     if assignment.link != nil {
                     Link("\(assignment.link!)", destination: URL(string: assignment.link!)!)
                     }
@@ -69,7 +66,8 @@ struct EditAssignment: View {
             }.sheet(isPresented: $FolderOn, content: {
                 FolderView()
             })
-            .navigationBarHidden(true)
+            .navigationTitle("\(assignment.name!)")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar{
             ToolbarItem(placement: .bottomBar) {
                 Button {
