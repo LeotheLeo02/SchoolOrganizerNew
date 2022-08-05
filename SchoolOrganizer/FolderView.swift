@@ -26,6 +26,8 @@ struct FolderView: View {
     @State private var camera = false
     @State private var Added = false
     @State private var AddedLink = false
+    @State private var FrameImage = false
+    @State private var addingValue: Int64 = 0
     var body: some View {
         VStack{
             Form{
@@ -199,21 +201,22 @@ struct FolderView: View {
                             VStack{
                         Text(imag.imagetitle!)
                                 .font(.system(size: 20, weight: .heavy, design: .rounded))
-                                Menu{
                                     Menu{
                                          ForEach(assignment){assign in
                                              Button {
-                                                 Added.toggle()
-                                                 AssignmentDataController().editAssignImage(assign: assign, imagedata: imag.imageD!, imagetitle: imag.imagetitle!, context: managedObjContext)
-                                                 simpleSuccess()
-                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
-                                                     dismiss()
-                                                 }
+                                                 FrameImage.toggle()
                                              } label: {
                                                  HStack{
                                                  Text(assign.name!)
                                                      Spacer()
                                                      Image(systemName: "plus")
+                                                 }.onChange(of: addingValue) { V in
+                                                     AssignmentDataController().editAssignImage(assign: assign, imagedata: imag.imageD!, imagetitle: imag.imagetitle!, imagesize: addingValue, context: managedObjContext)
+                                                     Added.toggle()
+                                                     simpleSuccess()
+                                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
+                                                         dismiss()
+                                                     }
                                                  }
                                              }
 
@@ -222,11 +225,24 @@ struct FolderView: View {
                                         Text("Add To")
                                             .bold()
                                     }
-                                } label: {
-                                    Image(systemName: "plus")
-                                        .font(.title)
-                                }
                                 .padding()
+
+                            }.confirmationDialog("Select Image Size", isPresented: $FrameImage, titleVisibility: .visible){
+                                Button {
+                                    addingValue = 3
+                                } label: {
+                                    Text("Large")
+                                }
+                                Button {
+                                    addingValue = 2
+                                } label: {
+                                    Text("Medium")
+                                }
+                                Button {
+                                    addingValue = 1
+                                } label: {
+                                    Text("Small")
+                                }
 
                             }
                         }

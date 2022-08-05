@@ -52,10 +52,11 @@ class AssignmentDataController: ObservableObject {
         save(context: context)
     }
     
-    func editAssignImage(assign: Assignment, imagedata: Data, imagetitle: String, context: NSManagedObjectContext)
+    func editAssignImage(assign: Assignment, imagedata: Data, imagetitle: String, imagesize: Int64, context: NSManagedObjectContext)
     {
         assign.imagedata = imagedata
         assign.imagetitle = imagetitle
+        assign.imagesize = imagesize
         save(context: context)
     }
 }
