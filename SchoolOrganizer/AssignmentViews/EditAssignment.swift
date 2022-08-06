@@ -13,6 +13,7 @@ struct EditAssignment: View {
     var assignment: FetchedResults<Assignment>.Element
     @Environment(\.dismiss) var dismiss
     @State private var FolderOn = false
+    @State private var complete = false
     var body: some View {
         NavigationView{
             VStack{
@@ -66,7 +67,7 @@ struct EditAssignment: View {
             }.sheet(isPresented: $FolderOn, content: {
                 FolderView()
             })
-            .navigationTitle("\(assignment.name!)")
+            .navigationTitle("\(assignment.name ?? "")")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
             ToolbarItem(placement: .bottomBar) {
@@ -92,6 +93,32 @@ struct EditAssignment: View {
                     }
                 }.buttonStyle(.bordered)
             }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        complete.toggle()
+                        AssignmentDataController().editAssign(assign: assignment, complete: complete, context: managedObjContext)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
+                        UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+                            var identifiers: [String] = [assignment.name!]
+                           for notification:UNNotificationRequest in notificationRequests {
+                               if notification.identifier == "identifierCancel" {
+                                  identifiers.append(notification.identifier)
+                               }
+                           }
+                           UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                            print("Deleted Notifcation")
+                        }
+                        deleteAssignment()
+                        dismiss()
+                    }
+                    } label: {
+                        Image(systemName: complete ? "checkmark.circle.fill" : "circle")
+                            .font(.largeTitle)
+                            .animation(.easeInOut, value: complete)
+                            .foregroundColor(.green)
+                    }
+
+                }
             }
         }
     }

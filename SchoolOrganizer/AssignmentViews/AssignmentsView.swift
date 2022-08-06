@@ -19,6 +19,7 @@ struct AssignmentsView: View {
     @State private var showFolder = false
     @State private var filter = false
     @State private var filtername = ""
+    @State private var search = false
    private let adaptiveColumns = [
     GridItem(.adaptive(minimum: 160))
    ]
@@ -214,6 +215,9 @@ struct AssignmentsView: View {
             .sheet(isPresented: $Add, content: {
                 AddAssignment()
             })
+            .sheet(isPresented: $search, content: {
+                AssignmentSearchView()
+            })
             .navigationTitle("Assignments")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -247,6 +251,13 @@ struct AssignmentsView: View {
                         Image(systemName: "folder.fill")
                     }
 
+                }
+                ToolbarItem(placement: .navigationBarLeading){
+                    Button {
+                        search.toggle()
+                    } label: {
+                        Image(systemName: "magnifyingglass.circle")
+                    }
                 }
                 ToolbarItem(placement: .navigationBarTrailing){
                     Menu{
