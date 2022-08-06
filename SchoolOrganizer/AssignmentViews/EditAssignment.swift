@@ -96,6 +96,7 @@ struct EditAssignment: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         complete.toggle()
+                        simpleSuccess()
                         AssignmentDataController().editAssign(assign: assignment, complete: complete, context: managedObjContext)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
                         UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
@@ -121,6 +122,10 @@ struct EditAssignment: View {
                 }
             }
         }
+    }
+    func simpleSuccess() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
     }
     private func deleteAssignment(){
         withAnimation {

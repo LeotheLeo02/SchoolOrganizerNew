@@ -13,6 +13,7 @@ struct AddAssignment: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.pastnames)]) var pastname: FetchedResults<PastNames>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
     @FocusState private var focusonTopic: Bool
     @State private var topics = ""
     @State private var details = ""
@@ -61,12 +62,14 @@ struct AddAssignment: View {
                         } label: {
                             Text("Delete")
                                 .foregroundColor(.red)
-                            Image(systemName: "trash")
+                            Image(systemName: "trash.fill")
                                 .foregroundColor(.red)
                         }
 
                     }
-                }.onChange(of: assigname, perform: { V in
+                }.tint(.blue)
+                    .buttonStyle(.bordered)
+                .onChange(of: assigname, perform: { V in
                     if assigname.trimmingCharacters(in: .whitespaces) == pass.pastnames?.trimmingCharacters(in: .whitespaces) {
                         exists = true
                     }
@@ -83,7 +86,7 @@ struct AddAssignment: View {
                 }else{
                 Text(topics)
                         .bold()
-                        .foregroundColor(.blue)
+                        .foregroundColor(.green)
                         .onChange(of: undoall, perform: { newValue in
                             topics = ""
                         })
@@ -99,7 +102,26 @@ struct AddAssignment: View {
                         topics = top.topicname!
                     } label: {
                         Text(top.topicname!)
-                    }.buttonStyle(.bordered)
+                        ForEach(assignment){assign in
+                            if assign.topic == top.topicname{
+                                Image(systemName: "doc.plaintext.fill")
+                            }
+                        }
+                    }.tint(.green)
+                    .buttonStyle(.bordered)
+                    Button {
+                        withAnimation {
+                            top
+                                .managedObjectContext?.delete(top)
+                            
+                            // Saves to our database
+                            TopicDataController().save(context: managedObjContext)
+                        }
+                    } label: {
+                        Image(systemName: "trash.fill")
+                    }.tint(.red)
+                    .buttonStyle(.borderedProminent)
+
                 }
                     }
                     Button {
@@ -109,6 +131,7 @@ struct AddAssignment: View {
                         }
                     } label: {
                         Image(systemName: "plus")
+                            .foregroundColor(.green)
                     }
                 }
                 }
