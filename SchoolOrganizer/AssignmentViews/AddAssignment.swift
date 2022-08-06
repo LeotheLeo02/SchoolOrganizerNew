@@ -50,6 +50,7 @@ struct AddAssignment: View {
                 } label: {
                     HStack{
                     Text(pass.pastnames!)
+                            .bold()
                         Spacer()
                         Button {
                             withAnimation {
