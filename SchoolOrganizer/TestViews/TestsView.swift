@@ -145,7 +145,7 @@ struct TestsView: View {
                         }
                     }
                 }
-                }.onDelete(perform: deleteTest)
+                }
             }.sheet(isPresented: $AddTest, content: {
                 AddTestView()
             })
@@ -165,13 +165,6 @@ struct TestsView: View {
     }
     func daysBetween(start: Date, end: Date) -> Int {
         return Calendar.current.dateComponents([.day], from: start, to: end).day!
-    }
-    private func deleteTest(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { test[$0] }
-            .forEach(managedObjContext.delete)
-            TestDataController().save(context: managedObjContext)
-        }
     }
 }
 

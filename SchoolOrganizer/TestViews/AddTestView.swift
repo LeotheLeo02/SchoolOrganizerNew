@@ -127,28 +127,30 @@ struct AddTestView: View {
                             let content = UNMutableNotificationContent()
                             content.title = testname
                             content.subtitle = "\(testname) is in Two Days! Make Sure To Study!"
-                            let secondcontent = UNMutableNotificationContent()
-                            secondcontent.title = testname
-                            secondcontent.subtitle = "\(testname) is Tomorrow! Make Sure To Study!"
-                            secondcontent.sound = UNNotificationSound.default
                             let date = newtestdate
                             let TwoDaysEarly = Calendar.current.date(byAdding: .day, value: -2, to: date)
-                            let OneDayEarly = Calendar.current.date(byAdding: .day, value: -1, to: date)
                             content.sound = UNNotificationSound.default
-                            let dateComp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: OneDayEarly!)
                             let twoComp = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute], from: TwoDaysEarly!)
-                            
-                            let calendarTrigger  = UNCalendarNotificationTrigger(dateMatching: dateComp, repeats: false)
 
                             let calendarTriggerTwo  = UNCalendarNotificationTrigger(dateMatching: twoComp, repeats: false)
+                            let today = newtestdate
+                            let formatter1 = DateFormatter()
+                            formatter1.dateStyle = .short
+                            print(formatter1.string(from: today))
+                            let request = UNNotificationRequest(identifier: formatter1.string(from: newtestdate) , content: content, trigger: calendarTriggerTwo)
                             
-                            let request = UNNotificationRequest(identifier: testname, content: content, trigger: calendarTriggerTwo)
-                            let request2 = UNNotificationRequest(identifier: testname, content: secondcontent, trigger: calendarTrigger)
-                            
-                            //Solve Issue Later
                             UNUserNotificationCenter.current().add(request)
-                            UNUserNotificationCenter.current().add(request2)
                         }
+                        let date2 = newtestdate
+                        let secondcontent = UNMutableNotificationContent()
+                        secondcontent.title = testname
+                        secondcontent.subtitle = "\(testname) is Tomorrow! Make Sure To Study!"
+                        secondcontent.sound = UNNotificationSound.default
+                        let OneDayEarly = Calendar.current.date(byAdding: .day, value: -1, to: date2)
+                        let dateComp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: OneDayEarly!)
+                        let calendarTrigger  = UNCalendarNotificationTrigger(dateMatching: dateComp, repeats: false)
+                        let request2 = UNNotificationRequest(identifier: testname, content: secondcontent, trigger: calendarTrigger)
+                        UNUserNotificationCenter.current().add(request2)
                         dismiss()
                     } label: {
                         Text("Confirm")

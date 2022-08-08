@@ -57,6 +57,12 @@ struct EditAssignment: View {
 
                         }
                     }
+                    if assignment.imagedata == nil && assignment.link ?? "" == ""{
+                        Text("No Attachments")
+                            .bold()
+                            .font(.largeTitle)
+                            .foregroundColor(.gray)
+                    }
                 }
                 Button {
                     FolderOn.toggle()

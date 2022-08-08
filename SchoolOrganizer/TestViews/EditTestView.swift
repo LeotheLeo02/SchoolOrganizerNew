@@ -18,6 +18,8 @@ struct EditTestView: View {
     @State private var badscore = false
     @State private var name = ""
     @State private var engine: CHHapticEngine?
+    @State private var topic = ""
+    @State private var testdate = Date()
     var body: some View {
         Form {
             Section{
@@ -32,6 +34,8 @@ struct EditTestView: View {
                         let initial = String(test.score)
                         score = initial
                         name = test.testname!
+                        topic = test.testtopic!
+                        testdate = test.testdate!
                         prepareHaptics()
                     }
             } header: {
@@ -40,7 +44,10 @@ struct EditTestView: View {
             }
             Button {
                 UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                    var identifiers: [String] = [name]
+                    let formatter1 = DateFormatter()
+                    formatter1.dateStyle = .short
+                    var identifiers: [String] = [name, formatter1.string(from: testdate)]
+                    print(formatter1.string(from: testdate))
                     print("\(name)")
                    for notification:UNNotificationRequest in notificationRequests {
                        if notification.identifier == "identifierCancel" {
