@@ -41,6 +41,11 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="topicname" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="Tracker" representedClassName="Tracker" syncable="YES" codeGenerationType="class">
+        <attribute name="completeas" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="scoredtes" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
     <elements>
         <element name="Assignment" positionX="-63" positionY="-18" width="128" height="209"/>
         <element name="Images" positionX="-36" positionY="45" width="128" height="74"/>
@@ -48,5 +53,6 @@
         <element name="PastNames" positionX="-36" positionY="81" width="128" height="59"/>
         <element name="Tests" positionX="-27" positionY="54" width="128" height="134"/>
         <element name="Topics" positionX="-63" positionY="18" width="128" height="59"/>
+        <element name="Tracker" positionX="-45" positionY="72" width="128" height="74"/>
     </elements>
 </model>

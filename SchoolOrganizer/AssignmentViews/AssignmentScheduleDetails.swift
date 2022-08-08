@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AssignmentScheduleDetails: View {
     @Environment(\.managedObjectContext) var managedObjContext
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.duedate)]) var assignment: FetchedResults<Assignment>
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form{

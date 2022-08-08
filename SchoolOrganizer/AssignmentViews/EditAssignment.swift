@@ -44,7 +44,7 @@ struct EditAssignment: View {
                             Button(role: .destructive) {
                                 withAnimation{
                                 assignment.imagedata = nil
-                                    assignment.imagetitle = nil
+                                    assignment.imagetitle = ""
                                     assignment.imagesize = 0
                                     try? managedObjContext.save() 
                                 }

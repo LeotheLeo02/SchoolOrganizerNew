@@ -29,6 +29,7 @@ struct AddAssignment: View {
     @State private var undoall = false
     @State private var engine: CHHapticEngine?
     @State private var exists = false
+    @State private var assignmentexits = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
@@ -37,12 +38,22 @@ struct AddAssignment: View {
                 .onChange(of: undoall) { newValue in
                 assigname = ""
             }
+            if assignmentexits{
+                HStack{
+                Text("Assignment Already Exists")
+                    .foregroundColor(.red)
+                    .bold()
+                    Image(systemName: "x.circle.fill")
+                        .foregroundColor(.red)
+                }
+            }
             List{
                 Section(header: Text("Past Names")){
                     if pastname.isEmpty{
                         Text("No History")
                             .foregroundColor(.gray)
                     }else{
+                        ScrollView{
             ForEach(pastname){pass in
                 Button {
                     assigname = pass.pastnames!
@@ -76,6 +87,7 @@ struct AddAssignment: View {
                     }
                 })
             }
+                    }
                 }
                 }
             }
@@ -104,8 +116,20 @@ struct AddAssignment: View {
                     } label: {
                         Text(top.topicname!)
                         ForEach(assignment){assign in
+                            VStack{
                             if assign.topic == top.topicname{
                                 Image(systemName: "doc.plaintext.fill")
+                            }
+                            }.onChange(of: assigname) { V in
+                                if assigname.trimmingCharacters(in: .whitespaces) == assign.name?.trimmingCharacters(in: .whitespaces) {
+                                    withAnimation{
+                                    assignmentexits = true
+                                    }
+                                }else{
+                                    withAnimation{
+                                    assignmentexits = false
+                                    }
+                                }
                             }
                         }
                     }.tint(.green)
@@ -300,7 +324,7 @@ struct AddAssignment: View {
                 }
                 } label: {
                     Text("Add")
-                }
+                }.disabled(assignmentexits)
             }
             ToolbarItem(placement: .cancellationAction) {
                 Button {

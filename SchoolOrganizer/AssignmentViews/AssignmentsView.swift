@@ -21,6 +21,7 @@ struct AssignmentsView: View {
     @State private var filtername = ""
     @State private var search = false
     @State private var editpop = false
+    @State private var deletealltopics = false
    private let adaptiveColumns = [
     GridItem(.adaptive(minimum: 160))
    ]
@@ -73,7 +74,9 @@ struct AssignmentsView: View {
                                         .navigationViewStyle(.stack)
                             }
                                     if assign.editmode{
+                                        Text("Edit Here")
                                       EditPopupView(assignment: assign,isPresented: $editname, editpop: $editpop)
+                                            .padding()
                                     }
                                     Button {
                                         assign.complete.toggle()
@@ -173,7 +176,9 @@ struct AssignmentsView: View {
                                 .navigationViewStyle(.stack)
                     }
                             if assign.editmode{
+                                Text("Edit Here")
                                 EditPopupView(assignment: assign,isPresented: $editname, editpop: $editpop)
+                                    .padding()
                             }
                             Button {
                                 assign.complete.toggle()
@@ -244,6 +249,23 @@ struct AssignmentsView: View {
             .sheet(isPresented: $search, content: {
                 AssignmentSearchView()
             })
+            .alert(isPresented: $deletealltopics){
+                Alert(title: Text("Are You Sure?"), message: Text("Deleting all topics will also delete all assignments below it."), primaryButton: .cancel(Text("Cancel")), secondaryButton: .destructive(Text("Delete All"), action: {
+                    withAnimation {
+                        topic
+                        .forEach(managedObjContext.delete)
+                        
+                        // Saves to our database
+                        TopicDataController().save(context: managedObjContext)
+                        
+                        //May not delete all notifications
+                        assignment
+                            .forEach(managedObjContext.delete)
+                        
+                        AssignmentDataController().save(context: managedObjContext)
+                    }
+                }))
+            }
             .navigationTitle("Assignments")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -306,6 +328,11 @@ struct AssignmentsView: View {
                             }
                         } label: {
                             Text("All")
+                        }
+                        Button(role: .destructive) {
+                            deletealltopics.toggle()
+                        } label: {
+                            Text("Delete All Topics")
                         }
                     }label:{
                         Image(systemName: filter ? "line.3.horizontal.decrease.circle.fill" :"line.3.horizontal.decrease.circle")
