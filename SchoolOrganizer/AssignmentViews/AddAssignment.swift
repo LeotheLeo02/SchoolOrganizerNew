@@ -246,7 +246,7 @@ struct AddAssignment: View {
             }
             
             Section {
-                DatePicker("Choose a Due Date", selection: $duedate, in: Date.now..., displayedComponents: .date)
+                DatePicker("Choose a Due Date", selection: $duedate, in: Date.now...)
                     .datePickerStyle(.graphical)
                     .frame(maxHeight: 400)
                     .onChange(of: undoall) { newValue in
@@ -297,8 +297,8 @@ struct AddAssignment: View {
                         content.subtitle = "This is Due Today!"
                         let date = duedate
                         content.sound = UNNotificationSound.default
-                        let dateComp = Calendar.current.dateComponents([.year, .month, .day], from: date)
-                        
+                        let dateComp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+                        print(dateComp)
                         let calendarTrigger  = UNCalendarNotificationTrigger(dateMatching: dateComp, repeats: false)
 
                         
@@ -313,7 +313,7 @@ struct AddAssignment: View {
                             twodaycontent.sound = UNNotificationSound.default
                         let date = duedate
                         let TwoDaysEarly = Calendar.current.date(byAdding: .day, value: -2, to: date)
-                        let twoComp = Calendar.current.dateComponents([.year,.month,.day], from: TwoDaysEarly!)
+                            let twoComp = Calendar.current.dateComponents([.year,.month,.day, .hour,.minute], from: TwoDaysEarly!)
                         let calendarTriggerTwo  = UNCalendarNotificationTrigger(dateMatching: twoComp, repeats: false)
                             let formatter1 = DateFormatter()
                             formatter1.dateStyle = .long

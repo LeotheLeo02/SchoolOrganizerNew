@@ -22,6 +22,7 @@ struct AssignmentsView: View {
     @State private var search = false
     @State private var editpop = false
     @State private var deletealltopics = false
+    @State private var confirm = false
    private let adaptiveColumns = [
     GridItem(.adaptive(minimum: 160))
    ]
@@ -87,7 +88,9 @@ struct AssignmentsView: View {
                                                 withAnimation{
                                                     if assign.complete != false{
                                                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                                                        var identifiers: [String] = [assign.name!]
+                                                        let formatter1 = DateFormatter()
+                                                        formatter1.dateStyle = .long
+                                                        var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
                                                        for notification:UNNotificationRequest in notificationRequests {
                                                            if notification.identifier == "identifierCancel" {
                                                               identifiers.append(notification.identifier)
@@ -110,7 +113,23 @@ struct AssignmentsView: View {
                                         }
                                     }
                                         
-                            }.contextMenu{
+                                }.onChange(of: confirm, perform: { V in
+                                    UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+                                        let formatter1 = DateFormatter()
+                                        formatter1.dateStyle = .long
+                                        var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
+                                       for notification:UNNotificationRequest in notificationRequests {
+                                           if notification.identifier == "identifierCancel" {
+                                              identifiers.append(notification.identifier)
+                                           }
+                                       }
+                                       UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                        print("Deleted Notifcation")
+                                    }
+                                    assign.managedObjectContext?.delete(assign)
+                                    AssignmentDataController().save(context: managedObjContext)
+                                })
+                                .contextMenu{
                                 Button(role: .destructive) {
                                     withAnimation {
                                         assign.managedObjectContext?.delete(assign)
@@ -189,7 +208,9 @@ struct AssignmentsView: View {
                                         withAnimation{
                                             if assign.complete != false{
                                             UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                                                var identifiers: [String] = [assign.name!]
+                                                let formatter1 = DateFormatter()
+                                                formatter1.dateStyle = .long
+                                                var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
                                                for notification:UNNotificationRequest in notificationRequests {
                                                    if notification.identifier == "identifierCancel" {
                                                       identifiers.append(notification.identifier)
@@ -212,7 +233,26 @@ struct AssignmentsView: View {
                                 }
                             }
                                 
-                    }.contextMenu{
+                        }
+                        .onChange(of: confirm, perform: { V in
+                            withAnimation {
+                                UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+                                    let formatter1 = DateFormatter()
+                                    formatter1.dateStyle = .long
+                                    var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
+                                   for notification:UNNotificationRequest in notificationRequests {
+                                       if notification.identifier == "identifierCancel" {
+                                          identifiers.append(notification.identifier)
+                                       }
+                                   }
+                                   UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                    print("Deleted Notifcation")
+                                }
+                                assign.managedObjectContext?.delete(assign)
+                                AssignmentDataController().save(context: managedObjContext)
+                            }
+                        })
+                        .contextMenu{
                         Button(role: .destructive) {
                             withAnimation {
                                 assign.managedObjectContext?.delete(assign)
@@ -257,12 +297,8 @@ struct AssignmentsView: View {
                         
                         // Saves to our database
                         TopicDataController().save(context: managedObjContext)
+                        confirm.toggle()
                         
-                        //May not delete all notifications
-                        assignment
-                            .forEach(managedObjContext.delete)
-                        
-                        AssignmentDataController().save(context: managedObjContext)
                     }
                 }))
             }
