@@ -272,19 +272,31 @@ struct AddAssignment: View {
                         content.title = topics
                         content.subtitle = "This is Due Today!"
                         let date = duedate
-                        let TwoDaysEarly = Calendar.current.date(byAdding: .day, value: -2, to: date)
                         content.sound = UNNotificationSound.default
                         let dateComp = Calendar.current.dateComponents([.year, .month, .day], from: date)
-                        let twoComp = Calendar.current.dateComponents([.year,.month,.day], from: TwoDaysEarly!)
                         
                         let calendarTrigger  = UNCalendarNotificationTrigger(dateMatching: dateComp, repeats: false)
 
-                        let calendarTriggerTwo  = UNCalendarNotificationTrigger(dateMatching: twoComp, repeats: false)
                         
-                        let request = UNNotificationRequest(identifier: assigname, content: content, trigger: twodaysearly ? calendarTriggerTwo : calendarTrigger)
+                        let request = UNNotificationRequest(identifier: assigname, content: content, trigger: calendarTrigger)
                         
                         UNUserNotificationCenter.current().add(request)
                     }
+                        if twodaysearly{
+                        let twodaycontent = UNMutableNotificationContent()
+                            twodaycontent.title = topics
+                            twodaycontent.body = "This is Due in Two Days!"
+                            twodaycontent.sound = UNNotificationSound.default
+                        let date = duedate
+                        let TwoDaysEarly = Calendar.current.date(byAdding: .day, value: -2, to: date)
+                        let twoComp = Calendar.current.dateComponents([.year,.month,.day], from: TwoDaysEarly!)
+                        let calendarTriggerTwo  = UNCalendarNotificationTrigger(dateMatching: twoComp, repeats: false)
+                            let formatter1 = DateFormatter()
+                            formatter1.dateStyle = .long
+                            let request2 = UNNotificationRequest(identifier: formatter1.string(from: date), content: twodaycontent, trigger: calendarTriggerTwo)
+                            UNUserNotificationCenter.current().add(request2)
+                        }
+                        
                 }
                 } label: {
                     Text("Add")

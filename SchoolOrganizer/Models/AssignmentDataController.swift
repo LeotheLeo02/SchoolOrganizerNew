@@ -51,6 +51,15 @@ class AssignmentDataController: ObservableObject {
         assign.link = link
         save(context: context)
     }
+    func editAssignName(assign: Assignment, name: String, context: NSManagedObjectContext){
+        assign.name = name
+        save(context: context)
+    }
+    func editAssignEdit(assign: Assignment, editmode: Bool, context: NSManagedObjectContext){
+        assign.editmode = editmode
+        save(context: context)
+    }
+    
     
     func editAssignImage(assign: Assignment, imagedata: Data, imagetitle: String, imagesize: Int64, context: NSManagedObjectContext)
     {

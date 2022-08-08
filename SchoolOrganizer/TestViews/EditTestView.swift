@@ -45,7 +45,7 @@ struct EditTestView: View {
             Button {
                 UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
                     let formatter1 = DateFormatter()
-                    formatter1.dateStyle = .short
+                    formatter1.dateStyle = .long
                     var identifiers: [String] = [name, formatter1.string(from: testdate)]
                     print(formatter1.string(from: testdate))
                     print("\(name)")

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import AlertToast
 struct AssignmentsView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
@@ -20,6 +20,7 @@ struct AssignmentsView: View {
     @State private var filter = false
     @State private var filtername = ""
     @State private var search = false
+    @State private var editpop = false
    private let adaptiveColumns = [
     GridItem(.adaptive(minimum: 160))
    ]
@@ -71,6 +72,9 @@ struct AssignmentsView: View {
                                         }
                                         .navigationViewStyle(.stack)
                             }
+                                    if assign.editmode{
+                                      EditPopupView(assignment: assign,isPresented: $editname, editpop: $editpop)
+                                    }
                                     Button {
                                         assign.complete.toggle()
                                         AssignmentDataController().editAssign(assign: assign, complete: assign.complete, context: managedObjContext)
@@ -114,6 +118,14 @@ struct AssignmentsView: View {
                                     Text("Delete")
                                         Image(systemName: "trash")
                                     }
+                                }
+                                Button {
+                                    withAnimation{
+                                        AssignmentDataController().editAssignEdit(assign: assign, editmode: true, context: managedObjContext)
+                                    }
+                                } label: {
+                                    Text("Edit")
+                                    Image(systemName: "pencil")
                                 }
 
                             }
@@ -160,6 +172,9 @@ struct AssignmentsView: View {
                                 }
                                 .navigationViewStyle(.stack)
                     }
+                            if assign.editmode{
+                                EditPopupView(assignment: assign,isPresented: $editname, editpop: $editpop)
+                            }
                             Button {
                                 assign.complete.toggle()
                                 AssignmentDataController().editAssign(assign: assign, complete: assign.complete, context: managedObjContext)
@@ -204,6 +219,14 @@ struct AssignmentsView: View {
                                 Image(systemName: "trash")
                             }
                         }
+                        Button {
+                            withAnimation{
+                                AssignmentDataController().editAssignEdit(assign: assign, editmode: true, context: managedObjContext)
+                            }
+                        } label: {
+                            Text("Edit")
+                            Image(systemName: "pencil")
+                        }
 
                     }
                     }
@@ -212,6 +235,9 @@ struct AssignmentsView: View {
             }.sheet(isPresented: $showFolder, content: {
                 FolderView()
             })
+            .toast(isPresenting: $editpop) {
+                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Edited", style: .style(backgroundColor: Color(.systemGray6), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
+            }
             .sheet(isPresented: $Add, content: {
                 AddAssignment()
             })
@@ -310,5 +336,45 @@ extension View {
         } else {
             self
         }
+    }
+}
+
+struct EditPopupView: View{
+    var assignment: FetchedResults<Assignment>.Element
+    @Environment(\.managedObjectContext) var managedObjContext
+    @Environment(\.dismiss) var dismiss
+    @Binding var isPresented: Bool
+    @Binding var editpop: Bool
+    @State private var newname = ""
+    var body: some View{
+            VStack{
+                TextField("New Name", text: $newname)
+                    .onAppear(){
+                        newname = assignment.name!
+                    }
+                    .textFieldStyle(.roundedBorder)
+                Button {
+                    withAnimation{
+                    AssignmentDataController().editAssignName(assign: assignment, name: newname, context: managedObjContext)
+                        AssignmentDataController().editAssignEdit(assign: assignment, editmode: false, context: managedObjContext)
+                    isPresented = false
+                        editpop.toggle()
+                    }
+                } label: {
+                    Text("Done")
+                }.tint(.green)
+                .buttonStyle(.borderedProminent)
+
+            }.padding()
+            .if(assignment.color == "Blue"){view in
+                view.background(.blue)
+            }
+            .if(assignment.color == "Yellow"){ view in
+                view.background(.yellow)
+            }
+            .if(assignment.color == "Red"){ view in
+                view.background(.red)
+            }
+                .cornerRadius(20)
     }
 }

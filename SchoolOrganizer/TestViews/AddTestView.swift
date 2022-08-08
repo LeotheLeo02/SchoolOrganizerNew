@@ -123,7 +123,7 @@ struct AddTestView: View {
                             }else if let error = error{
                                 print(error.localizedDescription)
                             }
-                            
+                            //Finish Notifications
                             let content = UNMutableNotificationContent()
                             content.title = testname
                             content.subtitle = "\(testname) is in Two Days! Make Sure To Study!"
@@ -135,7 +135,7 @@ struct AddTestView: View {
                             let calendarTriggerTwo  = UNCalendarNotificationTrigger(dateMatching: twoComp, repeats: false)
                             let today = newtestdate
                             let formatter1 = DateFormatter()
-                            formatter1.dateStyle = .short
+                            formatter1.dateStyle = .long
                             print(formatter1.string(from: today))
                             let request = UNNotificationRequest(identifier: formatter1.string(from: newtestdate) , content: content, trigger: calendarTriggerTwo)
                             
