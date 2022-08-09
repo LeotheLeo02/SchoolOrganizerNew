@@ -300,11 +300,12 @@ struct AddAssignment: View {
                         }
                         
                         let content = UNMutableNotificationContent()
-                        content.title = topics
+                        content.title = assigname
                         content.subtitle = "This is Due Today!"
                         let date = duedate
                         content.sound = UNNotificationSound.default
-                        let dateComp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+                        let OneDayEarly = Calendar.current.date(byAdding: .day, value: -1, to: date)
+                        let dateComp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: OneDayEarly!)
                         print(dateComp)
                         let calendarTrigger  = UNCalendarNotificationTrigger(dateMatching: dateComp, repeats: false)
 
@@ -315,7 +316,7 @@ struct AddAssignment: View {
                     }
                         if twodaysearly{
                         let twodaycontent = UNMutableNotificationContent()
-                            twodaycontent.title = topics
+                            twodaycontent.title = assigname
                             twodaycontent.body = "This is Due in Two Days!"
                             twodaycontent.sound = UNNotificationSound.default
                         let date = duedate
