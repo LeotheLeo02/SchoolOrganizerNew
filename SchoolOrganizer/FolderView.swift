@@ -137,6 +137,7 @@ struct FolderView: View {
                         .renderingMode(.original)
                         .frame(width: 150, height: 150)
                         .cornerRadius(20)
+                        .aspectRatio(contentMode: .fit)
                     }
                 }
                 VStack{

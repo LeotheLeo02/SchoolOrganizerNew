@@ -7,13 +7,17 @@
 
 import SwiftUI
 import UserNotifications
+import AlertToast
 
 struct EditAssignment: View {
     @Environment(\.managedObjectContext) var managedObjContext
     var assignment: FetchedResults<Assignment>.Element
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
     @Environment(\.dismiss) var dismiss
     @State private var FolderOn = false
     @State private var complete = false
+    @State private var assigntopic = false
+    @State private var assigned = false
     var body: some View {
         NavigationView{
             ScrollView{
@@ -21,6 +25,35 @@ struct EditAssignment: View {
                 if assignment.name != nil{
                     Text(assignment.name!)
                         .font(.system(size: 30, weight: .heavy, design: .rounded))
+                        .contextMenu{
+                            Button {
+                                withAnimation{
+                                assigntopic = true
+                                }
+                            } label: {
+                                Text("Reassign Topic")
+                                Image(systemName: "rectangle.portrait.and.arrow.right.fill")
+                            }
+
+                        }
+                    if assigntopic{
+                        List{
+                            ForEach(topic){top in
+                                Button {
+                                    withAnimation{
+                                    assignment.topic! = top.topicname!
+                                    assigntopic = false
+                                        simpleSuccess()
+                                        assigned.toggle()
+                                    }
+                                } label: {
+                                    Text(top.topicname!)
+                                }.tint(.green)
+                                    .buttonStyle(.bordered)
+
+                            }
+                        }
+                    }
                     if assignment.link != nil {
                     Link("\(assignment.link!)", destination: URL(string: assignment.link!)!)
                     }
@@ -76,6 +109,9 @@ struct EditAssignment: View {
             }.sheet(isPresented: $FolderOn, content: {
                 FolderView()
             })
+            .toast(isPresenting: $assigned) {
+                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Assigned Topic", style: .style(backgroundColor: Color(.systemGray6), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
+            }
         }
             .toolbar{
             ToolbarItem(placement: .bottomBar) {

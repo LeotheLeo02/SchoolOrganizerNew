@@ -134,7 +134,6 @@ struct AssignmentsView: View {
                                     Text("Edit")
                                     Image(systemName: "pencil")
                                 }
-
                             }
                             }
                         }else{
@@ -239,7 +238,6 @@ struct AssignmentsView: View {
                             Text("Edit")
                             Image(systemName: "pencil")
                         }
-
                     }
                     }
                     }
