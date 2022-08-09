@@ -59,8 +59,15 @@ class AssignmentDataController: ObservableObject {
         assign.editmode = editmode
         save(context: context)
     }
-    
-    
+    func editAssignTopic(assign: Assignment, changedtopic: Bool, context: NSManagedObjectContext){
+        assign.changedtopic = changedtopic
+        save(context: context)
+    }
+    func editAssignTopicName(assign: Assignment, topic: String, changedtopic: Bool, context: NSManagedObjectContext){
+        assign.topic = topic
+        assign.changedtopic = changedtopic
+        save(context: context)
+    }
     func editAssignImage(assign: Assignment, imagedata: Data, imagetitle: String, imagesize: Int64, context: NSManagedObjectContext)
     {
         assign.imagedata = imagedata

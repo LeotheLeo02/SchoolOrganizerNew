@@ -16,8 +16,11 @@ struct EditAssignment: View {
     @State private var complete = false
     var body: some View {
         NavigationView{
+            ScrollView{
             VStack{
                 if assignment.name != nil{
+                    Text(assignment.name!)
+                        .font(.system(size: 30, weight: .heavy, design: .rounded))
                     if assignment.link != nil {
                     Link("\(assignment.link!)", destination: URL(string: assignment.link!)!)
                     }
@@ -73,8 +76,7 @@ struct EditAssignment: View {
             }.sheet(isPresented: $FolderOn, content: {
                 FolderView()
             })
-            .navigationTitle("\(assignment.name ?? "")")
-            .navigationBarTitleDisplayMode(.inline)
+        }
             .toolbar{
             ToolbarItem(placement: .bottomBar) {
                 Button {

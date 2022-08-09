@@ -113,22 +113,7 @@ struct AssignmentsView: View {
                                         }
                                     }
                                         
-                                }.onChange(of: confirm, perform: { V in
-                                    UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                                        let formatter1 = DateFormatter()
-                                        formatter1.dateStyle = .long
-                                        var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
-                                       for notification:UNNotificationRequest in notificationRequests {
-                                           if notification.identifier == "identifierCancel" {
-                                              identifiers.append(notification.identifier)
-                                           }
-                                       }
-                                       UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                        print("Deleted Notifcation")
-                                    }
-                                    assign.managedObjectContext?.delete(assign)
-                                    AssignmentDataController().save(context: managedObjContext)
-                                })
+                                }
                                 .contextMenu{
                                 Button(role: .destructive) {
                                     withAnimation {
@@ -234,24 +219,6 @@ struct AssignmentsView: View {
                             }
                                 
                         }
-                        .onChange(of: confirm, perform: { V in
-                            withAnimation {
-                                UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                                    let formatter1 = DateFormatter()
-                                    formatter1.dateStyle = .long
-                                    var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
-                                   for notification:UNNotificationRequest in notificationRequests {
-                                       if notification.identifier == "identifierCancel" {
-                                          identifiers.append(notification.identifier)
-                                       }
-                                   }
-                                   UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                    print("Deleted Notifcation")
-                                }
-                                assign.managedObjectContext?.delete(assign)
-                                AssignmentDataController().save(context: managedObjContext)
-                            }
-                        })
                         .contextMenu{
                         Button(role: .destructive) {
                             withAnimation {
@@ -289,16 +256,20 @@ struct AssignmentsView: View {
             .sheet(isPresented: $search, content: {
                 AssignmentSearchView()
             })
+            .sheet(isPresented: $confirm, content: {
+                ChangeAllTopicsView()
+            })
             .alert(isPresented: $deletealltopics){
                 Alert(title: Text("Are You Sure?"), message: Text("Deleting all topics will also delete all assignments below it."), primaryButton: .cancel(Text("Cancel")), secondaryButton: .destructive(Text("Delete All"), action: {
                     withAnimation {
-                        topic
-                        .forEach(managedObjContext.delete)
-                        
-                        // Saves to our database
-                        TopicDataController().save(context: managedObjContext)
                         confirm.toggle()
-                        
+                        withAnimation {
+                            topic
+                            .forEach(managedObjContext.delete)
+                            
+                            // Saves to our database
+                            TopicDataController().save(context: managedObjContext)
+                        }
                     }
                 }))
             }

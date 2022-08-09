@@ -56,6 +56,9 @@ struct FolderView: View {
                             }
                             }
                             Menu {
+                                if assignment.isEmpty{
+                                    Text("No Assignments Made")
+                                }
                                 ForEach(assignment){assign in
                                     Button {
                                         AddedLink.toggle()
@@ -205,6 +208,9 @@ struct FolderView: View {
                                 .font(.system(size: 20, weight: .heavy, design: .rounded))
                         }
                             Menu{
+                                if assignment.isEmpty{
+                                    Text("No Assignments Made")
+                                }
                                  ForEach(assignment){assign in
                                      Button {
                                          FrameImage.toggle()
