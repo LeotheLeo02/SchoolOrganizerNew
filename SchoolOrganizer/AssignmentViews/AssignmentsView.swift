@@ -11,6 +11,7 @@ struct AssignmentsView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
+    @AppStorage("NumberOfAsCompleted") var assignmentscompleted: Int = 0
     @Environment(\.dismiss) var dismiss
     @State private var Add = false
     @State private var Schedule = false
@@ -29,6 +30,36 @@ struct AssignmentsView: View {
     var body: some View{
         NavigationView{
             ScrollView{
+                HStack{
+                Text("Assignments Completed: \(Int(assignmentscompleted))")
+                    .font(.system(size: 12, weight: .heavy, design: .rounded))
+                    .if(assignmentscompleted <= 25){ view in
+                        view.foregroundColor(.brown)
+                    }
+                    .if(assignmentscompleted <= 50 && assignmentscompleted > 25){ view in
+                        view.foregroundColor(.gray)
+                    }
+                    .if(assignmentscompleted <= 100 && assignmentscompleted > 50){ view in
+                        view.foregroundColor(.yellow)
+                    }
+                    Spacer()
+                    if assignmentscompleted <= 25{
+                        Text("Bronze")
+                            .font(.system(size: 15, weight: .heavy, design: .rounded))
+                            .foregroundColor(.brown)
+                    }
+                    if assignmentscompleted <= 50 && assignmentscompleted > 25{
+                        Text("Silver")
+                            .font(.system(size: 15, weight: .heavy, design: .rounded))
+                            .foregroundColor(.gray)
+                    }
+                    if assignmentscompleted <= 100 && assignmentscompleted > 50{
+                        Text("Gold")
+                            .font(.system(size: 15, weight: .heavy, design: .rounded))
+                            .foregroundColor(.yellow)
+                    }
+                }.padding()
+                Divider()
                 LazyVGrid(columns: adaptiveColumns) {
                     ForEach(assignment){assign in
                         if filter{
@@ -86,6 +117,7 @@ struct AssignmentsView: View {
                                             simpleSuccess()
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                                 withAnimation{
+                                                    assignmentscompleted += 1
                                                     HistoryADataController().addAssign(assignname: assign.name!, assigncolor: assign.color!, assigndate: Date.now, context: managedObjContext)
                                                     if assign.complete != false{
                                                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
@@ -191,6 +223,7 @@ struct AssignmentsView: View {
                                     simpleSuccess()
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                         withAnimation{
+                                            assignmentscompleted += 1
                                             HistoryADataController().addAssign(assignname: assign.name!, assigncolor: assign.color!, assigndate: Date.now, context: managedObjContext)
                                             if assign.complete != false{
                                             UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
