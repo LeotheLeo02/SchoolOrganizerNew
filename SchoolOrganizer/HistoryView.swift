@@ -41,6 +41,18 @@ struct HistoryView: View {
         }.padding()
             .background(Color(.systemGray6))
             .cornerRadius(20)
+            .contextMenu{
+                Button(role: .destructive) {
+                    withAnimation{
+                    hisa.managedObjectContext?.delete(hisa)
+                        HistoryADataController().save(context: managedObjContext)
+                    }
+                } label: {
+                    Text("Delete")
+                    Image(systemName: "trash")
+                }
+
+            }
         }
             }.padding()
         .navigationTitle("History")
