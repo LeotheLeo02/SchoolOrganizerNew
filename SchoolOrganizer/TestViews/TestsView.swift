@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TestsView: View {
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.testdate)]) var test: FetchedResults<Tests>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.score)]) var test: FetchedResults<Tests>
     @Environment(\.managedObjectContext) var managedObjContext
     @State private var AddTest = false
     @State private var Delete = false

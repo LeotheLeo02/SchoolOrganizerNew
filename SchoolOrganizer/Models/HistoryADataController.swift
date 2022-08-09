@@ -31,10 +31,12 @@ class HistoryADataController: ObservableObject {
         }
     }
     
-    func addAssign(assignname: String, context: NSManagedObjectContext) {
+    func addAssign(assignname: String, assigncolor: String,assigndate: Date, context: NSManagedObjectContext) {
         let historya = HistoryA(context: context)
         historya.id = UUID()
         historya.assignname = assignname
+        historya.assigncolor = assigncolor
+        historya.assigndate = assigndate
         save(context: context)
     }
 }
