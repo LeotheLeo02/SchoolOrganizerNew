@@ -13,8 +13,11 @@ struct ChangeAllTopicsView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
     @Environment(\.dismiss) var dismiss
     @State private var newtopic = ""
+    @State private var done = false
     @State private var editing = false
+    @State private var nothing = false
     var body: some View {
+        NavigationView{
         Form{
             ForEach(assignment){assign in
                 Section{
@@ -25,6 +28,7 @@ struct ChangeAllTopicsView: View {
                                 .if(!assign.topic!.trimmingCharacters(in: .whitespaces).isEmpty){ view in
                                     view.foregroundColor(.green)
                                 }
+
                             .onTapGesture {
                                 withAnimation{
                                     if assign.topic == "" {
@@ -38,13 +42,28 @@ struct ChangeAllTopicsView: View {
                         if assign.changedtopic && editing{
                         TextField("New Assigned Topic", text: $newtopic)
                             .textFieldStyle(.roundedBorder)
+                            .onChange(of: newtopic, perform: { V in
+                                if !newtopic.trimmingCharacters(in: .whitespaces).isEmpty{
+                                    nothing = false
+                                }
+                            })
                             .onSubmit {
+                                if !newtopic.trimmingCharacters(in: .whitespaces).isEmpty{
                                 withAnimation{
                                 simpleSuccess()
                                 AssignmentDataController().editAssignTopicName(assign: assign, topic: newtopic, changedtopic: false, context: managedObjContext)
                                     TopicDataController().addTopic(topicname: newtopic, context: managedObjContext)
                                 editing = false
                                 }
+                            }else{
+                                nothing = true
+                            }
+                            }
+                            if nothing{
+                            Text("Cannot Submit Nothing")
+                                .bold()
+                                .foregroundColor(.red)
+                                .underline()
                             }
                         }
                         if !assign.changedtopic && editing{
@@ -55,9 +74,13 @@ struct ChangeAllTopicsView: View {
                         if !assign.topic!.trimmingCharacters(in: .whitespaces).isEmpty{
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.green)
+                            Text(assign.topic!)
+                                .font(.caption)
+                                .foregroundColor(.gray)
                         }
                     }.onAppear(){
                         assign.topic = ""
+                        assign.changedtopic = false
                     }
                 }header: {
                     if assign.changedtopic{
@@ -81,8 +104,19 @@ struct ChangeAllTopicsView: View {
             } header: {
                 Text("Added Topics")
             }
-
         }
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction){
+                Button {
+                    dismiss()
+                } label: {
+                    Text("Done")
+                }
+                //Maybe add restrictions later
+
+            }
+        }
+    }
     }
     func simpleSuccess() {
         let generator = UINotificationFeedbackGenerator()
