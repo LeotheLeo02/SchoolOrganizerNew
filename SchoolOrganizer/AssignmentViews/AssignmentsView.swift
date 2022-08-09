@@ -86,6 +86,7 @@ struct AssignmentsView: View {
                                             simpleSuccess()
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                                 withAnimation{
+                                                    HistoryADataController().addAssign(assignname: assign.name!, context: managedObjContext)
                                                     if assign.complete != false{
                                                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
                                                         let formatter1 = DateFormatter()

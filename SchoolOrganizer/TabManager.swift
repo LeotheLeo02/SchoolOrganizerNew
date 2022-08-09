@@ -21,6 +21,12 @@ struct TabManager: View {
                     Text("Tests")
                     Image(systemName: "doc.on.clipboard")
                 }
+            HistoryView()
+                .tabItem {
+                    Text("History")
+                    Image(systemName: "clock.arrow.2.circlepath")
+                }
+            
         }
     }
 }
