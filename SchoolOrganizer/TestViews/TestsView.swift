@@ -22,8 +22,10 @@ struct TestsView: View {
                         VStack(alignment: .leading){
                         HStack{
                         Text(tes.testname!)
+                                .font(.system(size: 20, weight: .heavy, design: .rounded))
                             Spacer()
                             if tes.score != 0{
+                                Text(tes.datesubmitted!.addingTimeInterval(600), style: .date)
                             Text("\(tes.score)")
                                     .if(tes.score < 70){ view in
                                         view.foregroundColor(.red)
@@ -48,13 +50,21 @@ struct TestsView: View {
                                     .foregroundColor(.green)
                                 }
                             }
+                            if tes.score != 0 {
+                                Text(tes.datesubmitted!, style: .date)
+                                    .font(.system(size: 13, weight: .heavy, design: .serif))
+                                Text(tes.datesubmitted!, style: .time)
+                                    .font(.system(size: 13, weight: .heavy, design: .serif))
+                            }
                         }
                     } else if days >= 14{
                         VStack(alignment: .leading){
                         HStack{
                         Text(tes.testname!)
+                                .font(.system(size: 20, weight: .heavy, design: .rounded))
                             Spacer()
                             if tes.score != 0{
+                                Text(tes.datesubmitted!.addingTimeInterval(600), style: .date)
                                 Text("\(tes.score)")
                                     .if(tes.score < 70){ view in
                                         view.foregroundColor(.red)
@@ -79,14 +89,22 @@ struct TestsView: View {
                                     .foregroundColor(.gray)
                                 }
                             }
+                            if tes.score != 0 {
+                                Text(tes.datesubmitted!, style: .date)
+                                    .font(.system(size: 13, weight: .heavy, design: .serif))
+                                Text(tes.datesubmitted!, style: .time)
+                                    .font(.system(size: 13, weight: .heavy, design: .serif))
+                            }
                         }
                     }
                     if days < 7 && days > 3 {
                         VStack(alignment: .leading){
                         HStack{
                         Text(tes.testname!)
+                                .font(.system(size: 20, weight: .heavy, design: .rounded))
                             Spacer()
                             if tes.score != 0{
+                                Text(tes.datesubmitted!.addingTimeInterval(600), style: .date)
                                 Text("\(tes.score)")
                                     .if(tes.score < 70){ view in
                                         view.foregroundColor(.red)
@@ -111,12 +129,19 @@ struct TestsView: View {
                                     .foregroundColor(.yellow)
                                 }
                             }
+                            if tes.score != 0 {
+                                Text(tes.datesubmitted!, style: .date)
+                                    .font(.system(size: 13, weight: .heavy, design: .serif))
+                                Text(tes.datesubmitted!, style: .time)
+                                    .font(.system(size: 13, weight: .heavy, design: .serif))
+                            }
                         }
                     }
                     if days <= 3{
                         VStack(alignment: .leading){
                         HStack{
                         Text(tes.testname!)
+                                .font(.system(size: 20, weight: .heavy, design: .rounded))
                             Spacer()
                             if tes.score != 0 {
                             Text("\(tes.score)")
@@ -141,6 +166,12 @@ struct TestsView: View {
                                 Image(systemName: "calendar.circle.fill")
                                     .foregroundColor(.red)
                                 }
+                            }
+                            if tes.score != 0 {
+                                Text(tes.datesubmitted!, style: .date)
+                                    .font(.system(size: 13, weight: .heavy, design: .serif))
+                                Text(tes.datesubmitted!, style: .time)
+                                    .font(.system(size: 13, weight: .heavy, design: .serif))
                             }
                         }
                     }

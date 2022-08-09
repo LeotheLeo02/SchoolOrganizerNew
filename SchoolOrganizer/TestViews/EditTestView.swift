@@ -83,6 +83,7 @@ struct EditTestView: View {
                             badscore.toggle()
                         }
                         TestDataController().editTestScore(test: test, testscore: number, context: managedObjContext)
+                        TestDataController().editTestDoneDate(test: test, datesubmitted: Date.now, context: managedObjContext)
                         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
                         dismiss()

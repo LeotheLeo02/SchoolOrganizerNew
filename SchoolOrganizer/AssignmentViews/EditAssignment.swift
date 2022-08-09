@@ -28,6 +28,7 @@ struct EditAssignment: View {
                         .contextMenu{
                             Button {
                                 withAnimation{
+                                    //Add Sheet Later
                                 assigntopic = true
                                 }
                             } label: {
@@ -36,24 +37,6 @@ struct EditAssignment: View {
                             }
 
                         }
-                    if assigntopic{
-                        List{
-                            ForEach(topic){top in
-                                Button {
-                                    withAnimation{
-                                    assignment.topic! = top.topicname!
-                                    assigntopic = false
-                                        simpleSuccess()
-                                        assigned.toggle()
-                                    }
-                                } label: {
-                                    Text(top.topicname!)
-                                }.tint(.green)
-                                    .buttonStyle(.bordered)
-
-                            }
-                        }
-                    }
                     if assignment.link != nil {
                     Link("\(assignment.link!)", destination: URL(string: assignment.link!)!)
                     }
