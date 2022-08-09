@@ -116,6 +116,7 @@ struct ChangeAllTopicsView: View {
 
             }
         }
+        .navigationTitle("Reassign")
     }
     }
     func simpleSuccess() {

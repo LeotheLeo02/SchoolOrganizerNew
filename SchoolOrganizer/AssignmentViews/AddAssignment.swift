@@ -30,6 +30,7 @@ struct AddAssignment: View {
     @State private var engine: CHHapticEngine?
     @State private var exists = false
     @State private var assignmentexits = false
+    @State private var reassign = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
@@ -179,6 +180,9 @@ struct AddAssignment: View {
                 Button {
                     deleteTopics()
                     topics = ""
+                    if !assignment.isEmpty{
+                        reassign.toggle()
+                    }
                 } label: {
                     Text("Delete All Topics")
                         .bold()
@@ -261,6 +265,9 @@ struct AddAssignment: View {
             }
 
         }
+        .sheet(isPresented: $reassign, content: {
+            ChangeAllTopicsView()
+        })
         .alert("Undo All?", isPresented: $undosignal) {
             Button("Yes") {
                 undoall.toggle()

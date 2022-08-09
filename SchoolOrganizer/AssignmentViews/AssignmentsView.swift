@@ -262,12 +262,13 @@ struct AssignmentsView: View {
             .alert(isPresented: $deletealltopics){
                 Alert(title: Text("Are You Sure?"), message: Text("Deleting all topics will also delete all assignments below it."), primaryButton: .cancel(Text("Cancel")), secondaryButton: .destructive(Text("Delete All"), action: {
                     withAnimation {
+                        if !assignment.isEmpty{
                         confirm.toggle()
+                        }
                         withAnimation {
                             topic
                             .forEach(managedObjContext.delete)
                             
-                            // Saves to our database
                             TopicDataController().save(context: managedObjContext)
                         }
                     }
@@ -312,7 +313,7 @@ struct AssignmentsView: View {
                         search.toggle()
                     } label: {
                         Image(systemName: "magnifyingglass.circle")
-                    }
+                    }.disabled(assignment.isEmpty)
                 }
                 ToolbarItem(placement: .navigationBarTrailing){
                     Menu{
