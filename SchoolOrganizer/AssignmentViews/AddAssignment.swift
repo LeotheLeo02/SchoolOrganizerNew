@@ -14,6 +14,7 @@ struct AddAssignment: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.pastnames)]) var pastname: FetchedResults<PastNames>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.perioddate)]) var period: FetchedResults<Periods>
     @FocusState private var focusonTopic: Bool
     @State private var topics = ""
     @State private var details = ""
@@ -250,6 +251,7 @@ struct AddAssignment: View {
             }
             
             Section {
+                //Add Reminders Type UI
                 DatePicker("Choose a Due Date", selection: $duedate, in: Date.now...)
                     .datePickerStyle(.graphical)
                     .frame(maxHeight: 400)
@@ -262,6 +264,19 @@ struct AddAssignment: View {
                     }
             } header: {
                 Text("Select Due Date")
+            }
+            Section{
+                ForEach(period){per in
+                    Button {
+                        duedate = per.perioddate!
+                    } label: {
+                        HStack{
+                            Text(per.number!)
+                            Spacer()
+                            Text(per.perioddate!, style: .time)
+                        }
+                    }
+                }
             }
 
         }

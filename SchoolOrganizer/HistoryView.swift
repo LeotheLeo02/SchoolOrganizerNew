@@ -117,8 +117,21 @@ struct HistoryView: View {
                                     .font(.system(size: 13, weight: .heavy, design: .serif))
                                 Text(com.dateoftest!, style: .time)
                                     .font(.system(size: 13, weight: .heavy, design: .serif))
-                                Divider()
                             }.padding()
+                                .background(Color(.systemGray6))
+                                .cornerRadius(20)
+                                .contextMenu{
+                                    Button(role: .destructive) {
+                                        withAnimation{
+                                        com.managedObjectContext?.delete(com)
+                                            CompletedTestsDataController().save(context: managedObjContext)
+                                        }
+                                    } label: {
+                                        Text("Delete")
+                                        Image(systemName: "trash")
+                                    }
+
+                                }
                         }.onDelete(perform: deleteCompletedTest)
                     }header:{
                         if !completedtest.isEmpty{

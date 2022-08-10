@@ -10,6 +10,7 @@ import AlertToast
 struct FolderView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.perioddate)]) var period: FetchedResults<Periods>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.link)]) var link: FetchedResults<Links>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.imagetitle)]) var Images: FetchedResults<Images>
     @Environment(\.dismiss) var dismiss
@@ -27,6 +28,9 @@ struct FolderView: View {
     @State private var AddedLink = false
     @State private var FrameImage = false
     @State private var addingValue: Int64 = 0
+    @State private var addperiod = false
+    @State private var periodnumber =  ""
+    @State private var perioddate = Date()
     var body: some View {
         NavigationView{
         VStack{
@@ -258,7 +262,47 @@ struct FolderView: View {
                         }
                     }.onDelete(perform: deleteImage)
             }
+                Section{
+                        Button {
+                            withAnimation{
+                            addperiod = true
+                            }
+                        } label: {
+                            Text("Add Period")
+                        }
+                    if addperiod{
+                        VStack{
+                            //Fix UI Later
+                            TextField("Period Number", text: $periodnumber)
+                                .textFieldStyle(.roundedBorder)
+                            .keyboardType(.numberPad)
+                            DatePicker("Choose a Period Time", selection: $perioddate, displayedComponents: .hourAndMinute)
+                                .datePickerStyle(.graphical)
+                                .frame(maxHeight: 400)
+                            Button {
+                                PeriodDataController().addPeriod(number: periodnumber.trimmingCharacters(in: .whitespaces), perioddate: perioddate, context: managedObjContext)
+                                periodnumber = ""
+                                perioddate = Date.now
+                                addperiod = false
+                            } label: {
+                                Text("Done")
+                            }
 
+                        }
+                    }
+                    ForEach(period){per in
+                        HStack{
+                        Text(per.number!)
+                            Spacer()
+                            Text(per.perioddate!, style: .time)
+                        }
+                    }
+                }header: {
+                    if !period.isEmpty{
+                    Text("Periods")
+                    }
+                }
+                
             }.alert(isPresented: $showAlert){
                 Alert(title: Text("Missing Information"), message: Text("You must have a valid link and a name"), dismissButton: .cancel(Text("Ok")))
             }

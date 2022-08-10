@@ -17,6 +17,7 @@ struct SchoolOrganizerApp: App {
     @StateObject private var imagedatacontroller = ImageDataController()
     @StateObject private var historyadatacontroller = HistoryADataController()
     @StateObject private var completedtestdatacontroller = CompletedTestsDataController()
+    @StateObject private var perioddatacontroller = PeriodDataController()
     var body: some Scene {
         WindowGroup {
             TabManager()
@@ -28,6 +29,7 @@ struct SchoolOrganizerApp: App {
                 .environment(\.managedObjectContext, imagedatacontroller.container.viewContext)
                 .environment(\.managedObjectContext, historyadatacontroller.container.viewContext)
                 .environment(\.managedObjectContext, completedtestdatacontroller.container.viewContext)
+                .environment(\.managedObjectContext, perioddatacontroller.container.viewContext)
         }
     }
 }

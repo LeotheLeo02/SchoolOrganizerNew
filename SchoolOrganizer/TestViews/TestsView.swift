@@ -9,7 +9,6 @@ import SwiftUI
 
 struct TestsView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.score)]) var test: FetchedResults<Tests>
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.dateoftest, order: .reverse)]) var completedtest: FetchedResults<CompletedTest>
     @Environment(\.managedObjectContext) var managedObjContext
     @State private var AddTest = false
     @State private var Delete = false
@@ -184,15 +183,6 @@ struct TestsView: View {
     }
     func daysBetween(start: Date, end: Date) -> Int {
         return Calendar.current.dateComponents([.day], from: start, to: end).day!
-    }
-    private func deleteCompletedTest(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { completedtest[$0] }
-            .forEach(managedObjContext.delete)
-            
-            // Saves to our database
-            CompletedTestsDataController().save(context: managedObjContext)
-        }
     }
 }
 

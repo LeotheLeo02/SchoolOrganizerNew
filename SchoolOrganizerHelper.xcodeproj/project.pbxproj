@@ -25,6 +25,7 @@
 		4333EA032899ABF500E80A67 /* AddTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333EA022899ABF500E80A67 /* AddTestView.swift */; };
 		4333EA052899B28200E80A67 /* TestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333EA042899B28200E80A67 /* TestsView.swift */; };
 		4339D3B528A425E20093D9D4 /* CompletedTestsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4339D3B428A425E20093D9D4 /* CompletedTestsDataController.swift */; };
+		4339D3B728A452890093D9D4 /* PeriodDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4339D3B628A452890093D9D4 /* PeriodDataController.swift */; };
 		435FEBFD289CAEAB0051AED2 /* ImageDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435FEBFC289CAEAB0051AED2 /* ImageDataController.swift */; };
 		435FEBFF289CB34D0051AED2 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435FEBFE289CB34D0051AED2 /* ImagePicker.swift */; };
 		437F98BE28A2B8D700C936FF /* ChangeAllTopicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437F98BD28A2B8D700C936FF /* ChangeAllTopicsView.swift */; };
@@ -56,6 +57,7 @@
 		4333EA022899ABF500E80A67 /* AddTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTestView.swift; sourceTree = "<group>"; };
 		4333EA042899B28200E80A67 /* TestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsView.swift; sourceTree = "<group>"; };
 		4339D3B428A425E20093D9D4 /* CompletedTestsDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedTestsDataController.swift; sourceTree = "<group>"; };
+		4339D3B628A452890093D9D4 /* PeriodDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodDataController.swift; sourceTree = "<group>"; };
 		435FEBFC289CAEAB0051AED2 /* ImageDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataController.swift; sourceTree = "<group>"; };
 		435FEBFE289CB34D0051AED2 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		437F98BD28A2B8D700C936FF /* ChangeAllTopicsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAllTopicsView.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				4339D3B428A425E20093D9D4 /* CompletedTestsDataController.swift */,
 				43D5861928A3043300829981 /* HistoryADataController.swift */,
 				435FEBFC289CAEAB0051AED2 /* ImageDataController.swift */,
+				4339D3B628A452890093D9D4 /* PeriodDataController.swift */,
 				4333E9F92899A58300E80A67 /* SchoolModel.xcdatamodeld */,
 			);
 			path = Models;
@@ -248,6 +251,7 @@
 				4333EA012899AAA600E80A67 /* TabManager.swift in Sources */,
 				4333E9EF2899A53B00E80A67 /* AddAssignment.swift in Sources */,
 				4333E9E72899A4D400E80A67 /* AssignmentsView.swift in Sources */,
+				4339D3B728A452890093D9D4 /* PeriodDataController.swift in Sources */,
 				43D5861A28A3043300829981 /* HistoryADataController.swift in Sources */,
 				4333E9FD2899A66100E80A67 /* TestDataController.swift in Sources */,
 				4333E9ED2899A53500E80A67 /* EditAssignment.swift in Sources */,
