@@ -15,6 +15,13 @@
         <attribute name="notes" optional="YES" attributeType="String"/>
         <attribute name="topic" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="CompletedTest" representedClassName="CompletedTest" syncable="YES" codeGenerationType="class">
+        <attribute name="dateoftest" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="hidescore" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nameoftest" optional="YES" attributeType="String"/>
+        <attribute name="scoreoftest" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
     <entity name="HistoryA" representedClassName="HistoryA" syncable="YES" codeGenerationType="class">
         <attribute name="assigncolor" optional="YES" attributeType="String"/>
         <attribute name="assigndate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -55,6 +62,7 @@
     </entity>
     <elements>
         <element name="Assignment" positionX="-63" positionY="-18" width="128" height="224"/>
+        <element name="CompletedTest" positionX="-27" positionY="81" width="128" height="104"/>
         <element name="HistoryA" positionX="-18" positionY="108" width="128" height="89"/>
         <element name="HistoryT" positionX="0" positionY="117" width="128" height="59"/>
         <element name="Images" positionX="-36" positionY="45" width="128" height="74"/>

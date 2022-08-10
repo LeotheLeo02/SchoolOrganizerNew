@@ -301,7 +301,7 @@ struct AddAssignment: View {
                         
                         let content = UNMutableNotificationContent()
                         content.title = assigname
-                        content.subtitle = "This is Due Today!"
+                        content.subtitle = "This is Due Tomorrow!"
                         let date = duedate
                         content.sound = UNNotificationSound.default
                         let OneDayEarly = Calendar.current.date(byAdding: .day, value: -1, to: date)
