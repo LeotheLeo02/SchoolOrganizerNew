@@ -15,10 +15,8 @@ struct TestsView: View {
     @State private var Delete = false
     var body: some View {
         NavigationView{
-            let count = completedtest.isEmpty ? 1 : Int(completedtest.count)
-            let average = Int(completedtest.map(\.scoreoftest).reduce(0, +)) / count
-            Form{
-            List{
+            ScrollView{
+                Section{
                 ForEach(test){tes in
                     NavigationLink(destination: EditTestView(test: tes)){
                     let days = daysBetween(start: Date.now, end: tes.testdate ?? Date.now)
@@ -29,7 +27,7 @@ struct TestsView: View {
                                 .font(.system(size: 20, weight: .heavy, design: .rounded))
                             Spacer()
                             Text("Test is next week, start studying soon.")
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                                .font(.system(size: 17, weight: .bold, design: .rounded))
                                 .foregroundColor(.green)
                                 .multilineTextAlignment(.center)
                                 .allowsTightening(true)
@@ -39,11 +37,22 @@ struct TestsView: View {
                                 if tes.score == 0{
                             Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
                                 .bold()
+                                .foregroundColor(.gray)
                                 Image(systemName: "calendar.circle.fill")
                                     .foregroundColor(.green)
+                                    .font(.title2)
                                 }
                             }
-                        }
+                            HStack{
+                            Text("Score")
+                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                                Image(systemName: "square.and.pencil")
+                                    .font(.title3)
+                            }.padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(20)
+                            Divider()
+                        }.padding()
                     } else if days >= 14{
                         VStack(alignment: .leading){
                         HStack{
@@ -61,11 +70,22 @@ struct TestsView: View {
                                 if tes.score == 0{
                             Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
                                 .bold()
+                                .foregroundColor(.gray)
                                 Image(systemName: "calendar.circle.fill")
                                     .foregroundColor(.gray)
+                                    .font(.title3)
                                 }
                             }
-                        }
+                            HStack{
+                            Text("Score")
+                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                                Image(systemName: "square.and.pencil")
+                                    .font(.title3)
+                            }.padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(20)
+                            Divider()
+                        }.padding()
                     }
                     if days < 7 && days > 3 {
                         VStack(alignment: .leading){
@@ -76,7 +96,7 @@ struct TestsView: View {
                             Text("Test is less than 7 days away, be ready.")
                                 .foregroundColor(.yellow)
                                 .multilineTextAlignment(.center)
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                                .font(.system(size: 20, weight: .bold, design: .rounded))
                                 .allowsTightening(true)
                             
                         }
@@ -84,11 +104,22 @@ struct TestsView: View {
                                 if tes.score == 0{
                             Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
                                 .bold()
+                                .foregroundColor(.gray)
                                 Image(systemName: "calendar.circle.fill")
                                     .foregroundColor(.yellow)
+                                    .font(.title)
                                 }
                             }
-                        }
+                            HStack{
+                            Text("Score")
+                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                                Image(systemName: "square.and.pencil")
+                                    .font(.title3)
+                            }.padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(20)
+                            Divider()
+                        }.padding()
                     }
                     if days <= 3{
                         VStack(alignment: .leading){
@@ -97,7 +128,7 @@ struct TestsView: View {
                                 .font(.system(size: 20, weight: .heavy, design: .rounded))
                             Spacer()
                             Text("Test is coming really soon!")
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                                .font(.system(size: 25, weight: .bold, design: .rounded))
                                 .foregroundColor(.red)
                                 .multilineTextAlignment(.center)
                         }
@@ -105,79 +136,33 @@ struct TestsView: View {
                                 if tes.score == 0{
                             Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
                                 .bold()
+                                .foregroundColor(.gray)
                                 Image(systemName: "calendar.circle.fill")
                                     .foregroundColor(.red)
+                                    .font(.largeTitle)
                                 }
                             }
-                        }
+                            HStack{
+                            Text("Score")
+                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                                Image(systemName: "square.and.pencil")
+                                    .font(.title3)
+                            }.padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(20)
+                            Divider()
+                        }.padding()
                     }
                 }
                 }
-            }
-                Section{
-                    ForEach(completedtest){com in
-                        VStack(alignment: .leading){
-                        HStack{
-                        Text(com.nameoftest!)
-                                .font(.system(size: 20, weight: .heavy, design: .rounded))
-                            Spacer()
-                            VStack{
-                                if com.hidescore{
-                                    Image(systemName: "eye.slash")
-                                        .foregroundColor(.gray)
-                                        .font(.title)
-                                }else{
-                            Text("\(Int(com.scoreoftest))")
-                                .if(com.scoreoftest < 70){ view in
-                                    view.foregroundColor(.red)
-                            }
-                                .if(com.scoreoftest >= 70){ view in
-                                    view.foregroundColor(.green)
-                                }
-                                .font(.system(size: 40, weight: .heavy, design: .rounded))
-                                if com.scoreoftest >= 90{
-                                    Image(systemName: "rosette")
-                                        .font(.title)
-                                        .foregroundColor(.yellow)
-                                }
-                            }
-                                if com.scoreoftest < 70{
-                                    Spacer()
-                                    if !com.hidescore{
-                                    Button {
-                                        withAnimation{
-                                        CompletedTestsDataController().editTestView(completedtest: com, hidescore: true, context: managedObjContext)
-                                        }
-                                    } label: {
-                                        HStack{
-                                        Text("Hide Score")
-                                        Image(systemName: "eye.slash")
-                                        }
-                                    }.buttonStyle(.bordered)
-                                    }else{
-                                        Button {
-                                            withAnimation{
-                                            CompletedTestsDataController().editTestView(completedtest: com, hidescore: false, context: managedObjContext)
-                                            }
-                                        } label: {
-                                            HStack{
-                                            Text("Show Score")
-                                            Image(systemName: "eye")
-                                            }
-                                        }.buttonStyle(.borderedProminent)
-                                    }
-                                }
-                            }
-                        }
-                            Text(com.dateoftest!, style: .date)
-                                .font(.system(size: 13, weight: .heavy, design: .serif))
-                            Text(com.dateoftest!, style: .time)
-                                .font(.system(size: 13, weight: .heavy, design: .serif))
-                        }
-                    }.onDelete(perform: deleteCompletedTest)
                 }header:{
-                    if !completedtest.isEmpty{
-                    Text("Completed Tests")
+                    if !test.isEmpty{
+                        HStack{
+                    Text("Upcoming Tests")
+                            .font(.system(size: 20, weight: .heavy, design: .rounded))
+                            .underline()
+                            Image(systemName: "calendar")
+                    }
                     }
                 }
         }.sheet(isPresented: $AddTest, content: {
@@ -192,19 +177,6 @@ struct TestsView: View {
                             .font(.title)
                     }
 
-                }
-                ToolbarItem(placement: .bottomBar){
-                    Text("Score Average: \(average)")
-                        .font(.system(size: 20, weight: .heavy, design: .rounded))
-                        .if(average == 0){view in
-                            view.foregroundColor(.gray)
-                        }
-                        .if(average <= 70){view in
-                            view.foregroundColor(.red)
-                        }
-                        .if(average > 70){view in
-                            view.foregroundColor(.green)
-                        }
                 }
             }
             .navigationTitle("Tests")
