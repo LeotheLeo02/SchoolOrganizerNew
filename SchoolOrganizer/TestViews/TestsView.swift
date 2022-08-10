@@ -196,6 +196,15 @@ struct TestsView: View {
                 ToolbarItem(placement: .bottomBar){
                     Text("Score Average: \(average)")
                         .font(.system(size: 20, weight: .heavy, design: .rounded))
+                        .if(average == 0){view in
+                            view.foregroundColor(.gray)
+                        }
+                        .if(average <= 70){view in
+                            view.foregroundColor(.red)
+                        }
+                        .if(average > 70){view in
+                            view.foregroundColor(.green)
+                        }
                 }
             }
             .navigationTitle("Tests")
