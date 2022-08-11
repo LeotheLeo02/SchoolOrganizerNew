@@ -160,7 +160,7 @@ struct HistoryView: View {
                     .if(average > 70){view in
                         view.foregroundColor(.green)
                     }
-                }.padding(7)
+                }.padding(10)
                     .background(Color(.systemGray6))
                     .cornerRadius(20)
             }

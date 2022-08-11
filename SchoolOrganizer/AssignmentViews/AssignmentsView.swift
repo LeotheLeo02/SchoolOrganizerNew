@@ -60,6 +60,16 @@ struct AssignmentsView: View {
                     }
                 }.padding()
                 Divider()
+                if assignment.isEmpty{
+                    HStack{
+                    Text("No Assignments")
+                        .font(.system(size: 25, weight: .heavy, design: .rounded))
+                        .foregroundColor(.gray)
+                        Image(systemName:"exclamationmark.octagon")
+                            .font(.title)
+                            .foregroundColor(.gray)
+                    }
+                }
                 LazyVGrid(columns: adaptiveColumns) {
                     ForEach(assignment){assign in
                         if filter{

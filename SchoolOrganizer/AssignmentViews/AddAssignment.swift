@@ -47,7 +47,7 @@ struct AddAssignment: View {
                 Text("Assignment Already Exists")
                     .foregroundColor(.red)
                     .bold()
-                    Image(systemName: "x.circle.fill")
+                    Image(systemName: "exclamationmark.octagon.fill")
                         .foregroundColor(.red)
                 }
             }
@@ -81,7 +81,6 @@ struct AddAssignment: View {
                             Image(systemName: "trash.fill")
                                 .foregroundColor(.red)
                         }
-
                     }
                 }.tint(.blue)
                     .buttonStyle(.bordered)

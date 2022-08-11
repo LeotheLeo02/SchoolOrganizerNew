@@ -11,11 +11,14 @@ struct AddTestView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @Environment(\.dismiss) var dismiss
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.score)]) var test: FetchedResults<Tests>
     @State private var testname = ""
     @State private var testtopic = ""
     @State private var addtopic = false
     @State private var newtopic = ""
     @State private var undosignal = false
+    @State private var deleteall = false
     @State private var undo = false
     @State private var newtestdate = Date()
     var body: some View {
@@ -56,7 +59,35 @@ struct AddTestView: View {
                                             testtopic = top.topicname!
                                         } label: {
                                             Text(top.topicname!)
-                                        }.buttonStyle(.bordered)
+                                            ForEach(assignment){assign in
+                                                HStack{
+                                                if top.topicname == assign.topic{
+                                                    Image(systemName: "doc.plaintext.fill")
+                                                }
+                                                }
+                                            }
+                                            ForEach(test){tes in
+                                                HStack{
+                                                if top.topicname == tes.testtopic{
+                                                    Image(systemName: "doc.on.clipboard")
+                                                }
+                                                }
+                                            }
+                                        }.tint(.green)
+                                        .buttonStyle(.bordered)
+                                        Button {
+                                            withAnimation {
+                                                
+                                                top
+                                                    .managedObjectContext?.delete(top)
+                                                
+                                                // Saves to our database
+                                                TopicDataController().save(context: managedObjContext)
+                                            }
+                                        } label: {
+                                            Image(systemName: "trash.fill")
+                                        }.tint(.red)
+                                        .buttonStyle(.borderedProminent)
                                     }
                                 }else{
                                     Text("No topics")
@@ -68,6 +99,7 @@ struct AddTestView: View {
                                     }
                                 } label: {
                                     Image(systemName: "plus")
+                                        .foregroundColor(.green)
                                 }
 
                             }
@@ -86,6 +118,9 @@ struct AddTestView: View {
                     }footer: {
                         Button {
                             deleteTopics()
+                            if !assignment.isEmpty{
+                                deleteall.toggle()
+                            }
                         } label: {
                             Text("Delete All Topics")
                                 .foregroundColor(.red)
@@ -113,6 +148,9 @@ struct AddTestView: View {
                     
                 }
             }
+            .sheet(isPresented: $deleteall, content: {
+                ChangeAllTopicsView()
+            })
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {

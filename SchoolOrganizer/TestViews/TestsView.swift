@@ -15,6 +15,16 @@ struct TestsView: View {
     var body: some View {
         NavigationView{
             ScrollView{
+                if test.isEmpty{
+                    HStack{
+                    Text("No Upcoming Tests")
+                        .font(.system(size: 25, weight: .heavy, design: .rounded))
+                        .foregroundColor(.gray)
+                        Image(systemName:"checkmark.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.gray)
+                    }
+                }
                 Section{
                 ForEach(test){tes in
                     NavigationLink(destination: EditTestView(test: tes)){

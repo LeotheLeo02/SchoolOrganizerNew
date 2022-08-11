@@ -48,6 +48,15 @@ class TestDataController: ObservableObject {
         test.datesubmitted = datesubmitted
         save(context: context)
     }
+    func editTestTopic(test: Tests, changedtopic: Bool, context: NSManagedObjectContext){
+        test.changedtopic = changedtopic
+        save(context: context)
+    }
+    func editTestTopicName(test: Tests, testtopic: String, changedtopic: Bool, context: NSManagedObjectContext){
+        test.testtopic = testtopic
+        test.changedtopic = changedtopic
+        save(context: context)
+    }
     
     func AddTestQuestion(test: Tests, question: String, question2: String?, context: NSManagedObjectContext){
         test.question = question
