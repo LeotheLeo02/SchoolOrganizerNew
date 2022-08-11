@@ -18,9 +18,10 @@ struct ChangeAllTopicsView: View {
     @State private var editing = false
     @State private var nothing = false
     @State private var editingtest = false
+    @State private var exits = false
     var body: some View {
         NavigationView{
-        VStack{
+            VStack(spacing: 10){
             ForEach(assignment){assign in
                 Section{
                     HStack{
@@ -72,7 +73,9 @@ struct ChangeAllTopicsView: View {
                                 withAnimation{
                                 simpleSuccess()
                                 AssignmentDataController().editAssignTopicName(assign: assign, topic: newtopic, changedtopic: false, context: managedObjContext)
+                                    if !exits{
                                     TopicDataController().addTopic(topicname: newtopic, context: managedObjContext)
+                                    }
                                 editing = false
                                 }
                             }else{
@@ -145,16 +148,13 @@ struct ChangeAllTopicsView: View {
                 }
             }
             Section{
-                ChangeTestTopics(editing: $editingtest ,assignmentediting: $editing)
-            }header: {
-                if !test.isEmpty{
-                Text("Tests")
-                }
+                ChangeTestTopics(topic: $newtopic, editing: $editingtest ,assignmentediting: $editing, there: $exits)
             }
+            Divider()
             Section {
                 ForEach(topic){top in
                     Button {
-                        
+                        newtopic = top.topicname!
                     } label: {
                         HStack{
                             Spacer()
@@ -163,6 +163,14 @@ struct ChangeAllTopicsView: View {
                         }
                     }.tint(.green)
                         .buttonStyle(.bordered)
+                        .onChange(of: newtopic, perform: { V in
+                            if newtopic == top.topicname!{
+                                exits = true
+                            }else{
+                                exits = false
+                            }
+                        })
+                        .padding()
                 }
             } header: {
                 Text("Added Topics")
@@ -190,11 +198,12 @@ struct ChangeAllTopicsView: View {
 struct ChangeTestTopics: View{
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.score)]) var test: FetchedResults<Tests>
-    @State private var newtopic = ""
+    @Binding var topic: String
     @State private var done = false
     @Binding var editing: Bool
     @State private var nothing = false
     @Binding var assignmentediting: Bool
+    @Binding var there: Bool
     var body: some View{
         VStack{
             ForEach(test){tes in
@@ -203,6 +212,7 @@ struct ChangeTestTopics: View{
                     VStack{
                         if !editing{
                     Text(tes.testname!)
+                                .font(.system(size: 20, weight: .heavy, design: .rounded))
                                 .if(!tes.testtopic!.trimmingCharacters(in: .whitespaces).isEmpty){ view in
                                     view.foregroundColor(.green)
                                 }
@@ -211,7 +221,7 @@ struct ChangeTestTopics: View{
                                 withAnimation{
                                     if tes.testtopic == "" && !assignmentediting {
                                 TestDataController().editTestTopic(test: tes, changedtopic: true, context: managedObjContext)
-                                    newtopic = tes.testtopic!
+                                    topic = tes.testtopic!
                                 editing = true
                                     }
                                 }
@@ -221,20 +231,22 @@ struct ChangeTestTopics: View{
                             .cornerRadius(20)
                         }
                         if tes.changedtopic && editing{
-                        TextField("New Assigned Topic", text: $newtopic)
+                        TextField("New Assigned Topic", text: $topic)
                             .textFieldStyle(.roundedBorder)
-                            .onChange(of: newtopic, perform: { V in
-                                if !newtopic.trimmingCharacters(in: .whitespaces).isEmpty{
+                            .onChange(of: topic, perform: { V in
+                                if !topic.trimmingCharacters(in: .whitespaces).isEmpty{
                                     nothing = false
                                 }
                             })
                             .padding()
                             .onSubmit {
-                                if !newtopic.trimmingCharacters(in: .whitespaces).isEmpty{
+                                if !topic.trimmingCharacters(in: .whitespaces).isEmpty{
                                 withAnimation{
                                 simpleSuccess()
-                                    TestDataController().editTestTopicName(test: tes, testtopic: newtopic, changedtopic: false, context: managedObjContext)
-                                    TopicDataController().addTopic(topicname: newtopic, context: managedObjContext)
+                                    TestDataController().editTestTopicName(test: tes, testtopic: topic, changedtopic: false, context: managedObjContext)
+                                    if !there{
+                                    TopicDataController().addTopic(topicname: topic, context: managedObjContext)
+                                    }
                                 editing = false
                                 }
                             }else{
@@ -267,6 +279,7 @@ struct ChangeTestTopics: View{
                 }header: {
                     if tes.changedtopic{
                         Text(tes.testname!)
+                            .font(.system(size: 20, weight: .heavy, design: .rounded))
                             .padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(20)

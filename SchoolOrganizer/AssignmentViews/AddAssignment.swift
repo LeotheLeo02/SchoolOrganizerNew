@@ -12,6 +12,7 @@ import AlertToast
 
 struct AddAssignment: View {
     @Environment(\.managedObjectContext) var managedObjContext
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.score)]) var test: FetchedResults<Tests>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.pastnames)]) var pastname: FetchedResults<PastNames>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
@@ -132,6 +133,11 @@ struct AddAssignment: View {
                                     withAnimation{
                                     assignmentexits = false
                                     }
+                                }
+                            }
+                            ForEach(test){tes in
+                                if tes.testtopic == top.topicname{
+                                Image(systemName: "doc.on.clipboard")
                                 }
                             }
                         }

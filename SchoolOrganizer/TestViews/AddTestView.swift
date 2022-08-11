@@ -45,7 +45,7 @@ struct AddTestView: View {
                         }else{
                         Text(testtopic)
                                 .bold()
-                                .foregroundColor(.blue)
+                                .foregroundColor(.green)
                                 .onChange(of: undo, perform: { newValue in
                                     testtopic = ""
                                 })

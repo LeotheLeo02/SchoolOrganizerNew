@@ -9,6 +9,7 @@ import SwiftUI
 import AlertToast
 struct AssignmentsView: View {
     @Environment(\.managedObjectContext) var managedObjContext
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.score)]) var test: FetchedResults<Tests>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
     @AppStorage("NumberOfAsCompleted") var assignmentscompleted: Int = 0
@@ -305,7 +306,7 @@ struct AssignmentsView: View {
             .alert(isPresented: $deletealltopics){
                 Alert(title: Text("Are You Sure?"), message: Text("Deleting all topics will also delete all assignments below it."), primaryButton: .cancel(Text("Cancel")), secondaryButton: .destructive(Text("Delete All"), action: {
                     withAnimation {
-                        if !assignment.isEmpty{
+                        if !assignment.isEmpty || !test.isEmpty{
                         confirm.toggle()
                         }
                         withAnimation {
