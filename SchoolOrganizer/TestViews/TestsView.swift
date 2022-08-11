@@ -67,6 +67,16 @@ struct TestsView: View {
                             }.padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(20)
+                            HStack{
+                                Spacer()
+                            Text(tes.testtopic!)
+                                    .foregroundColor(.green)
+                                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                                    .padding()
+                                        .background(Color(.systemGray6))
+                                        .cornerRadius(20)
+                                Spacer()
+                            }
                             Divider()
                         }.padding()
                     } else if days >= 14{
@@ -100,6 +110,16 @@ struct TestsView: View {
                             }.padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(20)
+                            HStack{
+                                Spacer()
+                            Text(tes.testtopic!)
+                                    .foregroundColor(.green)
+                                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                                    .padding()
+                                        .background(Color(.systemGray6))
+                                        .cornerRadius(20)
+                                Spacer()
+                            }
                             Divider()
                         }.padding()
                     }
@@ -134,6 +154,16 @@ struct TestsView: View {
                             }.padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(20)
+                            HStack{
+                                Spacer()
+                            Text(tes.testtopic!)
+                                    .foregroundColor(.green)
+                                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                                    .padding()
+                                        .background(Color(.systemGray6))
+                                        .cornerRadius(20)
+                                Spacer()
+                            }
                             Divider()
                         }.padding()
                     }
@@ -166,6 +196,16 @@ struct TestsView: View {
                             }.padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(20)
+                            HStack{
+                                Spacer()
+                            Text(tes.testtopic!)
+                                    .foregroundColor(.green)
+                                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                                    .padding()
+                                        .background(Color(.systemGray6))
+                                        .cornerRadius(20)
+                                Spacer()
+                            }
                             Divider()
                         }.padding()
                     }
@@ -218,6 +258,16 @@ struct TestsView: View {
                             }.padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(20)
+                            HStack{
+                                Spacer()
+                            Text(tes.testtopic!)
+                                    .foregroundColor(.green)
+                                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                                    .padding()
+                                        .background(Color(.systemGray6))
+                                        .cornerRadius(20)
+                                Spacer()
+                            }
                             Divider()
                         }.padding()
                     } else if days >= 14{
@@ -251,6 +301,16 @@ struct TestsView: View {
                             }.padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(20)
+                            HStack{
+                                Spacer()
+                            Text(tes.testtopic!)
+                                    .foregroundColor(.green)
+                                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                                    .padding()
+                                        .background(Color(.systemGray6))
+                                        .cornerRadius(20)
+                                Spacer()
+                            }
                             Divider()
                         }.padding()
                     }
@@ -285,6 +345,16 @@ struct TestsView: View {
                             }.padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(20)
+                            HStack{
+                                Spacer()
+                            Text(tes.testtopic!)
+                                    .foregroundColor(.green)
+                                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                                    .padding()
+                                        .background(Color(.systemGray6))
+                                        .cornerRadius(20)
+                                Spacer()
+                            }
                             Divider()
                         }.padding()
                     }
@@ -317,6 +387,16 @@ struct TestsView: View {
                             }.padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(20)
+                            HStack{
+                                Spacer()
+                            Text(tes.testtopic!)
+                                    .foregroundColor(.green)
+                                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                                    .padding()
+                                        .background(Color(.systemGray6))
+                                        .cornerRadius(20)
+                                Spacer()
+                            }
                             Divider()
                         }.padding()
                     }

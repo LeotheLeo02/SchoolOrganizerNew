@@ -269,8 +269,9 @@ struct FolderView: View {
                 Section{
                     ForEach(period){per in
                         HStack{
-                            Text("\(Int64(per.number))")
+                            Text("\(Int64(per.number)).")
                             Text(per.name!)
+                                .underline()
                                 .bold()
                             Spacer()
                             Text(per.perioddate!, style: .time)
