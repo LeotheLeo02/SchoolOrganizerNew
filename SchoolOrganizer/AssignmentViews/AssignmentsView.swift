@@ -23,7 +23,6 @@ struct AssignmentsView: View {
     @State private var filtername = ""
     @State private var search = false
     @State private var editpop = false
-    @State private var deletealltopics = false
     @State private var confirm = false
    private let adaptiveColumns = [
     GridItem(.adaptive(minimum: 160))
@@ -303,21 +302,6 @@ struct AssignmentsView: View {
             .sheet(isPresented: $confirm, content: {
                 ChangeAllTopicsView()
             })
-            .alert(isPresented: $deletealltopics){
-                Alert(title: Text("Are You Sure?"), message: Text("Deleting all topics will also delete all assignments below it."), primaryButton: .cancel(Text("Cancel")), secondaryButton: .destructive(Text("Delete All"), action: {
-                    withAnimation {
-                        if !assignment.isEmpty || !test.isEmpty{
-                        confirm.toggle()
-                        }
-                        withAnimation {
-                            topic
-                            .forEach(managedObjContext.delete)
-                            
-                            TopicDataController().save(context: managedObjContext)
-                        }
-                    }
-                }))
-            }
             .navigationTitle("Assignments")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -382,9 +366,18 @@ struct AssignmentsView: View {
                             Text("All")
                         }
                         Button(role: .destructive) {
-                            deletealltopics.toggle()
+                            withAnimation {
+                                if !assignment.isEmpty || !test.isEmpty{
+                                confirm.toggle()
+                                }
+                                    topic
+                                    .forEach(managedObjContext.delete)
+                                    
+                                    TopicDataController().save(context: managedObjContext)
+                            }
                         } label: {
-                            Text("Delete All Topics")
+                            Text("Delete All")
+                            Image(systemName: "trash")
                         }
                     }label:{
                         Image(systemName: filter ? "line.3.horizontal.decrease.circle.fill" :"line.3.horizontal.decrease.circle")

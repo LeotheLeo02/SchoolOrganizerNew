@@ -10,11 +10,13 @@ import SwiftUI
 struct TestsView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.score)]) var test: FetchedResults<Tests>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
     @Environment(\.managedObjectContext) var managedObjContext
     @State private var AddTest = false
     @State private var Delete = false
     @State private var filter  = false
     @State private var filtername = ""
+    @State private var reconfigure = false
     var body: some View {
         NavigationView{
             ScrollView{
@@ -335,6 +337,9 @@ struct TestsView: View {
         }.sheet(isPresented: $AddTest, content: {
                 AddTestView()
             })
+        .sheet(isPresented: $reconfigure, content: {
+            ChangeAllTopicsView()
+        })
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -369,6 +374,20 @@ struct TestsView: View {
                             }
                         } label: {
                             Text("All")
+                        }
+                        Button(role: .destructive){
+                            if !test.isEmpty || !assignment.isEmpty{
+                                reconfigure.toggle()
+                            }
+                            withAnimation {
+                                topic
+                                .forEach(managedObjContext.delete)
+                                
+                                TopicDataController().save(context: managedObjContext)
+                            }
+                        }label:{
+                            Text("Delete All")
+                            Image(systemName: "trash")
                         }
 
                     } label: {
