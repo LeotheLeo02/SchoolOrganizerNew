@@ -10,7 +10,7 @@ import AlertToast
 struct FolderView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.perioddate)]) var period: FetchedResults<Periods>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.number)]) var period: FetchedResults<Periods>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.link)]) var link: FetchedResults<Links>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.imagetitle)]) var Images: FetchedResults<Images>
     @Environment(\.dismiss) var dismiss
@@ -29,8 +29,6 @@ struct FolderView: View {
     @State private var FrameImage = false
     @State private var addingValue: Int64 = 0
     @State private var addperiod = false
-    @State private var periodnumber =  ""
-    @State private var perioddate = Date()
     var body: some View {
         NavigationView{
         VStack{
@@ -96,6 +94,7 @@ struct FolderView: View {
                         .bold()
                         .foregroundColor(.blue)
                 }
+                .headerProminence(.increased)
                 Button {
                     withAnimation{
                     let isValid = canOpenURL(siteLink)
@@ -261,54 +260,45 @@ struct FolderView: View {
 
                         }
                     }.onDelete(perform: deleteImage)
-            }
-                Section{
-                        Button {
-                            withAnimation{
-                            addperiod = true
-                            }
-                        } label: {
-                            Text("Add Period")
-                        }
-                    if addperiod{
-                        VStack{
-                            //Fix UI Later
-                            TextField("Period Number", text: $periodnumber)
-                                .textFieldStyle(.roundedBorder)
-                            .keyboardType(.numberPad)
-                            DatePicker("Choose a Period Time", selection: $perioddate, displayedComponents: .hourAndMinute)
-                                .datePickerStyle(.graphical)
-                                .frame(maxHeight: 400)
-                            Button {
-                                PeriodDataController().addPeriod(number: periodnumber.trimmingCharacters(in: .whitespaces), perioddate: perioddate, context: managedObjContext)
-                                periodnumber = ""
-                                perioddate = Date.now
-                                addperiod = false
-                            } label: {
-                                Text("Done")
-                            }
-
-                        }
+                }header:{
+                    if !Images.isEmpty{
+                        Text("Images")
                     }
+                }
+                .headerProminence(.increased)
+                Section{
                     ForEach(period){per in
                         HStack{
-                        Text(per.number!)
+                            Text("\(Int64(per.number))")
+                            Text(per.name!)
+                                .bold()
                             Spacer()
                             Text(per.perioddate!, style: .time)
                         }
+                    }.onDelete(perform: deletePeriod)
+                    Button {
+                        addperiod.toggle()
+                    } label: {
+                        HStack{
+                            Spacer()
+                            Image(systemName: "plus")
+                                .font(.title)
+                            Spacer()
+                        }
                     }
                 }header: {
-                    if !period.isEmpty{
-                    Text("Periods")
-                    }
+                    Text("School Periods")
                 }
-                
+                .headerProminence(.increased)
             }.alert(isPresented: $showAlert){
                 Alert(title: Text("Missing Information"), message: Text("You must have a valid link and a name"), dismissButton: .cancel(Text("Ok")))
             }
             .sheet(isPresented: $imagepicker) {
                 ImagePicker(images: $image, show: $imagepicker, camera: $camera)
             }
+            .sheet(isPresented: $addperiod, content: {
+                AddSchoolPeriod()
+            })
             .toast(isPresenting: $Added) {
                 AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Image Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
             }
@@ -354,6 +344,14 @@ struct FolderView: View {
             LinksDataController().save(context: managedObjContext)
         }
     }
+    private func deletePeriod(offsets: IndexSet){
+        withAnimation {
+            offsets.map { period[$0] }
+                .forEach(managedObjContext.delete)
+            
+            PeriodDataController().save(context: managedObjContext)
+        }
+    }
     private func deleteImage(offsets: IndexSet) {
         withAnimation {
             offsets.map { Images[$0] }
@@ -368,5 +366,51 @@ struct FolderView: View {
 struct FolderView_Previews: PreviewProvider {
     static var previews: some View {
         FolderView()
+    }
+}
+
+struct AddSchoolPeriod: View{
+    @Environment(\.managedObjectContext) var managedObjContext
+    @Environment(\.dismiss) var dismiss
+    @State private var periodname = ""
+    @State private var periodtime = Date()
+    @State private var periodnumber: Int64 = 0
+    @State private var numbers: [Int64] = [1,2,3,4,5,6,7]
+    var body: some View{
+        Form{
+            Section{
+                VStack{
+                TextField("Enter School Period Name", text: $periodname)
+                        .textFieldStyle(.roundedBorder)
+                    DatePicker("Choose Time", selection: $periodtime, displayedComponents: .hourAndMinute)
+                        .datePickerStyle(.graphical)
+                    Menu{
+                        ForEach(numbers, id: \.self){num in
+                            Button {
+                                periodnumber = num
+                            } label: {
+                                Text("\(Int64(num))")
+                            }
+
+                        }
+                    }label: {
+                        Text("Choose School Period Number")
+                    }
+                    if periodnumber != 0 {
+                        Text("\(Int64(periodnumber))")
+                    }
+                }
+            }
+            Button {
+                PeriodDataController().addPeriod(number: periodnumber, perioddate: periodtime, name: periodname, context: managedObjContext)
+                dismiss()
+            } label: {
+                HStack{
+                    Spacer()
+                Text("Submit")
+                    Spacer()
+                }.buttonStyle(.bordered)
+            }.disabled(periodnumber == 0 || periodname.trimmingCharacters(in: .whitespaces).isEmpty)
+        }
     }
 }

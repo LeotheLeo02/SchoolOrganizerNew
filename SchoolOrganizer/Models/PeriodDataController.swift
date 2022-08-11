@@ -31,10 +31,11 @@ class PeriodDataController: ObservableObject {
         }
     }
     
-    func addPeriod(number: String, perioddate: Date ,context: NSManagedObjectContext) {
+    func addPeriod(number: Int64, perioddate: Date, name: String, context: NSManagedObjectContext) {
         let period = Periods(context: context)
         period.id = UUID()
         period.number = number
+        period.name = name
         period.perioddate = perioddate
         save(context: context)
     }

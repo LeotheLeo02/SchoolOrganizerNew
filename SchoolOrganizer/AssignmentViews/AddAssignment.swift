@@ -8,13 +8,14 @@
 import SwiftUI
 import UserNotifications
 import CoreHaptics
+import AlertToast
 
 struct AddAssignment: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.pastnames)]) var pastname: FetchedResults<PastNames>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.perioddate)]) var period: FetchedResults<Periods>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.number)]) var period: FetchedResults<Periods>
     @FocusState private var focusonTopic: Bool
     @State private var topics = ""
     @State private var details = ""
@@ -32,6 +33,7 @@ struct AddAssignment: View {
     @State private var exists = false
     @State private var assignmentexits = false
     @State private var reassign = false
+    @State private var timechanged = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
@@ -249,10 +251,28 @@ struct AddAssignment: View {
                         Text("Color")
                 )
             }
+            Section{
+                ForEach(period){per in
+                    Button {
+                        duedate = per.perioddate!
+                        simpleSuccess()
+                        timechanged.toggle()
+                    } label: {
+                        HStack{
+                            Text("\(Int64(per.number))")
+                            Text(per.name!)
+                                .bold()
+                            Spacer()
+                            Text(per.perioddate!, style: .time)
+                        }
+                    }
+                }
+            }header: {
+                Text("School Periods")
+            }
             
             Section {
-                //Add Reminders Type UI
-                DatePicker("Choose a Due Date", selection: $duedate, in: Date.now...)
+                DatePicker("Choose a Due Date", selection: $duedate)
                     .datePickerStyle(.graphical)
                     .frame(maxHeight: 400)
                     .onChange(of: undoall) { newValue in
@@ -260,25 +280,12 @@ struct AddAssignment: View {
                     }
                 Toggle("Want to be reminded Two Days Prior to due date of \(assigname.isEmpty ? "(NO NAME)" : "\(assigname)")", isOn: $twodaysearly)
                     .onShake {
+                        simpleSuccess()
                         undosignal.toggle()
                     }
             } header: {
                 Text("Select Due Date")
             }
-            Section{
-                ForEach(period){per in
-                    Button {
-                        duedate = per.perioddate!
-                    } label: {
-                        HStack{
-                            Text(per.number!)
-                            Spacer()
-                            Text(per.perioddate!, style: .time)
-                        }
-                    }
-                }
-            }
-
         }
         .sheet(isPresented: $reassign, content: {
             ChangeAllTopicsView()
@@ -293,6 +300,9 @@ struct AddAssignment: View {
         }
         .alert(isPresented: $NotComplete){
             Alert(title: Text("Not Complete"), message: Text("Name, Topic, and Color need to be assigned"), dismissButton: .cancel(Text("Ok")))
+        }
+        .toast(isPresenting: $timechanged) {
+            AlertToast(displayMode: .banner(.pop), type: .systemImage("clock.badge.checkmark.fill", .green), title: "Time Changed", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
         }
         .navigationTitle(assigname.isEmpty ? "Add Assignment": "Add \(assigname)")
         .toolbar {
@@ -359,6 +369,10 @@ struct AddAssignment: View {
             }
         }
         }
+    }
+    func simpleSuccess() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
     }
     func prepareHaptics() {
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
