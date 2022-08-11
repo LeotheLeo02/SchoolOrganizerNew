@@ -12,6 +12,7 @@ struct AssignmentScheduleDetails: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.duedate)]) var assignment: FetchedResults<Assignment>
     @Environment(\.dismiss) var dismiss
     var body: some View {
+        NavigationView{
         Form{
             Section {
                 ForEach(assignment){assign in
@@ -86,6 +87,18 @@ struct AssignmentScheduleDetails: View {
 
 
         }
+        .navigationTitle("Schedule")
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button {
+                    dismiss()
+                } label: {
+                    Text("Done")
+                }
+
+            }
+        }
+    }
     }
     func daysBetween(start: Date, end: Date) -> Int {
         return Calendar.current.dateComponents([.day], from: start, to: end).day!
