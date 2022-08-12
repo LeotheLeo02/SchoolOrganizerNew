@@ -21,6 +21,9 @@ struct AddTestView: View {
     @State private var deleteall = false
     @State private var undo = false
     @State private var newtestdate = Date()
+    @State private var attached = false
+    @State private var presentnewassign = false
+    @State private var attachtopic = ""
     var body: some View {
         NavigationView{
             VStack{
@@ -64,6 +67,10 @@ struct AddTestView: View {
                                                 if top.topicname == assign.topic{
                                                     Image(systemName: "doc.plaintext.fill")
                                                 }
+                                                }.onAppear(){
+                                                    if assign.topic == top.topicname{
+                                                        attached = true
+                                                    }
                                                 }
                                             }
                                             ForEach(test){tes in
@@ -71,13 +78,20 @@ struct AddTestView: View {
                                                 if top.topicname == tes.testtopic{
                                                     Image(systemName: "doc.on.clipboard")
                                                 }
+                                                }.onAppear(){
+                                                    if tes.testtopic == top.topicname{
+                                                        attached = true
+                                                    }
                                                 }
                                             }
                                         }.tint(.green)
                                         .buttonStyle(.bordered)
                                         Button {
                                             withAnimation {
-                                                
+                                                if attached{
+                                                    attachtopic = top.topicname!
+                                                    presentnewassign.toggle()
+                                                }
                                                 top
                                                     .managedObjectContext?.delete(top)
                                                 
@@ -148,6 +162,9 @@ struct AddTestView: View {
                     
                 }
             }
+            .sheet(isPresented: $presentnewassign, content: {
+                AssignIndiviualTopicView(topicname: $attachtopic)
+            })
             .sheet(isPresented: $deleteall, content: {
                 ChangeAllTopicsView()
             })
