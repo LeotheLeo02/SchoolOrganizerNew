@@ -8,6 +8,7 @@
 import SwiftUI
 import UserNotifications
 import AlertToast
+import UIKit
 
 struct EditAssignment: View {
     @Environment(\.managedObjectContext) var managedObjContext
@@ -140,12 +141,34 @@ struct EditAssignment: View {
                         dismiss()
                     }
                     } label: {
+                        HStack{
+                            Text("Complete")
+                                .font(.system(size: 20, weight: .heavy, design: .rounded))
+                                .foregroundColor(.green)
                         Image(systemName: complete ? "checkmark.circle.fill" : "circle")
                             .font(.largeTitle)
                             .animation(.easeInOut, value: complete)
                             .foregroundColor(.green)
-                    }.padding(.vertical)
+                        }
+                    }.padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(20)
 
+                }
+                ToolbarItem(placement: .principal) {
+                    VStack{
+                        Text(assignment.name!)
+                            .font(.system(size: 15, weight: .heavy, design: .rounded))
+                            .if(assignment.color == "Red") { Text in
+                                Text.foregroundColor(.red)
+                            }
+                            .if(assignment.color == "Blue") { Text in
+                                Text.foregroundColor(.blue)
+                            }
+                            .if(assignment.color == "Yellow") { Text in
+                                Text.foregroundColor(.yellow)
+                            }
+                    }
                 }
             }
         }
