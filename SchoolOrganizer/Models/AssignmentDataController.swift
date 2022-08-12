@@ -31,15 +31,15 @@ class AssignmentDataController: ObservableObject {
         }
     }
     
-    func addAssign(notes: String, topic: String, color: String, duedate: Date, name: String, complete: Bool, context: NSManagedObjectContext) {
+    func addAssign(topic: String, color: String, duedate: Date, name: String, complete: Bool, book: Bool, context: NSManagedObjectContext) {
         let assign = Assignment(context: context)
-        assign.notes = notes
         assign.id = UUID()
         assign.topic = topic
         assign.color = color
         assign.duedate = duedate
         assign.name = name
         assign.complete = complete
+        assign.book = book
         save(context: context)
     }
     

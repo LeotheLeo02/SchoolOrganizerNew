@@ -111,6 +111,11 @@ struct AssignmentsView: View {
                                                     .padding()
                                                     .background(Color(.systemGray4))
                                                     .cornerRadius(20)
+                                                if assign.book{
+                                                    Image(systemName: "book.closed.fill")
+                                                        .foregroundColor(.black)
+                                                        .font(.title)
+                                                }
                                             }
                                         }
                                         .navigationViewStyle(.stack)
@@ -217,6 +222,11 @@ struct AssignmentsView: View {
                                             .padding()
                                             .background(Color(.systemGray4))
                                             .cornerRadius(20)
+                                        if assign.book{
+                                            Image(systemName: "book.closed.fill")
+                                                .foregroundColor(.black)
+                                                .font(.title)
+                                        }
                                     }
                                 }
                                 .navigationViewStyle(.stack)

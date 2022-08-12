@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 import UserNotifications
 import CoreHaptics
 import AlertToast
@@ -19,7 +20,6 @@ struct AddAssignment: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.number)]) var period: FetchedResults<Periods>
     @FocusState private var focusonTopic: Bool
     @State private var topics = ""
-    @State private var details = ""
     @State private var color  = ""
     @State private var duedate = Date()
     @State private var addtopic = false
@@ -38,13 +38,44 @@ struct AddAssignment: View {
     @State private var attached = false
     @State private var presentnewassign = false
     @State private var attachtopic = ""
+    @State private var type = "Original"
+    @State private var pages: Int = 0
+    @State private var done = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
         Form{
+            Picker(selection: $type, label: Text("What Type Of Assignment")){
+                Image(systemName: "doc.plaintext.fill").tag("Original")
+                Image(systemName: "book.closed.fill").tag("Book")
+            }.labelsHidden()
+                .pickerStyle(.segmented)
+                .onChange(of: undoall) { V in
+                    type = "Original"
+                }
             TextField("Name Of Assignment", text: $assigname)
                 .onChange(of: undoall) { newValue in
                 assigname = ""
+            }
+            if type == "Book"{
+                HStack{
+                    Spacer()
+                Text("How Many Pages Do You Want to Ready Everyday?")
+                    .multilineTextAlignment(.center)
+                    Spacer()
+                }
+                Picker(selection: $pages, label: Text("How Many Pages Do You Want to Ready Everyday")){
+                    ForEach(0 ..< 51){page in
+                        Text("\(Int(page))").tag(page)
+                    }.onChange(of: undoall) { V in
+                        pages = 0
+                    }
+                }.pickerStyle(.wheel)
+                    .frame(height: 150)
+                    .clipped()
+                
+                Text("Pages: \(Int(pages))")
+
             }
             if assignmentexits{
                 HStack{
@@ -220,15 +251,6 @@ struct AddAssignment: View {
             }
             
             Section {
-                TextEditor(text: $details)
-                    .onChange(of: undoall) { newValue in
-                        details = ""
-                    }
-            } header: {
-                Text("Details")
-            }
-            
-            Section {
                 TextField("Enter Color", text: $color)
                     .onChange(of: undoall) { V in
                         color = ""
@@ -298,17 +320,37 @@ struct AddAssignment: View {
             }
             
             Section {
+                if type == "Book"{
+                    HStack{
+                        Spacer()
+                        Text("You will be reminded daily to read \(assigname.isEmpty ? "(NO NAME)" : "\(assigname)")")
+                            .font(.system(size: 12, weight: .heavy, design: .rounded))
+                            .multilineTextAlignment(.center)
+                        Spacer()
+                    }
+                }
+                if type == "Book"{
+                    DatePicker("Choose Reminder Time", selection: $duedate, displayedComponents: .hourAndMinute)
+                        .datePickerStyle(.graphical)
+                        .frame(maxHeight: 400)
+                        .onChange(of: undoall) { newValue in
+                            duedate = Date.now
+                        }
+                }else{
                 DatePicker("Choose a Due Date", selection: $duedate)
                     .datePickerStyle(.graphical)
                     .frame(maxHeight: 400)
                     .onChange(of: undoall) { newValue in
                         duedate = Date.now
                     }
-                Toggle("Want to be reminded Two Days Prior to due date of \(assigname.isEmpty ? "(NO NAME)" : "\(assigname)")", isOn: $twodaysearly)
+                Toggle("Reminder Two Days Prior To Due Date", isOn: $twodaysearly)
+                    .font(.system(size: 15, weight: .heavy, design: .rounded))
+                    .multilineTextAlignment(.center)
                     .onShake {
                         simpleSuccess()
                         undosignal.toggle()
                     }
+            }
             } header: {
                 Text("Select Due Date")
             }
@@ -341,7 +383,7 @@ struct AddAssignment: View {
                         if exists == false{
                     PastNamesDataController().addName(pastnames: assigname, context: managedObjContext)
                         }
-                    AssignmentDataController().addAssign(notes: details, topic: topics, color: color.trimmingCharacters(in: .whitespaces), duedate: duedate, name: assigname, complete: false, context: managedObjContext)
+                        AssignmentDataController().addAssign(topic: topics, color: color.trimmingCharacters(in: .whitespaces), duedate: duedate, name: assigname, complete: false, book: type == "Book" ? true:false, context: managedObjContext)
                     dismiss()
                     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                         if success{
@@ -349,7 +391,15 @@ struct AddAssignment: View {
                         }else if let error = error{
                             print(error.localizedDescription)
                         }
-                        
+                        if type == "Book"{
+                            let repcontent = UNMutableNotificationContent()
+                            repcontent.title = "Read \(assigname)"
+                            repcontent.subtitle = "Pages: \(Int(pages))"
+                        let daterepcomp = Calendar.current.dateComponents([.hour, .minute], from: duedate)
+                        let reptrigger  = UNCalendarNotificationTrigger(dateMatching: daterepcomp, repeats: true)
+                            let setup = UNNotificationRequest(identifier: assigname, content: repcontent, trigger: reptrigger)
+                            UNUserNotificationCenter.current().add(setup)
+                        }else{
                         let content = UNMutableNotificationContent()
                         content.title = assigname
                         content.subtitle = "This is Due Tomorrow!"
@@ -359,13 +409,12 @@ struct AddAssignment: View {
                         let dateComp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: OneDayEarly!)
                         print(dateComp)
                         let calendarTrigger  = UNCalendarNotificationTrigger(dateMatching: dateComp, repeats: false)
-
-                        
                         let request = UNNotificationRequest(identifier: assigname, content: content, trigger: calendarTrigger)
                         
                         UNUserNotificationCenter.current().add(request)
+                        }
                     }
-                        if twodaysearly{
+                        if twodaysearly && type == "Original"{
                         let twodaycontent = UNMutableNotificationContent()
                             twodaycontent.title = assigname
                             twodaycontent.body = "This is Due in Two Days!"
