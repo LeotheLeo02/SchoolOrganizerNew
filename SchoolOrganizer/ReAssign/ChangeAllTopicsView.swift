@@ -189,6 +189,7 @@ struct ChangeAllTopicsView: View {
         }
         .navigationTitle("Reassign")
     }
+        .navigationViewStyle(.stack)
     }
     func simpleSuccess() {
         let generator = UINotificationFeedbackGenerator()

@@ -65,7 +65,7 @@ struct AddAssignment: View {
                     Spacer()
                 }
                 Picker(selection: $pages, label: Text("How Many Pages Do You Want to Ready Everyday")){
-                    ForEach(0 ..< 51){page in
+                    ForEach((1...50).reversed(), id: \.self){page in
                         Text("\(Int(page))").tag(page)
                     }.onChange(of: undoall) { V in
                         pages = 0
@@ -444,6 +444,7 @@ struct AddAssignment: View {
             }
         }
         }
+        .navigationViewStyle(.stack)
     }
     func simpleSuccess() {
         let generator = UINotificationFeedbackGenerator()

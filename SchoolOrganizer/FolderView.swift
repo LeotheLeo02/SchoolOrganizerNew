@@ -320,6 +320,7 @@ struct FolderView: View {
             }
         }
     }
+        .navigationViewStyle(.stack)
     }
     func simpleSuccess() {
         let generator = UINotificationFeedbackGenerator()

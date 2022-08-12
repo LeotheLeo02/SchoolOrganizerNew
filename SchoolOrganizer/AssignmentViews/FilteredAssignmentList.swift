@@ -22,6 +22,7 @@ struct FilteredAssignmentList: View {
         }
         .navigationBarHidden(true)
     }
+        .navigationViewStyle(.stack)
     }
     
     init(filter: String){

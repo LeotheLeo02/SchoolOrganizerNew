@@ -166,6 +166,7 @@ struct HistoryView: View {
             }
         }
     }
+        .navigationViewStyle(.stack)
     }
     private func deleteCompletedTest(offsets: IndexSet) {
         withAnimation {

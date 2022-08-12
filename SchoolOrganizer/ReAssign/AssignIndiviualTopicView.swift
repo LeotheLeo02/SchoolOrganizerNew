@@ -24,6 +24,7 @@ struct AssignIndiviualTopicView: View {
             if assign.topic == topicname{
                 Section{
                 VStack{
+                    HStack{
                 Text(assign.name!)
                         .font(.system(size: 30, weight: .heavy, design: .rounded))
                         .onTapGesture {
@@ -34,6 +35,25 @@ struct AssignIndiviualTopicView: View {
                             }
                             }
                         }
+                        Text("A")
+                            .font(.system(size: 30, weight: .heavy, design: .rounded))
+                            .if(assign.color == "Red") { Text in
+                                Text.foregroundColor(.red)
+                            }
+                            .if(assign.color == "Blue") { Text in
+                                Text.foregroundColor(.blue)
+                            }
+                            .if(assign.color == "Yellow") { Text in
+                                Text.foregroundColor(.yellow)
+                            }
+                            .if(!assign.topic!.trimmingCharacters(in: .whitespaces).isEmpty){ view in
+                                view.foregroundColor(.green)
+                            }
+                    }
+                    if assign.book{
+                        Image(systemName: "book.closed.fill")
+                            .font(.title)
+                    }
                     Text((assign.topic?.trimmingCharacters(in: .whitespaces).isEmpty)! ? "" : assign.topic!)
                         .font(.system(size: 20, weight: .heavy, design: .rounded))
                         .foregroundColor(.gray)
@@ -47,6 +67,7 @@ struct AssignIndiviualTopicView: View {
                             }
                         AssignmentDataController().editAssignTopicName(assign: assign, topic: newtopic, changedtopic: false, context: managedObjContext)
                             editing = false
+                            newtopic = ""
                         }
                     } label: {
                         HStack{
@@ -87,6 +108,7 @@ struct AssignIndiviualTopicView: View {
                                 }
                             TestDataController().editTestTopicName(test: tes, testtopic: newtopic, changedtopic: false, context: managedObjContext)
                                 editing = false
+                                newtopic = ""
                             }
                         } label: {
                             HStack{
@@ -136,5 +158,6 @@ struct AssignIndiviualTopicView: View {
             }
         }
     }
+        .navigationViewStyle(.stack)
     }
 }

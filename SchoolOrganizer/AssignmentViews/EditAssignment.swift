@@ -149,6 +149,7 @@ struct EditAssignment: View {
                 }
             }
         }
+        .navigationViewStyle(.stack)
     }
     func simpleSuccess() {
         let generator = UINotificationFeedbackGenerator()

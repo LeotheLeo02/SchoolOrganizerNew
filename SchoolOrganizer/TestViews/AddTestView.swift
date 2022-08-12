@@ -223,6 +223,7 @@ struct AddTestView: View {
             }
             .navigationTitle(testname.isEmpty ? "Add Test": "Add \(testname)")
         }
+        .navigationViewStyle(.stack)
     }
     private func deleteTopics() {
         withAnimation {

@@ -375,6 +375,7 @@ struct AssignmentsView: View {
                         } label: {
                             Text("All")
                         }
+                        if !topic.isEmpty{
                         Button(role: .destructive) {
                             withAnimation {
                                 if !assignment.isEmpty || !test.isEmpty{
@@ -389,6 +390,7 @@ struct AssignmentsView: View {
                             Text("Delete All")
                             Image(systemName: "trash")
                         }
+                    }
                     }label:{
                         Image(systemName: filter ? "line.3.horizontal.decrease.circle.fill" :"line.3.horizontal.decrease.circle")
                     }
@@ -396,6 +398,7 @@ struct AssignmentsView: View {
                 }
             }
         }
+        .navigationViewStyle(.stack)
     }
     func daysBetween(start: Date, end: Date) -> Int {
         return Calendar.current.dateComponents([.day], from: start, to: end).day!
