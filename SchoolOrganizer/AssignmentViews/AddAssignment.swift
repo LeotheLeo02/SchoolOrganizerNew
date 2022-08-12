@@ -35,6 +35,9 @@ struct AddAssignment: View {
     @State private var assignmentexits = false
     @State private var reassign = false
     @State private var timechanged = false
+    @State private var attached = false
+    @State private var presentnewassign = false
+    @State private var attachtopic = ""
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
@@ -124,7 +127,13 @@ struct AddAssignment: View {
                             if assign.topic == top.topicname{
                                 Image(systemName: "doc.plaintext.fill")
                             }
-                            }.onChange(of: assigname) { V in
+                            }
+                            .onAppear(){
+                                if assign.topic == top.topicname{
+                                    attached = true
+                                }
+                            }
+                            .onChange(of: assigname) { V in
                                 if assigname.trimmingCharacters(in: .whitespaces) == assign.name?.trimmingCharacters(in: .whitespaces) {
                                     withAnimation{
                                     assignmentexits = true
@@ -136,8 +145,14 @@ struct AddAssignment: View {
                                 }
                             }
                             ForEach(test){tes in
+                                VStack{
                                 if tes.testtopic == top.topicname{
                                 Image(systemName: "doc.on.clipboard")
+                                }
+                                }.onAppear(){
+                                    if tes.testtopic == top.topicname{
+                                        attached = true
+                                    }
                                 }
                             }
                         }
@@ -145,6 +160,10 @@ struct AddAssignment: View {
                     .buttonStyle(.bordered)
                     Button {
                         withAnimation {
+                            if attached{
+                                attachtopic = top.topicname!
+                                presentnewassign.toggle()
+                            }
                             top
                                 .managedObjectContext?.delete(top)
                             
@@ -167,6 +186,8 @@ struct AddAssignment: View {
                         Image(systemName: "plus")
                             .foregroundColor(.green)
                     }
+                }.sheet(isPresented: $presentnewassign) {
+                    AssignIndiviualTopicView(topicname: $attachtopic)
                 }
                 }
                 if addtopic{

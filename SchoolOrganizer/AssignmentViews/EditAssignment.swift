@@ -144,7 +144,7 @@ struct EditAssignment: View {
                             .font(.largeTitle)
                             .animation(.easeInOut, value: complete)
                             .foregroundColor(.green)
-                    }
+                    }.padding(.vertical)
 
                 }
             }
