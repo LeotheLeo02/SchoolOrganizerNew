@@ -374,6 +374,7 @@ struct FolderView_Previews: PreviewProvider {
 struct AddSchoolPeriod: View{
     @Environment(\.managedObjectContext) var managedObjContext
     @Environment(\.dismiss) var dismiss
+    @FocusState var focusonname: Bool
     @State private var periodname = ""
     @State private var periodtime = Date()
     @State private var periodnumber: Int64 = 0
@@ -383,7 +384,13 @@ struct AddSchoolPeriod: View{
             Section{
                 VStack{
                 TextField("Enter School Period Name", text: $periodname)
+                        .focused($focusonname)
                         .textFieldStyle(.roundedBorder)
+                        .onAppear(){
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            focusonname = true
+                        }
+                        }
                     DatePicker("Choose Time", selection: $periodtime, displayedComponents: .hourAndMinute)
                         .datePickerStyle(.graphical)
                     Menu{
