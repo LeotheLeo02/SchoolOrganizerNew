@@ -42,7 +42,7 @@ struct HistoryView: View {
                     .foregroundColor(.gray)
             }.padding()
                 
-        }.padding(2)
+            }.padding()
             .background(Color(.systemGray6))
             .cornerRadius(20)
             .contextMenu{
