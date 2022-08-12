@@ -29,6 +29,18 @@
 		435FEBFD289CAEAB0051AED2 /* ImageDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435FEBFC289CAEAB0051AED2 /* ImageDataController.swift */; };
 		435FEBFF289CB34D0051AED2 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435FEBFE289CB34D0051AED2 /* ImagePicker.swift */; };
 		437F98BE28A2B8D700C936FF /* ChangeAllTopicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437F98BD28A2B8D700C936FF /* ChangeAllTopicsView.swift */; };
+		43AAB16128A6FA8F00CB0631 /* SchoolReminderHelp WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 43AAB16028A6FA8F00CB0631 /* SchoolReminderHelp WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		43AAB16628A6FA9000CB0631 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43AAB16528A6FA9000CB0631 /* Assets.xcassets */; };
+		43AAB16C28A6FA9000CB0631 /* SchoolReminderHelp WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 43AAB16B28A6FA9000CB0631 /* SchoolReminderHelp WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		43AAB17128A6FA9000CB0631 /* SchoolOrganizerHelperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AAB17028A6FA9000CB0631 /* SchoolOrganizerHelperApp.swift */; };
+		43AAB17328A6FA9000CB0631 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AAB17228A6FA9000CB0631 /* ContentView.swift */; };
+		43AAB17528A6FA9000CB0631 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AAB17428A6FA9000CB0631 /* NotificationController.swift */; };
+		43AAB17728A6FA9000CB0631 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AAB17628A6FA9000CB0631 /* NotificationView.swift */; };
+		43AAB17928A6FA9000CB0631 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AAB17828A6FA9000CB0631 /* ComplicationController.swift */; };
+		43AAB17B28A6FA9100CB0631 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43AAB17A28A6FA9100CB0631 /* Assets.xcassets */; };
+		43AAB17E28A6FA9100CB0631 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43AAB17D28A6FA9100CB0631 /* Preview Assets.xcassets */; };
+		43AAB18E28A6FADB00CB0631 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 43AAB18C28A6FADB00CB0631 /* DataModel.xcdatamodeld */; };
+		43AAB19128A6FB5D00CB0631 /* AssignmentDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AAB19028A6FB5D00CB0631 /* AssignmentDataController.swift */; };
 		43BB85AD28A5D2A400DA4719 /* AssignIndiviualTopicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BB85AC28A5D2A400DA4719 /* AssignIndiviualTopicView.swift */; };
 		43CA7B68289EBE7200C90701 /* AssignmentSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CA7B67289EBE7200C90701 /* AssignmentSearchView.swift */; };
 		43CA7B6A289EBEC300C90701 /* FilteredAssignmentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CA7B69289EBEC300C90701 /* FilteredAssignmentList.swift */; };
@@ -37,6 +49,48 @@
 		43D5861C28A3054300829981 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D5861B28A3054300829981 /* HistoryView.swift */; };
 		43E4E6992899FCC3001CCE9C /* EditTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E4E6982899FCC3001CCE9C /* EditTestView.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		43AAB16228A6FA8F00CB0631 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4333E9CD2899A4B700E80A67 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43AAB15F28A6FA8F00CB0631;
+			remoteInfo = "SchoolReminderHelp WatchKit App";
+		};
+		43AAB16D28A6FA9000CB0631 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4333E9CD2899A4B700E80A67 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43AAB16A28A6FA9000CB0631;
+			remoteInfo = "SchoolReminderHelp WatchKit Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		43AAB18428A6FA9100CB0631 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				43AAB16C28A6FA9000CB0631 /* SchoolReminderHelp WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43AAB18828A6FA9100CB0631 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				43AAB16128A6FA8F00CB0631 /* SchoolReminderHelp WatchKit App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		43122BB7289C3DB6002F6CA9 /* PastNamesDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastNamesDataController.swift; sourceTree = "<group>"; };
@@ -62,6 +116,21 @@
 		435FEBFC289CAEAB0051AED2 /* ImageDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataController.swift; sourceTree = "<group>"; };
 		435FEBFE289CB34D0051AED2 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		437F98BD28A2B8D700C936FF /* ChangeAllTopicsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAllTopicsView.swift; sourceTree = "<group>"; };
+		43AAB15D28A6FA8F00CB0631 /* SchoolReminderHelp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SchoolReminderHelp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		43AAB16028A6FA8F00CB0631 /* SchoolReminderHelp WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SchoolReminderHelp WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		43AAB16528A6FA9000CB0631 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		43AAB16B28A6FA9000CB0631 /* SchoolReminderHelp WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SchoolReminderHelp WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		43AAB17028A6FA9000CB0631 /* SchoolOrganizerHelperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolOrganizerHelperApp.swift; sourceTree = "<group>"; };
+		43AAB17228A6FA9000CB0631 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		43AAB17428A6FA9000CB0631 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		43AAB17628A6FA9000CB0631 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		43AAB17828A6FA9000CB0631 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		43AAB17A28A6FA9100CB0631 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		43AAB17D28A6FA9100CB0631 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		43AAB17F28A6FA9100CB0631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43AAB18028A6FA9100CB0631 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		43AAB18D28A6FADB00CB0631 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		43AAB19028A6FB5D00CB0631 /* AssignmentDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentDataController.swift; sourceTree = "<group>"; };
 		43BB85AC28A5D2A400DA4719 /* AssignIndiviualTopicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignIndiviualTopicView.swift; sourceTree = "<group>"; };
 		43CA7B67289EBE7200C90701 /* AssignmentSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentSearchView.swift; sourceTree = "<group>"; };
 		43CA7B69289EBEC300C90701 /* FilteredAssignmentList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredAssignmentList.swift; sourceTree = "<group>"; };
@@ -79,6 +148,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		43AAB16828A6FA9000CB0631 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -86,6 +162,8 @@
 			isa = PBXGroup;
 			children = (
 				4333E9D72899A4B700E80A67 /* SchoolOrganizer */,
+				43AAB16428A6FA8F00CB0631 /* SchoolReminderHelp WatchKit App */,
+				43AAB16F28A6FA9000CB0631 /* SchoolReminderHelp WatchKit Extension */,
 				4333E9D62899A4B700E80A67 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -94,6 +172,9 @@
 			isa = PBXGroup;
 			children = (
 				4333E9D52899A4B700E80A67 /* SchoolOrganizerHelper.app */,
+				43AAB15D28A6FA8F00CB0631 /* SchoolReminderHelp.app */,
+				43AAB16028A6FA8F00CB0631 /* SchoolReminderHelp WatchKit App.app */,
+				43AAB16B28A6FA9000CB0631 /* SchoolReminderHelp WatchKit Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,6 +231,48 @@
 			path = ReAssign;
 			sourceTree = "<group>";
 		};
+		43AAB16428A6FA8F00CB0631 /* SchoolReminderHelp WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				43AAB16528A6FA9000CB0631 /* Assets.xcassets */,
+			);
+			path = "SchoolReminderHelp WatchKit App";
+			sourceTree = "<group>";
+		};
+		43AAB16F28A6FA9000CB0631 /* SchoolReminderHelp WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				43AAB17028A6FA9000CB0631 /* SchoolOrganizerHelperApp.swift */,
+				43AAB17228A6FA9000CB0631 /* ContentView.swift */,
+				43AAB18F28A6FAE400CB0631 /* Data */,
+				43AAB17428A6FA9000CB0631 /* NotificationController.swift */,
+				43AAB17628A6FA9000CB0631 /* NotificationView.swift */,
+				43AAB17828A6FA9000CB0631 /* ComplicationController.swift */,
+				43AAB17A28A6FA9100CB0631 /* Assets.xcassets */,
+				43AAB17F28A6FA9100CB0631 /* Info.plist */,
+				43AAB18028A6FA9100CB0631 /* PushNotificationPayload.apns */,
+				43AAB17C28A6FA9100CB0631 /* Preview Content */,
+			);
+			path = "SchoolReminderHelp WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		43AAB17C28A6FA9100CB0631 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				43AAB17D28A6FA9100CB0631 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		43AAB18F28A6FAE400CB0631 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				43AAB18C28A6FADB00CB0631 /* DataModel.xcdatamodeld */,
+				43AAB19028A6FB5D00CB0631 /* AssignmentDataController.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		43E4B5E62899CF2A0064A107 /* TestViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -196,6 +319,57 @@
 			productReference = 4333E9D52899A4B700E80A67 /* SchoolOrganizerHelper.app */;
 			productType = "com.apple.product-type.application";
 		};
+		43AAB15C28A6FA8F00CB0631 /* SchoolReminderHelp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43AAB18928A6FA9100CB0631 /* Build configuration list for PBXNativeTarget "SchoolReminderHelp" */;
+			buildPhases = (
+				43AAB15B28A6FA8F00CB0631 /* Resources */,
+				43AAB18828A6FA9100CB0631 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				43AAB16328A6FA8F00CB0631 /* PBXTargetDependency */,
+			);
+			name = SchoolReminderHelp;
+			productName = SchoolReminderHelp;
+			productReference = 43AAB15D28A6FA8F00CB0631 /* SchoolReminderHelp.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		43AAB15F28A6FA8F00CB0631 /* SchoolReminderHelp WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43AAB18528A6FA9100CB0631 /* Build configuration list for PBXNativeTarget "SchoolReminderHelp WatchKit App" */;
+			buildPhases = (
+				43AAB15E28A6FA8F00CB0631 /* Resources */,
+				43AAB18428A6FA9100CB0631 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				43AAB16E28A6FA9000CB0631 /* PBXTargetDependency */,
+			);
+			name = "SchoolReminderHelp WatchKit App";
+			productName = "SchoolReminderHelp WatchKit App";
+			productReference = 43AAB16028A6FA8F00CB0631 /* SchoolReminderHelp WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		43AAB16A28A6FA9000CB0631 /* SchoolReminderHelp WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43AAB18128A6FA9100CB0631 /* Build configuration list for PBXNativeTarget "SchoolReminderHelp WatchKit Extension" */;
+			buildPhases = (
+				43AAB16728A6FA9000CB0631 /* Sources */,
+				43AAB16828A6FA9000CB0631 /* Frameworks */,
+				43AAB16928A6FA9000CB0631 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SchoolReminderHelp WatchKit Extension";
+			productName = "SchoolReminderHelp WatchKit Extension";
+			productReference = 43AAB16B28A6FA9000CB0631 /* SchoolReminderHelp WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -207,6 +381,15 @@
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					4333E9D42899A4B700E80A67 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					43AAB15C28A6FA8F00CB0631 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					43AAB15F28A6FA8F00CB0631 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					43AAB16A28A6FA9000CB0631 = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
 				};
@@ -228,6 +411,9 @@
 			projectRoot = "";
 			targets = (
 				4333E9D42899A4B700E80A67 /* SchoolOrganizerHelper */,
+				43AAB15C28A6FA8F00CB0631 /* SchoolReminderHelp */,
+				43AAB15F28A6FA8F00CB0631 /* SchoolReminderHelp WatchKit App */,
+				43AAB16A28A6FA9000CB0631 /* SchoolReminderHelp WatchKit Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -239,6 +425,30 @@
 			files = (
 				4333E9E02899A4B800E80A67 /* Preview Assets.xcassets in Resources */,
 				4333E9DD2899A4B800E80A67 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43AAB15B28A6FA8F00CB0631 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43AAB15E28A6FA8F00CB0631 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43AAB16628A6FA9000CB0631 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43AAB16928A6FA9000CB0631 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43AAB17E28A6FA9100CB0631 /* Preview Assets.xcassets in Resources */,
+				43AAB17B28A6FA9100CB0631 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,7 +488,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		43AAB16728A6FA9000CB0631 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43AAB17528A6FA9000CB0631 /* NotificationController.swift in Sources */,
+				43AAB17328A6FA9000CB0631 /* ContentView.swift in Sources */,
+				43AAB17928A6FA9000CB0631 /* ComplicationController.swift in Sources */,
+				43AAB19128A6FB5D00CB0631 /* AssignmentDataController.swift in Sources */,
+				43AAB18E28A6FADB00CB0631 /* DataModel.xcdatamodeld in Sources */,
+				43AAB17128A6FA9000CB0631 /* SchoolOrganizerHelperApp.swift in Sources */,
+				43AAB17728A6FA9000CB0631 /* NotificationView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		43AAB16328A6FA8F00CB0631 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43AAB15F28A6FA8F00CB0631 /* SchoolReminderHelp WatchKit App */;
+			targetProxy = 43AAB16228A6FA8F00CB0631 /* PBXContainerItemProxy */;
+		};
+		43AAB16E28A6FA9000CB0631 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43AAB16A28A6FA9000CB0631 /* SchoolReminderHelp WatchKit Extension */;
+			targetProxy = 43AAB16D28A6FA9000CB0631 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		4333E9E12899A4B800E80A67 /* Debug */ = {
@@ -455,6 +692,146 @@
 			};
 			name = Release;
 		};
+		43AAB18228A6FA9100CB0631 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"SchoolReminderHelp WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = 8LGZB97F67;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SchoolReminderHelp WatchKit Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SchoolReminderHelp WatchKit Extension";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NEXT.SchoolReminderHelp.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.5;
+			};
+			name = Debug;
+		};
+		43AAB18328A6FA9100CB0631 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"SchoolReminderHelp WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = 8LGZB97F67;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SchoolReminderHelp WatchKit Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SchoolReminderHelp WatchKit Extension";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NEXT.SchoolReminderHelp.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.5;
+			};
+			name = Release;
+		};
+		43AAB18628A6FA9100CB0631 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8LGZB97F67;
+				GENERATE_INFOPLIST_FILE = YES;
+				IBSC_MODULE = SchoolReminderHelp_WatchKit_Extension;
+				INFOPLIST_KEY_CFBundleDisplayName = "SchoolReminderHelp WatchKit App";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NEXT.SchoolReminderHelp.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.5;
+			};
+			name = Debug;
+		};
+		43AAB18728A6FA9100CB0631 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8LGZB97F67;
+				GENERATE_INFOPLIST_FILE = YES;
+				IBSC_MODULE = SchoolReminderHelp_WatchKit_Extension;
+				INFOPLIST_KEY_CFBundleDisplayName = "SchoolReminderHelp WatchKit App";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NEXT.SchoolReminderHelp.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.5;
+			};
+			name = Release;
+		};
+		43AAB18A28A6FA9100CB0631 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8LGZB97F67;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NEXT.SchoolReminderHelp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		43AAB18B28A6FA9100CB0631 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8LGZB97F67;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NEXT.SchoolReminderHelp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -472,6 +849,33 @@
 			buildConfigurations = (
 				4333E9E42899A4B800E80A67 /* Debug */,
 				4333E9E52899A4B800E80A67 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43AAB18128A6FA9100CB0631 /* Build configuration list for PBXNativeTarget "SchoolReminderHelp WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43AAB18228A6FA9100CB0631 /* Debug */,
+				43AAB18328A6FA9100CB0631 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43AAB18528A6FA9100CB0631 /* Build configuration list for PBXNativeTarget "SchoolReminderHelp WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43AAB18628A6FA9100CB0631 /* Debug */,
+				43AAB18728A6FA9100CB0631 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43AAB18928A6FA9100CB0631 /* Build configuration list for PBXNativeTarget "SchoolReminderHelp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43AAB18A28A6FA9100CB0631 /* Debug */,
+				43AAB18B28A6FA9100CB0631 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -505,6 +909,16 @@
 			);
 			currentVersion = 4333E9FA2899A58300E80A67 /* SchoolModel.xcdatamodel */;
 			path = SchoolModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		43AAB18C28A6FADB00CB0631 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				43AAB18D28A6FADB00CB0631 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 43AAB18D28A6FADB00CB0631 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
