@@ -455,7 +455,7 @@ struct TestsView: View {
                         } label: {
                             Text("All")
                         }
-                        if !topic.isEmpty{ç
+                        if !topic.isEmpty{
                         Button(role: .destructive){
                             if !test.isEmpty || !assignment.isEmpty{
                                 reconfigure.toggle()
