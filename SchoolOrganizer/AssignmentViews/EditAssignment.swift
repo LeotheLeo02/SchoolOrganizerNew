@@ -19,6 +19,12 @@ struct EditAssignment: View {
     @State private var complete = false
     @State private var assigntopic = false
     @State private var assigned = false
+    @State private var orientation = UIDevice.current.orientation
+    private let orientationChanged = NotificationCenter.default
+        .publisher(for: UIDevice.orientationDidChangeNotification)
+        .makeConnectable()
+        .autoconnect()
+    
     var body: some View {
         NavigationView{
             ScrollView{
@@ -122,7 +128,7 @@ struct EditAssignment: View {
                 }.buttonStyle(.bordered)
             }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
+                    Button{
                         complete.toggle()
                         simpleSuccess()
                         AssignmentDataController().editAssign(assign: assignment, complete: complete, context: managedObjContext)
@@ -150,9 +156,17 @@ struct EditAssignment: View {
                             .animation(.easeInOut, value: complete)
                             .foregroundColor(.green)
                         }
-                    }.padding()
+                    }.if(orientation.isLandscape){view in
+                        view.padding()
+                    }
+                        .if(orientation.isFlat){view in
+                        view.padding(.horizontal)
+                    }
                         .background(Color(.systemGray6))
                         .cornerRadius(20)
+                        .onReceive(orientationChanged) { _ in
+                            orientation = UIDevice.current.orientation
+                        }
 
                 }
                 ToolbarItem(placement: .principal) {
