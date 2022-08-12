@@ -25,18 +25,22 @@ struct AssignmentSearchView: View {
                 .padding()
                 .textFieldStyle(.roundedBorder)
                 .focused($focusField)
-                if filter.isEmpty{
+                if filter.isEmpty || focusField == false {
                 Image(systemName: "magnifyingglass")
                     .font(.title)
                     .foregroundColor(.blue)
                 }else{
                     Button {
+                        withAnimation{
                        focusField = false
+                        }
                     } label: {
                         Text("Done")
                     }
                     Button {
+                        withAnimation{
                         filter = ""
+                        }
                     } label: {
                         Text("Clear")
                     }

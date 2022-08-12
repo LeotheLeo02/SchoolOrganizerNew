@@ -42,7 +42,7 @@ struct HistoryView: View {
                     .foregroundColor(.gray)
             }.padding()
                 
-        }.padding()
+        }.padding(2)
             .background(Color(.systemGray6))
             .cornerRadius(20)
             .contextMenu{
@@ -144,7 +144,7 @@ struct HistoryView: View {
                         }
                     }
             }
-            }.padding()
+            }.padding(2)
         .navigationTitle("History")
         .toolbar {
             ToolbarItem(placement: .bottomBar){
