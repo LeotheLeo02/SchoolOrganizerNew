@@ -12,7 +12,7 @@
 		<key>SchoolOrganizerHelper.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 		<key>SchoolReminderHelp WatchKit App (Complication).xcscheme_^#shared#^_</key>
 		<dict>
@@ -27,7 +27,15 @@
 		<key>SchoolReminderHelp WatchKit App.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>4333E9D42899A4B700E80A67</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
