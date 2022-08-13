@@ -19,7 +19,7 @@ struct AssignmentScheduleDetails: View {
                     let days = daysBetween(start: Date.now, end: assign.duedate!)
                     if (days <= 3){
                         HStack{
-                        Text(assign.topic!)
+                        Text(assign.name!)
                             .foregroundColor(.black)
                             .bold()
                             .font(.title)
@@ -42,7 +42,7 @@ struct AssignmentScheduleDetails: View {
                     let days = daysBetween(start: Date.now, end: assign.duedate!)
                     if (days < 7 && days > 3){
                         HStack{
-                        Text(assign.topic!)
+                        Text(assign.name!)
                             .foregroundColor(.black)
                             .bold()
                             .font(.title)
@@ -66,7 +66,7 @@ struct AssignmentScheduleDetails: View {
                     let days = daysBetween(start: Date.now, end: assign.duedate!)
                     if (days >= 7){
                         HStack{
-                        Text(assign.topic!)
+                        Text(assign.name!)
                             .foregroundColor(.black)
                             .bold()
                             .font(.title)

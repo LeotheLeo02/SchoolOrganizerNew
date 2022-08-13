@@ -41,6 +41,7 @@ struct AddAssignment: View {
     @State private var type = "Original"
     @State private var pages: Int = 0
     @State private var done = false
+    @State private var showpast = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
@@ -86,48 +87,52 @@ struct AddAssignment: View {
                         .foregroundColor(.red)
                 }
             }
-            List{
-                Section(header: Text("Past Names")){
-                    if pastname.isEmpty{
-                        Text("No History")
-                            .foregroundColor(.gray)
-                    }else{
-                        ScrollView{
-            ForEach(pastname){pass in
-                Button {
-                    assigname = pass.pastnames!
-                    exists = true
-                } label: {
-                    HStack{
-                    Text(pass.pastnames!)
-                            .bold()
-                        Spacer()
-                        Button {
-                            withAnimation {
-                                    pass
-                                    .managedObjectContext?.delete(pass)
-                                
-                                // Saves to our database
-                                PastNamesDataController().save(context: managedObjContext)
-                            }
-                        } label: {
-                            Text("Delete")
-                                .foregroundColor(.red)
-                            Image(systemName: "trash.fill")
-                                .foregroundColor(.red)
-                        }
-                    }
-                }.tint(.blue)
-                    .buttonStyle(.bordered)
-                .onChange(of: assigname, perform: { V in
-                    if assigname.trimmingCharacters(in: .whitespaces) == pass.pastnames?.trimmingCharacters(in: .whitespaces) {
+            DisclosureGroup(isExpanded: $showpast) {
+                List{
+                ForEach(pastname){pass in
+                    Button {
+                        assigname = pass.pastnames!
                         exists = true
-                    }
-                })
+                    } label: {
+                        HStack{
+                        Text(pass.pastnames!)
+                                .font(.caption)
+                                .bold()
+                            Spacer()
+                            Button {
+                                withAnimation {
+                                        pass
+                                        .managedObjectContext?.delete(pass)
+                                    
+                                    // Saves to our database
+                                    PastNamesDataController().save(context: managedObjContext)
+                                }
+                            } label: {
+                                Text("Delete")
+                                    .font(.caption2)
+                                    .foregroundColor(.red)
+                                Image(systemName: "trash.fill")
+                                    .font(.caption2)
+                                    .foregroundColor(.red)
+                            }
+                        }
+                    }.tint(.blue)
+                        .buttonStyle(.bordered)
+                    .onChange(of: assigname, perform: { V in
+                        if assigname.trimmingCharacters(in: .whitespaces) == pass.pastnames?.trimmingCharacters(in: .whitespaces) {
+                            exists = true
+                        }
+                    })
+                }
             }
-                    }
+
+            } label: {
+                if showpast{
+                    Text("Hide Past Names")
+                }else{
+                Text("See Past Names")
                 }
-                }
+                
             }
             Section {
                 if topics.isEmpty{
@@ -249,55 +254,18 @@ struct AddAssignment: View {
                         .foregroundColor(.red)
                 }.buttonStyle(.bordered)
             }
-            
-            Section {
-                TextField("Enter Color", text: $color)
-                    .onChange(of: undoall) { V in
-                        color = ""
-                    }
-                    HStack{
-                    Text("Red")
-                            .foregroundColor(color.trimmingCharacters(in: .whitespaces) == "Red" ? .white: .red)
-                            .bold()
-                            .padding()
-                            .background(color.trimmingCharacters(in: .whitespaces) == "Red" ? Color.red:Color.clear)
-                            .animation(.spring(), value: color.trimmingCharacters(in: .whitespaces) == "Red")
-                            .cornerRadius(20)
-                            .onTapGesture {
-                                color = "Red"
-                            }
-                    Divider()
-                    Text("Blue")
-                            .foregroundColor(color.trimmingCharacters(in: .whitespaces) == "Blue" ? .white: .blue)
-                            .bold()
-                            .padding()
-                            .background(color.trimmingCharacters(in: .whitespaces) == "Blue" ? Color.blue:Color.clear)
-                            .animation(.spring(), value: color.trimmingCharacters(in: .whitespaces) == "Blue")
-                            .cornerRadius(20)
-                            .onTapGesture {
-                                color = "Blue"
-                            }
-                        Divider()
-                        Text("Yellow")
-                            .foregroundColor(color.trimmingCharacters(in: .whitespaces) == "Yellow" ? .white: .yellow)
-                            .bold()
-                            .padding()
-                            .background(color.trimmingCharacters(in: .whitespaces) == "Yellow" ? Color.yellow:Color.clear)
-                            .animation(.spring(), value: color.trimmingCharacters(in: .whitespaces) == "Yellow")
-                            .cornerRadius(20)
-                            .onTapGesture {
-                                color = "Yellow"
-                            }
-                    }
-            } header: {
-                LinearGradient(
-                    colors: [.red, .blue, .green, .yellow],
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
-                .mask(
-                        Text("Color")
-                )
+            Section{
+                Picker("Color:", selection: $color) {
+                    Text("Red").tag("Red")
+                        .font(.system(size: 40, weight: .heavy, design: .rounded))
+                        .foregroundColor(.red)
+                    Text("Blue").tag("Blue")
+                        .font(.system(size: 40, weight: .heavy, design: .rounded))
+                        .foregroundColor(.blue)
+                    Text("Green").tag("Green")
+                        .font(.system(size: 40, weight: .heavy, design: .rounded))
+                        .foregroundColor(.green)
+                }
             }
             Section{
                 ForEach(period){per in

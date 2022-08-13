@@ -43,8 +43,8 @@ struct AssignIndiviualTopicView: View {
                             .if(assign.color == "Blue") { Text in
                                 Text.foregroundColor(.blue)
                             }
-                            .if(assign.color == "Yellow") { Text in
-                                Text.foregroundColor(.yellow)
+                            .if(assign.color == "Green") { Text in
+                                Text.foregroundColor(.green)
                             }
                             .if(!assign.topic!.trimmingCharacters(in: .whitespaces).isEmpty){ view in
                                 view.foregroundColor(.green)
@@ -63,9 +63,9 @@ struct AssignIndiviualTopicView: View {
                     Button {
                         withAnimation{
                             if !exits{
-                                TopicDataController().addTopic(topicname: newtopic, context: managedObjContext)
+                                TopicDataController().addTopic(topicname: newtopic.trimmingCharacters(in: .whitespaces), context: managedObjContext)
                             }
-                        AssignmentDataController().editAssignTopicName(assign: assign, topic: newtopic, changedtopic: false, context: managedObjContext)
+                            AssignmentDataController().editAssignTopicName(assign: assign, topic: newtopic.trimmingCharacters(in: .whitespaces), changedtopic: false, context: managedObjContext)
                             editing = false
                             newtopic = ""
                         }
@@ -104,9 +104,9 @@ struct AssignIndiviualTopicView: View {
                         Button {
                             withAnimation{
                                 if !exits{
-                                    TopicDataController().addTopic(topicname: newtopic, context: managedObjContext)
+                                    TopicDataController().addTopic(topicname: newtopic.trimmingCharacters(in: .whitespaces), context: managedObjContext)
                                 }
-                            TestDataController().editTestTopicName(test: tes, testtopic: newtopic, changedtopic: false, context: managedObjContext)
+                                TestDataController().editTestTopicName(test: tes, testtopic: newtopic.trimmingCharacters(in: .whitespaces), changedtopic: false, context: managedObjContext)
                                 editing = false
                                 newtopic = ""
                             }

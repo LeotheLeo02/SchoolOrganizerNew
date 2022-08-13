@@ -17,12 +17,13 @@ struct TestsView: View {
     @State private var filter  = false
     @State private var filtername = ""
     @State private var reconfigure = false
+    @Binding var Background: Color
     var body: some View {
         NavigationView{
             ScrollView{
                 if test.isEmpty{
                     HStack{
-                    Text("No Upcoming Tests")
+                        StrokeText(text: "No Upcoming Assignments", width: 0.2, color: .black)
                         .font(.system(size: 25, weight: .heavy, design: .rounded))
                         .foregroundColor(.gray)
                         Image(systemName:"checkmark.circle.fill")
@@ -414,7 +415,9 @@ struct TestsView: View {
                 }
             }
                 
-        }.sheet(isPresented: $AddTest, content: {
+            }.frame(maxWidth: .infinity,maxHeight: .infinity)
+            .background(Background)
+            .sheet(isPresented: $AddTest, content: {
                 AddTestView()
             })
         .sheet(isPresented: $reconfigure, content: {
@@ -488,8 +491,3 @@ struct TestsView: View {
     }
 }
 
-struct TestsView_Previews: PreviewProvider {
-    static var previews: some View {
-        TestsView()
-    }
-}

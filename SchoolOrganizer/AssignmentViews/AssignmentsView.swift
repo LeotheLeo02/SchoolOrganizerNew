@@ -24,6 +24,7 @@ struct AssignmentsView: View {
     @State private var search = false
     @State private var editpop = false
     @State private var confirm = false
+    @Binding var Background: Color
    private let adaptiveColumns = [
     GridItem(.adaptive(minimum: 160))
    ]
@@ -31,7 +32,7 @@ struct AssignmentsView: View {
         NavigationView{
             ScrollView{
                 HStack{
-                Text("Assignments Completed: \(Int(assignmentscompleted))")
+                    StrokeText(text: "Assignments Completed: \(assignmentscompleted)", width: 0.2, color: .black)
                     .font(.system(size: 12, weight: .heavy, design: .rounded))
                     .if(assignmentscompleted <= 25){ view in
                         view.foregroundColor(.brown)
@@ -44,17 +45,17 @@ struct AssignmentsView: View {
                     }
                     Spacer()
                     if assignmentscompleted <= 25{
-                        Text("Bronze")
+                        StrokeText(text: "Bronze", width: 0.5, color: .black)
                             .font(.system(size: 15, weight: .heavy, design: .rounded))
                             .foregroundColor(.brown)
                     }
                     if assignmentscompleted <= 50 && assignmentscompleted > 25{
-                        Text("Silver")
+                        StrokeText(text: "Silver", width: 0.5, color: .black)
                             .font(.system(size: 15, weight: .heavy, design: .rounded))
                             .foregroundColor(.gray)
                     }
                     if assignmentscompleted <= 100 && assignmentscompleted > 50{
-                        Text("Gold")
+                        StrokeText(text: "Gold", width: 0.5, color: .black)
                             .font(.system(size: 15, weight: .heavy, design: .rounded))
                             .foregroundColor(.yellow)
                     }
@@ -82,8 +83,8 @@ struct AssignmentsView: View {
                                         .if(assign.color == "Blue"){view in
                                             view.foregroundColor(.blue)
                                         }
-                                        .if(assign.color == "Yellow"){ view in
-                                            view.foregroundColor(.yellow)
+                                        .if(assign.color == "Green"){ view in
+                                            view.foregroundColor(.green)
                                         }
                                         .if(assign.color == "Red"){ view in
                                             view.foregroundColor(.red)
@@ -193,8 +194,8 @@ struct AssignmentsView: View {
                                 .if(assign.color == "Blue"){view in
                                     view.foregroundColor(.blue)
                                 }
-                                .if(assign.color == "Yellow"){ view in
-                                    view.foregroundColor(.yellow)
+                                .if(assign.color == "Green"){ view in
+                                    view.foregroundColor(.green)
                                 }
                                 .if(assign.color == "Red"){ view in
                                     view.foregroundColor(.red)
@@ -297,7 +298,8 @@ struct AssignmentsView: View {
                     }
                     }
                 }
-            }.sheet(isPresented: $showFolder, content: {
+            }.background(Background)
+            .sheet(isPresented: $showFolder, content: {
                 FolderView()
             })
             .toast(isPresenting: $editpop) {
@@ -409,11 +411,6 @@ struct AssignmentsView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        AssignmentsView()
-    }
-}
 extension View {
     @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
         if condition {
@@ -454,8 +451,8 @@ struct EditPopupView: View{
             .if(assignment.color == "Blue"){view in
                 view.background(.blue)
             }
-            .if(assignment.color == "Yellow"){ view in
-                view.background(.yellow)
+            .if(assignment.color == "Green"){ view in
+                view.background(.green)
             }
             .if(assignment.color == "Red"){ view in
                 view.background(.red)

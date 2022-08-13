@@ -11,6 +11,7 @@ struct HistoryView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.assignname)]) var historya: FetchedResults<HistoryA>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.dateoftest, order: .reverse)]) var completedtest: FetchedResults<CompletedTest>
+    @Binding var Background: Color
     var body: some View {
         NavigationView{
             let count = completedtest.isEmpty ? 1 : Int(completedtest.count)
@@ -31,8 +32,8 @@ struct HistoryView: View {
                     .if(hisa.assigncolor == "Blue") { Text in
                         Text.foregroundColor(.blue)
                     }
-                    .if(hisa.assigncolor == "Yellow") { Text in
-                        Text.foregroundColor(.yellow)
+                    .if(hisa.assigncolor == "Green") { Text in
+                        Text.foregroundColor(.green)
                     }
                 Text(hisa.assigndate!, style: .date)
                     .font(.system(size: 13, weight: .heavy, design: .rounded))
@@ -144,12 +145,16 @@ struct HistoryView: View {
                         }
                     }
             }
-            }.padding(2)
+            }
+            .frame(maxWidth: .infinity,maxHeight: .infinity)
+            .background(Background)
+            .padding(2)
         .navigationTitle("History")
+        .background(Background)
         .toolbar {
             ToolbarItem(placement: .bottomBar){
                 VStack{
-                Text("Score Average: \(average)")
+                    StrokeText(text: "Score Average: \(average)", width: 0.5, color: .black)
                     .font(.system(size: 20, weight: .heavy, design: .rounded))
                     .if(average == 0 && completedtest.isEmpty){view in
                         view.foregroundColor(.gray)
@@ -161,7 +166,7 @@ struct HistoryView: View {
                         view.foregroundColor(.green)
                     }
                 }.padding(10)
-                    .background(Color(.systemGray6))
+                    .background(Background)
                     .cornerRadius(20)
             }
         }
@@ -178,9 +183,21 @@ struct HistoryView: View {
         }
     }
 }
+struct StrokeText: View {
+    let text: String
+    let width: CGFloat
+    let color: Color
 
-struct HistoryView_Previews: PreviewProvider {
-    static var previews: some View {
-        HistoryView()
+    var body: some View {
+        ZStack{
+            ZStack{
+                Text(text).offset(x:  width, y:  width)
+                Text(text).offset(x: -width, y: -width)
+                Text(text).offset(x: -width, y:  width)
+                Text(text).offset(x:  width, y: -width)
+            }
+            .foregroundColor(color)
+            Text(text)
+        }
     }
 }

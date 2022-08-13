@@ -38,8 +38,8 @@ struct ChangeAllTopicsView: View {
                                 .if(assign.color == "Blue") { Text in
                                     Text.foregroundColor(.blue)
                                 }
-                                .if(assign.color == "Yellow") { Text in
-                                    Text.foregroundColor(.yellow)
+                                .if(assign.color == "Green") { Text in
+                                    Text.foregroundColor(.green)
                                 }
                                 .if(!assign.topic!.trimmingCharacters(in: .whitespaces).isEmpty){ view in
                                     view.foregroundColor(.green)
@@ -72,9 +72,9 @@ struct ChangeAllTopicsView: View {
                                 if !newtopic.trimmingCharacters(in: .whitespaces).isEmpty{
                                 withAnimation{
                                 simpleSuccess()
-                                AssignmentDataController().editAssignTopicName(assign: assign, topic: newtopic, changedtopic: false, context: managedObjContext)
+                                    AssignmentDataController().editAssignTopicName(assign: assign, topic: newtopic.trimmingCharacters(in: .whitespaces), changedtopic: false, context: managedObjContext)
                                     if !exits{
-                                    TopicDataController().addTopic(topicname: newtopic, context: managedObjContext)
+                                        TopicDataController().addTopic(topicname: newtopic.trimmingCharacters(in: .whitespaces), context: managedObjContext)
                                     }
                                 editing = false
                                 }
@@ -102,8 +102,8 @@ struct ChangeAllTopicsView: View {
                                     .if(assign.color == "Blue") { Text in
                                         Text.foregroundColor(.blue)
                                     }
-                                    .if(assign.color == "Yellow") { Text in
-                                        Text.foregroundColor(.yellow)
+                                    .if(assign.color == "Green") { Text in
+                                        Text.foregroundColor(.green)
                                     }
                                     .if(!assign.topic!.trimmingCharacters(in: .whitespaces).isEmpty){ view in
                                         view.foregroundColor(.green)
@@ -135,8 +135,8 @@ struct ChangeAllTopicsView: View {
                                 .if(assign.color == "Blue") { Text in
                                     Text.foregroundColor(.blue)
                                 }
-                                .if(assign.color == "Yellow") { Text in
-                                    Text.foregroundColor(.yellow)
+                                .if(assign.color == "Green") { Text in
+                                    Text.foregroundColor(.green)
                                 }
                                 .if(!assign.topic!.trimmingCharacters(in: .whitespaces).isEmpty){ view in
                                     view.foregroundColor(.green)
