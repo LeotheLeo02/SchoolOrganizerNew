@@ -39,7 +39,7 @@ struct AddAssignment: View {
     @State private var presentnewassign = false
     @State private var attachtopic = ""
     @State private var type = "Original"
-    @State private var pages: Int = 0
+    @State private var pages = ""
     @State private var done = false
     @State private var showpast = false
     @State private var periodhour: Int = 0
@@ -48,6 +48,8 @@ struct AddAssignment: View {
     @State private var suggestion = ""
     @State private var suggestdays: Int = 0
     @State private var turnonsuggest = true
+    @State private var ownpages: Int = 0
+    @State private var pagenumber: Int = 0
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
@@ -67,39 +69,40 @@ struct AddAssignment: View {
             if type == "Book"{
                 HStack{
                     Spacer()
-                Text("How Many Pages Do You Want to Ready Everyday?")
+                Text("How Many Pages Are In The Book?")
                     .multilineTextAlignment(.center)
                     Spacer()
                 }
-                Picker(selection: $pages, label: Text("How Many Pages Do You Want to Ready Everyday")){
-                    ForEach((1...1000).reversed(), id: \.self){page in
-                        Text("\(Int(page))").tag(page)
-                    }.onChange(of: pages) {  _ in
-                        let days = daysBetween(start: Date.now, end: date)
+                TextField("Pages", text: Binding(
+                    get: {pages},
+                    set: {pages = $0.filter{"0123456789".contains($0)}}))
+                .onChange(of: pages) { V in
+                    let days = daysBetween(start: Date.now, end: duedate)
+                    pagenumber = NumberFormatter().number(from: "0" + pages) as! Int
                         if days != 0{
-                        let suggest = pages/days
+                        let suggest = pagenumber/days
+                        suggestdays = suggest
+                    }else{
+                        let suggest = pagenumber/1
+                        suggestdays = suggest
+                    }
+                }
+                .onChange(of: undoall) { V in
+                    pages = ""
+                    pagenumber = 0
+                }
+                .keyboardType(.numberPad)
+                .multilineTextAlignment(.center)
+                Text("Pages: \(Int(pagenumber))")
+                Text("Suggestion: \(suggestdays) Pages Per Day")
+                DatePicker("When Is It Due", selection: $duedate, displayedComponents: .date)
+                    .onChange(of: duedate) { V in
+                        let days = daysBetween(start: Date.now, end: duedate)
+                        if days != 0{
+                        let suggest = pagenumber/days
                         suggestdays = suggest
                         }else{
-                            let suggest = pages/1
-                            suggestdays = suggest
-                        }
-                    }
-                    .onChange(of: undoall) { V in
-                        pages = 0
-                    }
-                }.pickerStyle(.wheel)
-                    .frame(height: 150)
-                    .clipped()
-                Text("Pages: \(Int(pages))")
-                Text("Suggestion: \(suggestdays)")
-                DatePicker("When Is It Due", selection: $date, displayedComponents: .date)
-                    .onChange(of: date) { V in
-                        let days = daysBetween(start: Date.now, end: date)
-                        if days != 0{
-                        let suggest = pages/days
-                        suggestdays = suggest
-                        }else{
-                            let suggest = pages/1
+                            let suggest = pagenumber/1
                             suggestdays = suggest
                         }
                     }
@@ -341,6 +344,13 @@ struct AddAssignment: View {
                         .onChange(of: undoall) { newValue in
                             duedate = Date.now
                         }
+                    if !turnonsuggest{
+                        Picker("Choose the Amount of Pages You Want To Read Everyday", selection: $ownpages){
+                            ForEach(1...150, id: \.self){custom in
+                                Text("\(custom)")
+                            }
+                        }.pickerStyle(.menu)
+                    }
                 }else{
                 DatePicker("Choose a Due Date", selection: $duedate)
                     .datePickerStyle(.graphical)
@@ -403,7 +413,7 @@ struct AddAssignment: View {
                             if turnonsuggest{
                                 repcontent.subtitle = "Pages: \(Int(suggestdays))"
                             }else{
-                            repcontent.subtitle = "Pages: \(Int(pages))"
+                            repcontent.subtitle = "Pages: \(Int(ownpages))"
                             }
                         let daterepcomp = Calendar.current.dateComponents([.hour, .minute], from: duedate)
                         let reptrigger  = UNCalendarNotificationTrigger(dateMatching: daterepcomp, repeats: true)
@@ -452,12 +462,22 @@ struct AddAssignment: View {
                 }
 
             }
+            ToolbarItem(placement: .keyboard) {
+                Button {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                } label: {
+                    Text("Done")
+                        .font(.title)
+                        .bold()
+                }
+
+            }
         }
         }
         .navigationViewStyle(.stack)
     }
     func daysBetween(start: Date, end: Date) -> Int {
-        return Calendar.current.dateComponents([.day], from: start, to: end).day!
+        return Calendar.current.dateComponents([.day, .hour, .minute], from: start, to: end).day!
     }
     func simpleSuccess() {
         let generator = UINotificationFeedbackGenerator()

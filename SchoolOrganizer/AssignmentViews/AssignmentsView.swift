@@ -98,7 +98,7 @@ struct AssignmentsView: View {
                                                 Text(assign.name!)
                                                     .fontWeight(.heavy)
                                                     .foregroundColor(.white)
-                                                Text(assign.duedate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                                                Text(assign.duedate ?? Date.now, style: .date)
                                                     .font(.system(size: 15, weight: .heavy, design: .rounded))
                                                     .if(days >= 7){ view in
                                                         view.foregroundColor(.green)
@@ -209,7 +209,7 @@ struct AssignmentsView: View {
                                         Text(assign.name!)
                                             .fontWeight(.heavy)
                                             .foregroundColor(.white)
-                                        Text(assign.duedate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                                        Text(assign.duedate ?? Date.now, style: .date)
                                             .font(.system(size: 15, weight: .heavy, design: .rounded))
                                             .if(days >= 7){ view in
                                                 view.foregroundColor(.green)
