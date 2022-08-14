@@ -39,4 +39,8 @@ class PeriodDataController: ObservableObject {
         period.perioddate = perioddate
         save(context: context)
     }
+    func editSelect(period: Periods, selected: Bool, context: NSManagedObjectContext){
+        period.selected = selected
+        save(context: context)
+    }
 }

@@ -42,6 +42,12 @@ struct AddAssignment: View {
     @State private var pages: Int = 0
     @State private var done = false
     @State private var showpast = false
+    @State private var periodhour: Int = 0
+    @State private var periodminute: Int = 0
+    @State private var date = Date()
+    @State private var suggestion = ""
+    @State private var suggestdays: Int = 0
+    @State private var turnonsuggest = true
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
@@ -66,17 +72,37 @@ struct AddAssignment: View {
                     Spacer()
                 }
                 Picker(selection: $pages, label: Text("How Many Pages Do You Want to Ready Everyday")){
-                    ForEach((1...50).reversed(), id: \.self){page in
+                    ForEach((1...1000).reversed(), id: \.self){page in
                         Text("\(Int(page))").tag(page)
-                    }.onChange(of: undoall) { V in
+                    }.onChange(of: pages) {  _ in
+                        let days = daysBetween(start: Date.now, end: date)
+                        if days != 0{
+                        let suggest = pages/days
+                        suggestdays = suggest
+                        }else{
+                            let suggest = pages/1
+                            suggestdays = suggest
+                        }
+                    }
+                    .onChange(of: undoall) { V in
                         pages = 0
                     }
                 }.pickerStyle(.wheel)
                     .frame(height: 150)
                     .clipped()
-                
                 Text("Pages: \(Int(pages))")
-
+                Text("Suggestion: \(suggestdays)")
+                DatePicker("When Is It Due", selection: $date, displayedComponents: .date)
+                    .onChange(of: date) { V in
+                        let days = daysBetween(start: Date.now, end: date)
+                        if days != 0{
+                        let suggest = pages/days
+                        suggestdays = suggest
+                        }else{
+                            let suggest = pages/1
+                            suggestdays = suggest
+                        }
+                    }
             }
             if assignmentexits{
                 HStack{
@@ -87,6 +113,7 @@ struct AddAssignment: View {
                         .foregroundColor(.red)
                 }
             }
+            if type != "Book"{
             DisclosureGroup(isExpanded: $showpast) {
                 List{
                 ForEach(pastname){pass in
@@ -134,6 +161,7 @@ struct AddAssignment: View {
                 }
                 
             }
+        }
             Section {
                 if topics.isEmpty{
                     Text("No topic selected")
@@ -270,7 +298,14 @@ struct AddAssignment: View {
             Section{
                 ForEach(period){per in
                     Button {
-                        duedate = per.perioddate!
+                        let date  = duedate
+                        let calendar  = Calendar.current
+                        let hour = calendar.component(.hour, from: per.perioddate!)
+                        let minute = calendar.component(.minute, from: per.perioddate!)
+                        periodhour = hour
+                        periodminute = minute
+                        let newtime = Calendar.current.date(bySettingHour: periodhour, minute: periodminute, second: 0, of: date)
+                        duedate = newtime!
                         simpleSuccess()
                         timechanged.toggle()
                     } label: {
@@ -286,7 +321,6 @@ struct AddAssignment: View {
             }header: {
                 Text("School Periods")
             }
-            
             Section {
                 if type == "Book"{
                     HStack{
@@ -298,6 +332,9 @@ struct AddAssignment: View {
                     }
                 }
                 if type == "Book"{
+                    Toggle(isOn: $turnonsuggest) {
+                        Text("Use Suggestion")
+                    }
                     DatePicker("Choose Reminder Time", selection: $duedate, displayedComponents: .hourAndMinute)
                         .datePickerStyle(.graphical)
                         .frame(maxHeight: 400)
@@ -362,7 +399,12 @@ struct AddAssignment: View {
                         if type == "Book"{
                             let repcontent = UNMutableNotificationContent()
                             repcontent.title = "Read \(assigname)"
+                            //Change depending on what the user wants
+                            if turnonsuggest{
+                                repcontent.subtitle = "Pages: \(Int(suggestdays))"
+                            }else{
                             repcontent.subtitle = "Pages: \(Int(pages))"
+                            }
                         let daterepcomp = Calendar.current.dateComponents([.hour, .minute], from: duedate)
                         let reptrigger  = UNCalendarNotificationTrigger(dateMatching: daterepcomp, repeats: true)
                             let setup = UNNotificationRequest(identifier: assigname, content: repcontent, trigger: reptrigger)
@@ -413,6 +455,9 @@ struct AddAssignment: View {
         }
         }
         .navigationViewStyle(.stack)
+    }
+    func daysBetween(start: Date, end: Date) -> Int {
+        return Calendar.current.dateComponents([.day], from: start, to: end).day!
     }
     func simpleSuccess() {
         let generator = UINotificationFeedbackGenerator()
