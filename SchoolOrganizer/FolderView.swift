@@ -28,6 +28,8 @@ struct FolderView: View {
     @State private var AddedLink = false
     @State private var FrameImage = false
     @State private var addingValue: Int64 = 0
+    @State private var addedName = ""
+    @State private var sizename = ""
     @State private var addperiod = false
     var body: some View {
         NavigationView{
@@ -200,6 +202,7 @@ struct FolderView: View {
                 }
                 Section{
                     ForEach(Images){imag in
+                        VStack{
                         HStack{
                             VStack{
                         Image(uiImage: UIImage(data: imag.imageD ?? image)!)
@@ -211,53 +214,11 @@ struct FolderView: View {
                         Text(imag.imagetitle!)
                                 .font(.system(size: 20, weight: .heavy, design: .rounded))
                         }
-                            Menu{
-                                if assignment.isEmpty{
-                                    Text("No Assignments Made")
-                                }
-                                 ForEach(assignment){assign in
-                                     Button {
-                                         FrameImage.toggle()
-                                     } label: {
-                                         HStack{
-                                         Text(assign.name!)
-                                             Spacer()
-                                             Image(systemName: "plus")
-                                         }.onChange(of: addingValue) { V in
-                                             AssignmentDataController().editAssignImage(assign: assign, imagedata: imag.imageD!, imagetitle: imag.imagetitle!, imagesize: addingValue, context: managedObjContext)
-                                             Added.toggle()
-                                             simpleSuccess()
-                                             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
-                                                 dismiss()
-                                             }
-                                         }
-                                     }
-
-                                 }
-                            }label: {
-                                Image(systemName: "plus.app.fill")
-                                        .symbolRenderingMode(.hierarchical)
-                                        .foregroundColor(.blue)
-                                        .font(.largeTitle)
-                            }
                         }.padding()
-                        .confirmationDialog("Select Image Size", isPresented: $FrameImage, titleVisibility: .visible){
-                            Button {
-                                addingValue = 3
-                            } label: {
-                                Text("Large")
-                            }
-                            Button {
-                                addingValue = 2
-                            } label: {
-                                Text("Medium")
-                            }
-                            Button {
-                                addingValue = 1
-                            } label: {
-                                Text("Small")
-                            }
-
+                            AssignImageData(image: imag, added: $Added, sizename: $sizename, addedName: $addedName)
+                                .onChange(of: Added) { V in
+                                    simpleSuccess()
+                                }
                         }
                     }.onDelete(perform: deleteImage)
                 }header:{
@@ -301,7 +262,7 @@ struct FolderView: View {
                 AddSchoolPeriod()
             })
             .toast(isPresenting: $Added) {
-                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Image Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
+                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "(\(sizename)) \(addedName) Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 20, weight: .heavy, design: .rounded), subTitleFont: .title))
             }
             .toast(isPresenting: $AddedLink) {
                 AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Link Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
@@ -420,6 +381,47 @@ struct AddSchoolPeriod: View{
                     Spacer()
                 }.buttonStyle(.bordered)
             }.disabled(periodnumber == 0 || periodname.trimmingCharacters(in: .whitespaces).isEmpty)
+        }
+    }
+}
+struct AssignImageData: View{
+    @Environment(\.managedObjectContext) var managedObjContext
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
+    var image: FetchedResults<Images>.Element
+    @Binding var added: Bool
+    @State private var size = false
+    @Binding var sizename: String
+    @Binding var addedName: String
+    var body: some View{
+        VStack{
+            ForEach(assignment){assign in
+                Menu{
+                    Button("Large"){
+                        AssignmentDataController().editAssignImage(assign: assign, imagedata: image.imageD!, imagetitle: image.imagetitle!, imagesize: 3, context: managedObjContext)
+                        added.toggle()
+                        addedName = image.imagetitle!
+                        sizename = "Large"
+                    }
+                    Button("Medium"){
+                        AssignmentDataController().editAssignImage(assign: assign, imagedata: image.imageD!, imagetitle: image.imagetitle!, imagesize: 2, context: managedObjContext)
+                        added.toggle()
+                        addedName = image.imagetitle!
+                        sizename = "Medium"
+                    }
+                    Button("Small"){
+                        AssignmentDataController().editAssignImage(assign: assign, imagedata: image.imageD!, imagetitle: image.imagetitle!, imagesize: 1, context: managedObjContext)
+                        added.toggle()
+                        addedName = image.imagetitle!
+                        sizename = "Small"
+                    }
+                }label: {
+                    Text(assign.name!)
+                        .bold()
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(20)
+                }
+            }
         }
     }
 }

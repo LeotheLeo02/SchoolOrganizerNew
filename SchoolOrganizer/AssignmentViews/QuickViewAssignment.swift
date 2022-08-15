@@ -9,6 +9,7 @@ import SwiftUI
 
 struct QuickViewAssignment: View {
     var assignment: FetchedResults<Assignment>.Element
+    @Environment(\.managedObjectContext) var managedObjContext
     @State private var edit = false
     @State private var name = ""
     var body: some View {
@@ -38,13 +39,18 @@ struct QuickViewAssignment: View {
             }
             Button {
                 withAnimation{
+                    if edit{
+                    AssignmentDataController().editAssignName(assign: assignment, name: name, context: managedObjContext)
+                    }
                     edit.toggle()
                 }
             } label: {
                 if edit == false{
-                Text("Edit")
+                Image(systemName: "square.and.pencil")
+                        .font(.title)
                 }else{
                     Text("Done")
+                        .bold()
                 }
                 
             }
@@ -55,9 +61,44 @@ struct QuickViewAssignment: View {
                     .onAppear(){
                         name = assignment.name!
                     }
-                    .onChange(of: name) { newValue in
-                        AssignmentDataController().editAssignName(assign: <#T##Assignment#>, name: <#T##String#>, context: <#T##NSManagedObjectContext#>)
+            }
+            DisclosureGroup("Resources") {
+                if assignment.imagedata != nil{
+                    VStack{
+                    Image(uiImage: UIImage(data: assignment.imagedata!)!)
+                        .resizable()
+                        .scaledToFit()
+                        .if(assignment.imagesize == 1, transform: { View in
+                            View.frame(width: 150, height: 150, alignment: .center)
+                        })
+                        .if(assignment.imagesize == 2, transform: { View in
+                            View.frame(width: 250, height: 250, alignment: .center)
+                        })
+                        .if(assignment.imagesize == 3, transform: { View in
+                            View.frame(width: 350, height: 350, alignment: .center)
+                        })
+                        Text(assignment.imagetitle!)
+                            .font(.system(size: 30, weight: .heavy, design: .rounded))
+                    }.padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(20)
+                    .contextMenu{
+                        Button(role: .destructive) {
+                            withAnimation{
+                            assignment.imagedata = nil
+                                assignment.imagetitle = ""
+                                assignment.imagesize = 0
+                                try? managedObjContext.save()
+                            }
+                        } label: {
+                            HStack{
+                            Text("Delete Image")
+                                Image(systemName: "trash")
+                            }
+                        }
+
                     }
+                }
             }
     }
     }
