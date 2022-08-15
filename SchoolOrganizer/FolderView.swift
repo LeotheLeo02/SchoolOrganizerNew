@@ -204,6 +204,7 @@ struct FolderView: View {
                     ForEach(Images){imag in
                         VStack{
                         HStack{
+                            Spacer()
                             VStack{
                         Image(uiImage: UIImage(data: imag.imageD ?? image)!)
                             .resizable()
@@ -214,6 +215,7 @@ struct FolderView: View {
                         Text(imag.imagetitle!)
                                 .font(.system(size: 20, weight: .heavy, design: .rounded))
                         }
+                            Spacer()
                         }.padding()
                             AssignImageData(image: imag, added: $Added, sizename: $sizename, addedName: $addedName)
                                 .onChange(of: Added) { V in
@@ -262,7 +264,7 @@ struct FolderView: View {
                 AddSchoolPeriod()
             })
             .toast(isPresenting: $Added) {
-                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "(\(sizename)) \(addedName) Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 20, weight: .heavy, design: .rounded), subTitleFont: .title))
+                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "\(sizename) \(addedName) Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 20, weight: .heavy, design: .rounded), subTitleFont: .title))
             }
             .toast(isPresenting: $AddedLink) {
                 AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Link Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
@@ -393,7 +395,7 @@ struct AssignImageData: View{
     @Binding var sizename: String
     @Binding var addedName: String
     var body: some View{
-        VStack{
+        ScrollView{
             ForEach(assignment){assign in
                 Menu{
                     Button("Large"){
@@ -416,8 +418,17 @@ struct AssignImageData: View{
                     }
                 }label: {
                     Text(assign.name!)
-                        .bold()
-                        .padding()
+                        .font(.system(size: 17, weight: .heavy, design: .rounded))
+                        .if(assign.color == "Blue"){view in
+                            view.foregroundColor(.blue)
+                        }
+                        .if(assign.color == "Green"){ view in
+                            view.foregroundColor(.green)
+                        }
+                        .if(assign.color == "Red"){ view in
+                            view.foregroundColor(.red)
+                        }
+                        .padding(7)
                         .background(Color(.systemGray6))
                         .cornerRadius(20)
                 }

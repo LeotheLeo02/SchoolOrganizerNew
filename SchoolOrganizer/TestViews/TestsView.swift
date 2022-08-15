@@ -17,6 +17,7 @@ struct TestsView: View {
     @State private var filter  = false
     @State private var filtername = ""
     @State private var reconfigure = false
+    @State private var Study = false
     @Binding var Background: Color
     var body: some View {
         NavigationView{
@@ -423,6 +424,9 @@ struct TestsView: View {
         .sheet(isPresented: $reconfigure, content: {
             ChangeAllTopicsView()
         })
+        .sheet(isPresented: $Study, content: {
+            StudySessionsView()
+        })
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -479,6 +483,14 @@ struct TestsView: View {
                     }
                     } label: {
                         Image(systemName: filter ? "line.3.horizontal.decrease.circle.fill":"line.3.horizontal.decrease.circle")
+                    }
+
+                }
+                ToolbarItem(placement: .navigationBarLeading){
+                    Button {
+                        Study.toggle()
+                    } label: {
+                        Image(systemName: "rectangle.fill.badge.person.crop")
                     }
 
                 }

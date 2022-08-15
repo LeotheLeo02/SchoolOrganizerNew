@@ -376,6 +376,9 @@ struct AssignmentsView: View {
                             }
                         } label: {
                             Text("All")
+                            if filter == false{
+                                Image(systemName: "checkmark")
+                            }
                         }
                         if !topic.isEmpty{
                         Button(role: .destructive) {

@@ -31,6 +31,8 @@
 		436DB7CE28A9DA3F0042844D /* QuickViewAssignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DB7CD28A9DA3F0042844D /* QuickViewAssignment.swift */; };
 		437F98BE28A2B8D700C936FF /* ChangeAllTopicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437F98BD28A2B8D700C936FF /* ChangeAllTopicsView.swift */; };
 		43BB85AD28A5D2A400DA4719 /* AssignIndiviualTopicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BB85AC28A5D2A400DA4719 /* AssignIndiviualTopicView.swift */; };
+		43C4A5CF28AADCA300EB94D9 /* StudyDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C4A5CE28AADCA300EB94D9 /* StudyDataController.swift */; };
+		43C4A5D128AADE6E00EB94D9 /* StudySessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C4A5D028AADE6E00EB94D9 /* StudySessionsView.swift */; };
 		43CA7B68289EBE7200C90701 /* AssignmentSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CA7B67289EBE7200C90701 /* AssignmentSearchView.swift */; };
 		43CA7B6A289EBEC300C90701 /* FilteredAssignmentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CA7B69289EBEC300C90701 /* FilteredAssignmentList.swift */; };
 		43D57A41289C5F1000F37A34 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 43D57A40289C5F1000F37A34 /* AlertToast */; };
@@ -65,6 +67,8 @@
 		436DB7CD28A9DA3F0042844D /* QuickViewAssignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickViewAssignment.swift; sourceTree = "<group>"; };
 		437F98BD28A2B8D700C936FF /* ChangeAllTopicsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAllTopicsView.swift; sourceTree = "<group>"; };
 		43BB85AC28A5D2A400DA4719 /* AssignIndiviualTopicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignIndiviualTopicView.swift; sourceTree = "<group>"; };
+		43C4A5CE28AADCA300EB94D9 /* StudyDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyDataController.swift; sourceTree = "<group>"; };
+		43C4A5D028AADE6E00EB94D9 /* StudySessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySessionsView.swift; sourceTree = "<group>"; };
 		43CA7B67289EBE7200C90701 /* AssignmentSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentSearchView.swift; sourceTree = "<group>"; };
 		43CA7B69289EBEC300C90701 /* FilteredAssignmentList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredAssignmentList.swift; sourceTree = "<group>"; };
 		43D5861928A3043300829981 /* HistoryADataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryADataController.swift; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 				4339D3B428A425E20093D9D4 /* CompletedTestsDataController.swift */,
 				43D5861928A3043300829981 /* HistoryADataController.swift */,
 				435FEBFC289CAEAB0051AED2 /* ImageDataController.swift */,
+				43C4A5CE28AADCA300EB94D9 /* StudyDataController.swift */,
 				4339D3B628A452890093D9D4 /* PeriodDataController.swift */,
 				4333E9F92899A58300E80A67 /* SchoolModel.xcdatamodeld */,
 			);
@@ -156,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				4333EA042899B28200E80A67 /* TestsView.swift */,
+				43C4A5D028AADE6E00EB94D9 /* StudySessionsView.swift */,
 				43E4E6982899FCC3001CCE9C /* EditTestView.swift */,
 				4333EA022899ABF500E80A67 /* AddTestView.swift */,
 			);
@@ -255,11 +261,13 @@
 				4333E9F42899A57700E80A67 /* AssignmentDataController.swift in Sources */,
 				43CA7B68289EBE7200C90701 /* AssignmentSearchView.swift in Sources */,
 				43122BB8289C3DB6002F6CA9 /* PastNamesDataController.swift in Sources */,
+				43C4A5CF28AADCA300EB94D9 /* StudyDataController.swift in Sources */,
 				4333E9F62899A57B00E80A67 /* TopicDataController.swift in Sources */,
 				4333EA032899ABF500E80A67 /* AddTestView.swift in Sources */,
 				4333E9FB2899A58300E80A67 /* SchoolModel.xcdatamodeld in Sources */,
 				43D5861C28A3054300829981 /* HistoryView.swift in Sources */,
 				4333EA052899B28200E80A67 /* TestsView.swift in Sources */,
+				43C4A5D128AADE6E00EB94D9 /* StudySessionsView.swift in Sources */,
 				437F98BE28A2B8D700C936FF /* ChangeAllTopicsView.swift in Sources */,
 				43CA7B6A289EBEC300C90701 /* FilteredAssignmentList.swift in Sources */,
 				4333EA012899AAA600E80A67 /* TabManager.swift in Sources */,
