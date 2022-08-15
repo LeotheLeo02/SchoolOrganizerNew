@@ -19,6 +19,7 @@ struct EditAssignment: View {
     @State private var complete = false
     @State private var assigntopic = false
     @State private var assigned = false
+    @Binding var color: Color
     @State private var orientation = UIDevice.current.orientation
     private let orientationChanged = NotificationCenter.default
         .publisher(for: UIDevice.orientationDidChangeNotification)
@@ -102,7 +103,8 @@ struct EditAssignment: View {
             .toast(isPresenting: $assigned) {
                 AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Assigned Topic", style: .style(backgroundColor: Color(.systemGray6), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
             }
-        }
+            }.frame(maxWidth: .infinity,maxHeight: .infinity)
+            .background(color)
             .toolbar{
             ToolbarItem(placement: .bottomBar) {
                 Button {

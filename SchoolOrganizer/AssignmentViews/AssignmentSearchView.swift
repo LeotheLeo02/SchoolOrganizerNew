@@ -51,9 +51,3 @@ struct AssignmentSearchView: View {
         }
     }
 }
-
-struct AssignmentSearchView_Previews: PreviewProvider {
-    static var previews: some View {
-        AssignmentSearchView()
-    }
-}

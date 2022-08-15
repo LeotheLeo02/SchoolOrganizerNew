@@ -76,7 +76,7 @@ struct AssignmentsView: View {
                         if filter{
                             if assign.topic == filtername{
                                 VStack{
-                                NavigationLink(destination: EditAssignment(assignment: assign)){
+                                NavigationLink(destination: EditAssignment(assignment: assign, color: $Background)){
                                     Rectangle()
                                         .frame(width: 160, height: 160)
                                         .cornerRadius(30)
@@ -187,7 +187,7 @@ struct AssignmentsView: View {
                             }
                         }else{
                         VStack{
-                        NavigationLink(destination: EditAssignment(assignment: assign)){
+                            NavigationLink(destination: EditAssignment(assignment: assign, color: $Background)){
                             Rectangle()
                                 .frame(width: 160, height: 160)
                                 .cornerRadius(30)

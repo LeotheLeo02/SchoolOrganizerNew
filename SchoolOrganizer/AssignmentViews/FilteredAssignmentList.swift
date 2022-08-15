@@ -16,8 +16,11 @@ struct FilteredAssignmentList: View {
                     .foregroundColor(.gray)
             }
         List(fetchRequest, id: \.self){ assign in
-            NavigationLink(destination: EditAssignment(assignment: assign)){
-            Text(assign.name!)
+            HStack{
+                Spacer()
+            QuickViewAssignment(assignment: assign)
+                    .scaledToFill()
+                Spacer()
             }
         }
         .navigationBarHidden(true)
