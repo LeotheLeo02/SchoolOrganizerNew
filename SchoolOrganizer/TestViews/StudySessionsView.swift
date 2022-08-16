@@ -20,16 +20,37 @@ struct StudySessionsView: View {
                 VStack{
                 HStack{
                 Text(study.name!)
+                        .font(.system(size: 15, weight: .heavy, design: .rounded))
                     Spacer()
                     Text(study.start!, style: .time)
+                        .font(.system(size: 15, weight: .heavy, design: .rounded))
                     Text(study.start!, style: .date)
+                        .font(.system(size: 15, weight: .heavy, design: .rounded))
                 }
                     VStack{
+                        let minuteend = daysBetweenMinute(start: Date.now, end: study.end!)
                     let hours = daysBetween(start: Date.now, end: study.start!)
-                    if hours <= 2 && hours > 1{
+                        if hours > 2{
+                            HStack{
+                            Text("Session Set")
+                                .underline()
+                                .font(.system(size: 15, weight: .heavy, design: .rounded))
+                                .foregroundColor(.green)
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.green)
+                                    .font(.title2)
+                            }
+                        }
+                    if hours <= 2 && hours >= 1{
+                        HStack{
                         Text("Starting Soon")
+                            .underline()
                             .font(.system(size: 15, weight: .heavy, design: .rounded))
                             .foregroundColor(.yellow)
+                            Image(systemName: "clock.fill")
+                                .foregroundColor(.yellow)
+                                .font(.title2)
+                        }
                     }
                     let minutes  = daysBetweenMinute(start: Date.now, end: study.start!)
                     if minutes <= 60 && minutes > 0{
@@ -37,8 +58,14 @@ struct StudySessionsView: View {
                             .font(.system(size: 15, weight: .heavy, design: .rounded))
                             .foregroundColor(.red)
                     }
-                    if minutes <= 0{
+                        if minuteend <= 0 && minutes <= 0{
+                                Text("Session ended")
+                                    .underline()
+                                    .font(.system(size: 15, weight: .heavy, design: .rounded))
+                                    .foregroundColor(.gray)
+                        }else if minutes <= 0{
                         Text("Session Started")
+                            .underline()
                             .font(.system(size: 15, weight: .heavy, design: .rounded))
                             .foregroundColor(.green)
                         let minuteend = daysBetweenMinute(start: Date.now, end: study.end!)
@@ -60,12 +87,8 @@ struct StudySessionsView: View {
                             .font(.system(size: 13, weight: .heavy, design: .rounded))
                             .foregroundColor(.gray)
                         }
-                        if minuteend < 0 {
-                            Text("Session ended")
-                                .font(.system(size: 13, weight: .heavy, design: .rounded))
-                                .foregroundColor(.gray)
-                        }
                     }
+                        
                     }.padding()
                 }.padding()
             }
