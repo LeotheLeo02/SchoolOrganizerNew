@@ -10,13 +10,14 @@ import AlertToast
 
 struct StudySessionsView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.start)]) var session: FetchedResults<StudySessions>
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.name)]) var studytopic: FetchedResults<StudyTopics>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.intensity, order: .reverse)]) var studytopic: FetchedResults<StudyTopics>
     @Environment(\.managedObjectContext) var managedObjContext
     @State private var add = false
     @State private var addedSession = false
     @State private var newtopic = false
     @State private var topicname = ""
-    @FocusState private var topic: Bool
+    @State private var intensityValue: Double = 0
+    @State private var intensitystatus = ""
     var body: some View {
         NavigationView{
         VStack{
@@ -111,6 +112,42 @@ struct StudySessionsView: View {
                 Text("Important Topics To Study")
                         .bold()
                 }
+                if newtopic{
+                    Slider(value: $intensityValue, in: 0...10)
+                        .onChange(of: intensityValue) { Bob in
+                            if intensityValue > 4 && intensityValue < 6{
+                                intensitystatus = "Medium"
+                            }
+                            if intensityValue < 4{
+                                intensitystatus = "Low"
+                            }
+                            if intensityValue > 6 {
+                                intensitystatus = "High"
+                            }
+                        }
+                        .onAppear(){
+                            if intensityValue > 4 && intensityValue < 6{
+                                intensitystatus = "Medium"
+                            }
+                            if intensityValue < 4{
+                                intensitystatus = "Low"
+                            }
+                            if intensityValue > 6 {
+                                intensitystatus = "High"
+                            }
+                        }
+                    Text("Intensity: \(intensitystatus)")
+                        .bold()
+                        .if(intensitystatus == "Low"){view in
+                            view.foregroundColor(.green)
+                        }
+                        .if(intensitystatus == "Medium"){view in
+                            view.foregroundColor(.yellow)
+                        }
+                        .if(intensitystatus == "High"){view in
+                            view.foregroundColor(.red)
+                        }
+                }
             ScrollView(.horizontal, showsIndicators: true) {
                 HStack{
                     if studytopic.isEmpty && newtopic == false{
@@ -122,29 +159,33 @@ struct StudySessionsView: View {
                         HStack{
                             Text(topic.name!)
                                 .font(.system(size: 15, weight: .heavy, design: .rounded))
-                                .foregroundColor(.blue)
+                                .if (topic.intensity > 4 && topic.intensity < 6){ view in
+                                    view.foregroundColor(.yellow)
+                                }
+                                .if (topic.intensity < 4){view in
+                                    view.foregroundColor(.green)
+                                }
+                                .if (topic.intensity > 6) {view in
+                                  view.foregroundColor(.red)
+                                }
                         }.padding()
                         .background(Color(.systemGray5))
                         .cornerRadius(25)
+                        .contextMenu {
+                            Button(role: .destructive){
+                                withAnimation{
+                                topic.managedObjectContext?.delete(topic)
+                                    StudyTopicsDataController().save(context: managedObjContext)
+                                }
+                            }label:{
+                              Text("Delete")
+                                Image(systemName: "trash.fill")
+                            }
+                        }
                     }
                     if newtopic{
                         TextField("Topic Name...", text: $topicname)
                             .textFieldStyle(.roundedBorder)
-                            .focused($topic)
-                            .onSubmit {
-                                if !topicname.trimmingCharacters(in: .whitespaces).isEmpty{
-                                    StudyTopicsDataController().addStudyTopic(name: topicname.trimmingCharacters(in: .whitespaces), context: managedObjContext)
-                                topicname = ""
-                                }
-                                withAnimation{
-                                newtopic = false
-                                }
-                            }
-                            .onAppear(){
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                topic = true
-                            }
-                            }
                     }
                     Button {
                         withAnimation{
@@ -159,6 +200,20 @@ struct StudySessionsView: View {
             .background(Color(.systemGray6))
                     .padding()
                     .cornerRadius(20)
+                if newtopic{
+                    Button {
+                        if !topicname.trimmingCharacters(in: .whitespaces).isEmpty{
+                            StudyTopicsDataController().addStudyTopic(name: topicname.trimmingCharacters(in: .whitespaces), intensity: intensityValue, context: managedObjContext)
+                        topicname = ""
+                        }
+                        withAnimation{
+                        newtopic = false
+                        }
+                    } label: {
+                        Text("Add")
+                    }.buttonStyle(.borderedProminent)
+
+                }
             }
         }
         .toast(isPresenting: $addedSession, alert: {

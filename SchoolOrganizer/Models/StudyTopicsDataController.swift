@@ -30,10 +30,11 @@ class StudyTopicsDataController: ObservableObject {
         }
     }
     
-    func addStudyTopic(name: String, context: NSManagedObjectContext) {
+    func addStudyTopic(name: String, intensity: Double, context: NSManagedObjectContext) {
         let stopic = StudyTopics(context: context)
         stopic.id = UUID()
         stopic.name = name
+        stopic.intensity = intensity
         save(context: context)
     }
     func editTopic(stopic: StudyTopics, studied: Bool, context: NSManagedObjectContext){
