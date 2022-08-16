@@ -30,7 +30,7 @@ struct TestsView: View {
                         Image(systemName:"checkmark.circle.fill")
                             .font(.title)
                             .foregroundColor(.gray)
-                    }
+                    }.padding()
                 }
                 if filter{
                 Section{

@@ -10,9 +10,13 @@ import AlertToast
 
 struct StudySessionsView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.start)]) var session: FetchedResults<StudySessions>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.name)]) var studytopic: FetchedResults<StudyTopics>
     @Environment(\.managedObjectContext) var managedObjContext
     @State private var add = false
     @State private var addedSession = false
+    @State private var newtopic = false
+    @State private var topicname = ""
+    @FocusState private var topic: Bool
     var body: some View {
         NavigationView{
         VStack{
@@ -23,11 +27,14 @@ struct StudySessionsView: View {
                 HStack{
                 Text(study.name!)
                         .font(.system(size: 15, weight: .heavy, design: .rounded))
+                        .fixedSize(horizontal: false, vertical: true)
                     Spacer()
                     Text(study.start!, style: .time)
                         .font(.system(size: 15, weight: .heavy, design: .rounded))
+                        .fixedSize(horizontal: false, vertical: true)
                     Text(study.start!, style: .date)
                         .font(.system(size: 15, weight: .heavy, design: .rounded))
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                     VStack{
                         let minuteend = daysBetweenMinute(start: Date.now, end: study.end!)
@@ -93,15 +100,70 @@ struct StudySessionsView: View {
                         
                     }.padding()
                 }.padding()
+                }.onChange(of: add) { V in
+                    simpleSuccess()
+                    print("Change")
+                }
             }
             }
+            VStack{
+                HStack{
+                Text("Important Topics To Study")
+                        .bold()
+                }
+            ScrollView(.horizontal, showsIndicators: true) {
+                HStack{
+                    if studytopic.isEmpty && newtopic == false{
+                        Text("No Topics Added")
+                            .bold()
+                            .foregroundColor(.gray)
+                    }
+                    ForEach(studytopic){topic in
+                        HStack{
+                            Text(topic.name!)
+                                .font(.system(size: 15, weight: .heavy, design: .rounded))
+                                .foregroundColor(.blue)
+                        }.padding()
+                        .background(Color(.systemGray5))
+                        .cornerRadius(25)
+                    }
+                    if newtopic{
+                        TextField("Topic Name...", text: $topicname)
+                            .textFieldStyle(.roundedBorder)
+                            .focused($topic)
+                            .onSubmit {
+                                if !topicname.trimmingCharacters(in: .whitespaces).isEmpty{
+                                    StudyTopicsDataController().addStudyTopic(name: topicname.trimmingCharacters(in: .whitespaces), context: managedObjContext)
+                                topicname = ""
+                                }
+                                withAnimation{
+                                newtopic = false
+                                }
+                            }
+                            .onAppear(){
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                topic = true
+                            }
+                            }
+                    }
+                    Button {
+                        withAnimation{
+                        newtopic.toggle()
+                        }
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+                
+            }.padding()
+            .background(Color(.systemGray6))
+                    .padding()
+                    .cornerRadius(20)
             }
         }
         .toast(isPresenting: $addedSession, alert: {
             AlertToast(type: .complete(.green), title: "Added",style: .style(backgroundColor: Color(.systemGray5)))
-        }).onAppear(){
-            simpleSuccess()
-        }
+        })
         .sheet(isPresented: $add, content: {
             SessionAdd(added: $addedSession)
         })
@@ -118,6 +180,7 @@ struct StudySessionsView: View {
             }
         }
     }
+        .navigationViewStyle(.stack)
     }
     func simpleSuccess() {
         let generator = UINotificationFeedbackGenerator()
@@ -247,5 +310,6 @@ struct SessionAdd: View{
             }
         }
     }
+        .navigationViewStyle(.stack)
     }
 }

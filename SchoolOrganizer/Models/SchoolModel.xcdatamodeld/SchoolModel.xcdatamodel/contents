@@ -59,6 +59,11 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="start" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
+    <entity name="StudyTopics" representedClassName="StudyTopics" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="studied" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
     <entity name="Tests" representedClassName="Tests" syncable="YES" codeGenerationType="class">
         <attribute name="changedtopic" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="datesubmitted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -83,8 +88,9 @@
         <element name="Links" positionX="-36" positionY="45" width="128" height="74"/>
         <element name="PastNames" positionX="-36" positionY="81" width="128" height="59"/>
         <element name="Periods" positionX="-18" positionY="90" width="128" height="104"/>
+        <element name="StudySessions" positionX="-27" positionY="90" width="128" height="89"/>
         <element name="Tests" positionX="-27" positionY="54" width="128" height="164"/>
         <element name="Topics" positionX="-63" positionY="18" width="128" height="59"/>
-        <element name="StudySessions" positionX="-27" positionY="90" width="128" height="89"/>
+        <element name="StudyTopics" positionX="-27" positionY="90" width="128" height="74"/>
     </elements>
 </model>

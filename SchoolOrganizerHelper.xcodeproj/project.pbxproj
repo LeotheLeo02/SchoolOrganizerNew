@@ -29,6 +29,7 @@
 		435FEBFD289CAEAB0051AED2 /* ImageDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435FEBFC289CAEAB0051AED2 /* ImageDataController.swift */; };
 		435FEBFF289CB34D0051AED2 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435FEBFE289CB34D0051AED2 /* ImagePicker.swift */; };
 		43660C7F28AC1010008DA81B /* SessionEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43660C7E28AC1010008DA81B /* SessionEditView.swift */; };
+		43660C8128AC3D23008DA81B /* StudyTopicsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43660C8028AC3D23008DA81B /* StudyTopicsDataController.swift */; };
 		436DB7CE28A9DA3F0042844D /* QuickViewAssignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DB7CD28A9DA3F0042844D /* QuickViewAssignment.swift */; };
 		437F98BE28A2B8D700C936FF /* ChangeAllTopicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437F98BD28A2B8D700C936FF /* ChangeAllTopicsView.swift */; };
 		43BB85AD28A5D2A400DA4719 /* AssignIndiviualTopicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BB85AC28A5D2A400DA4719 /* AssignIndiviualTopicView.swift */; };
@@ -66,6 +67,7 @@
 		435FEBFC289CAEAB0051AED2 /* ImageDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataController.swift; sourceTree = "<group>"; };
 		435FEBFE289CB34D0051AED2 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		43660C7E28AC1010008DA81B /* SessionEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEditView.swift; sourceTree = "<group>"; };
+		43660C8028AC3D23008DA81B /* StudyTopicsDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyTopicsDataController.swift; sourceTree = "<group>"; };
 		436DB7CD28A9DA3F0042844D /* QuickViewAssignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickViewAssignment.swift; sourceTree = "<group>"; };
 		437F98BD28A2B8D700C936FF /* ChangeAllTopicsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAllTopicsView.swift; sourceTree = "<group>"; };
 		43BB85AC28A5D2A400DA4719 /* AssignIndiviualTopicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignIndiviualTopicView.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				43D5861928A3043300829981 /* HistoryADataController.swift */,
 				435FEBFC289CAEAB0051AED2 /* ImageDataController.swift */,
 				43C4A5CE28AADCA300EB94D9 /* StudyDataController.swift */,
+				43660C8028AC3D23008DA81B /* StudyTopicsDataController.swift */,
 				4339D3B628A452890093D9D4 /* PeriodDataController.swift */,
 				4333E9F92899A58300E80A67 /* SchoolModel.xcdatamodeld */,
 			);
@@ -264,6 +267,7 @@
 				4333E9F42899A57700E80A67 /* AssignmentDataController.swift in Sources */,
 				43CA7B68289EBE7200C90701 /* AssignmentSearchView.swift in Sources */,
 				43122BB8289C3DB6002F6CA9 /* PastNamesDataController.swift in Sources */,
+				43660C8128AC3D23008DA81B /* StudyTopicsDataController.swift in Sources */,
 				43C4A5CF28AADCA300EB94D9 /* StudyDataController.swift in Sources */,
 				4333E9F62899A57B00E80A67 /* TopicDataController.swift in Sources */,
 				4333EA032899ABF500E80A67 /* AddTestView.swift in Sources */,
