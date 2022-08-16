@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct StudySessionsView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.start)]) var session: FetchedResults<StudySessions>
     @Environment(\.managedObjectContext) var managedObjContext
     @State private var add = false
+    @State private var addedSession = false
     var body: some View {
         NavigationView{
         VStack{
@@ -30,7 +32,7 @@ struct StudySessionsView: View {
                     VStack{
                         let minuteend = daysBetweenMinute(start: Date.now, end: study.end!)
                     let hours = daysBetween(start: Date.now, end: study.start!)
-                        if hours > 2{
+                        if hours >= 2{
                             HStack{
                             Text("Session Set")
                                 .underline()
@@ -41,7 +43,7 @@ struct StudySessionsView: View {
                                     .font(.title2)
                             }
                         }
-                    if hours <= 2 && hours >= 1{
+                    if hours == 1{
                         HStack{
                         Text("Starting Soon")
                             .underline()
@@ -95,8 +97,13 @@ struct StudySessionsView: View {
             }
             }
         }
+        .toast(isPresenting: $addedSession, alert: {
+            AlertToast(type: .complete(.green), title: "Added",style: .style(backgroundColor: Color(.systemGray5)))
+        }).onAppear(){
+            simpleSuccess()
+        }
         .sheet(isPresented: $add, content: {
-            SessionAdd()
+            SessionAdd(added: $addedSession)
         })
         .navigationTitle("Study Sessions")
         .toolbar {
@@ -111,6 +118,10 @@ struct StudySessionsView: View {
             }
         }
     }
+    }
+    func simpleSuccess() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
     }
     func daysBetween(start: Date, end: Date) -> Int {
         return Calendar.current.dateComponents([.hour], from: start, to: end).hour!
@@ -140,8 +151,10 @@ struct SessionAdd: View{
     @Environment(\.dismiss) var dismiss
     @State private var name = ""
     @State private var startdate = Date()
+    @State private var same = false
     @State private var enddate = Date()
     @State private var startday: Int = 0
+    @Binding var added: Bool
     var body: some View{
         NavigationView{
         Form{
@@ -154,9 +167,20 @@ struct SessionAdd: View{
                     startday = day
                     let automatic = Calendar.current.date(bySetting: .day, value: startday, of: startdate)
                     enddate = automatic!
+                    if enddate != startdate{
+                        same = false
+                    }
+                }
+                .onAppear(){
+                        same = true
                 }
             DatePicker("Ending...", selection: $enddate,in: startdate... ,displayedComponents: .hourAndMinute)
                 .datePickerStyle(.compact)
+                .onChange(of: enddate) { newValue in
+                    if enddate != startdate{
+                        same = false
+                    }
+                }
         }
         .navigationTitle("Add Session")
         .toolbar {
@@ -206,10 +230,19 @@ struct SessionAdd: View{
                     let endidentifier = name + "EE"
                     let endrequest = UNNotificationRequest(identifier: endidentifier, content: endcontent, trigger: endtrigger)
                     UNUserNotificationCenter.current().add(endrequest)
+                    added.toggle()
                     dismiss()
                 } label: {
                     Text("Submit")
-                }.disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
+                }.disabled(name.trimmingCharacters(in: .whitespaces).isEmpty || same)
+
+            }
+            ToolbarItem(placement: .cancellationAction) {
+                Button {
+                   dismiss()
+                } label: {
+                    Text("Cancel")
+                }
 
             }
         }
