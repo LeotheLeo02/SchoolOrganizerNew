@@ -11,17 +11,19 @@ struct FilteredAssignmentList: View {
     @FetchRequest var fetchRequest: FetchedResults<Assignment>
     var body: some View {
         NavigationView{
+            Form{
             if fetchRequest.isEmpty{
                 Text("No Items Found")
                     .foregroundColor(.gray)
             }
-        List(fetchRequest, id: \.self){ assign in
+        ForEach(fetchRequest, id: \.self){ assign in
             HStack{
                 Spacer()
             QuickViewAssignment(assignment: assign)
                     .scaledToFill()
                 Spacer()
             }
+        }
         }
         .navigationBarHidden(true)
     }

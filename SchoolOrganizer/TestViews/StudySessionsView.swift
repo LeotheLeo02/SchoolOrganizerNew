@@ -277,8 +277,13 @@ struct SessionAdd: View{
         NavigationView{
         Form{
             TextField("Name...", text: $name)
-            DatePicker("Starting...", selection: $startdate, in: Date.now...)
-                .datePickerStyle(.compact)
+                .multilineTextAlignment(.center)
+            DatePicker(selection: $startdate, in: Date.now..., label: {
+                Text("Starting...")
+                    .italic()
+                    .bold()
+                    .foregroundColor(.gray)
+            }).datePickerStyle(.compact)
                 .onChange(of: startdate) { newValue in
                     let calendar  = Calendar.current
                     let day = calendar.component(.day, from: startdate)
@@ -294,8 +299,12 @@ struct SessionAdd: View{
                 .onAppear(){
                         same = true
                 }
-            DatePicker("Ending...", selection: $enddate,in: startdate... ,displayedComponents: .hourAndMinute)
-                .datePickerStyle(.compact)
+            DatePicker(selection: $enddate, in: startdate..., displayedComponents: .hourAndMinute, label: {
+                Text("Ending...")
+                    .italic()
+                    .bold()
+                    .foregroundColor(.gray)
+            }).datePickerStyle(.compact)
                 .onChange(of: enddate) { newValue in
                     if enddate != startdate{
                         same = false

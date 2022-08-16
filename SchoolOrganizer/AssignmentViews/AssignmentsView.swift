@@ -335,6 +335,7 @@ struct AssignmentsView: View {
                         }
                     }.disabled(assignment.isEmpty)
                         .buttonStyle(.borderedProminent)
+                        .buttonBorderShape(.roundedRectangle)
                     .sheet(isPresented: $Schedule) {
                         AssignmentScheduleDetails()
                     }

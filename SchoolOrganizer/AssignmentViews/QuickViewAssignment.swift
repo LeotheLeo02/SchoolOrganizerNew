@@ -53,7 +53,8 @@ struct QuickViewAssignment: View {
                         .bold()
                 }
                 
-            }
+            }.buttonStyle(.bordered)
+                .buttonBorderShape(.roundedRectangle)
             if edit{
                 TextField("Name...", text: $name)
                     .multilineTextAlignment(.center)
@@ -67,7 +68,7 @@ struct QuickViewAssignment: View {
                     VStack{
                     Image(uiImage: UIImage(data: assignment.imagedata!)!)
                         .resizable()
-                        .scaledToFit()
+                        .frame(width: 200, height: 200)
                         .if(assignment.imagesize == 1, transform: { View in
                             View.frame(width: 150, height: 150, alignment: .center)
                         })
