@@ -24,13 +24,50 @@ struct StudySessionsView: View {
                     Text(study.start!, style: .time)
                     Text(study.start!, style: .date)
                 }
+                    VStack{
                     let hours = daysBetween(start: Date.now, end: study.start!)
-                    if hours <= 2{
+                    if hours <= 2 && hours > 1{
                         Text("Starting Soon")
-                            .font(.system(size: 20, weight: .heavy, design: .rounded))
+                            .font(.system(size: 15, weight: .heavy, design: .rounded))
+                            .foregroundColor(.yellow)
+                    }
+                    let minutes  = daysBetweenMinute(start: Date.now, end: study.start!)
+                    if minutes <= 60 && minutes > 0{
+                        Text("\(minutes) minute(s) til session starts")
+                            .font(.system(size: 15, weight: .heavy, design: .rounded))
                             .foregroundColor(.red)
                     }
-                }
+                    if minutes <= 0{
+                        Text("Session Started")
+                            .font(.system(size: 15, weight: .heavy, design: .rounded))
+                            .foregroundColor(.green)
+                        let minuteend = daysBetweenMinute(start: Date.now, end: study.end!)
+                        if minuteend > 60{
+                            let hourend = daysBetween(start: Date.now, end: study.end!)
+                            let leftoverminutes = minuteend % 60
+                            HStack{
+                                VStack{
+                            Text("Session ends in \(hourend) hour(s) and")
+                                .font(.system(size: 13, weight: .heavy, design: .rounded))
+                                .foregroundColor(.gray)
+                                    Text("\(leftoverminutes) minute(s)")
+                                        .font(.system(size: 13, weight: .heavy, design: .rounded))
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                        }else if minuteend > 0{
+                        Text("Session ends in \(minuteend) minute(s)")
+                            .font(.system(size: 13, weight: .heavy, design: .rounded))
+                            .foregroundColor(.gray)
+                        }
+                        if minuteend < 0 {
+                            Text("Session ended")
+                                .font(.system(size: 13, weight: .heavy, design: .rounded))
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    }.padding()
+                }.padding()
             }
             }
             }
@@ -54,6 +91,9 @@ struct StudySessionsView: View {
     }
     func daysBetween(start: Date, end: Date) -> Int {
         return Calendar.current.dateComponents([.hour], from: start, to: end).hour!
+    }
+    func daysBetweenMinute(start: Date, end: Date) -> Int {
+        return Calendar.current.dateComponents([.minute], from: start, to: end).minute!
     }
     private func deleteSession(offsets: IndexSet) {
         withAnimation {
