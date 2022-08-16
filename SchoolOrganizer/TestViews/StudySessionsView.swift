@@ -287,6 +287,8 @@ struct SessionAdd: View{
                     enddate = automatic!
                     if enddate != startdate{
                         same = false
+                    }else{
+                        same = true
                     }
                 }
                 .onAppear(){
@@ -297,6 +299,8 @@ struct SessionAdd: View{
                 .onChange(of: enddate) { newValue in
                     if enddate != startdate{
                         same = false
+                    }else{
+                        same = true
                     }
                 }
         }
@@ -315,7 +319,7 @@ struct SessionAdd: View{
                     let content = UNMutableNotificationContent()
                     content.title = name
                     let saydate = startdate
-                    content.subtitle = "In 15 minutes! \(saydate.formatted(.dateTime.hour().minute()))"
+                    content.body = "In 15 minutes! \(saydate.formatted(.dateTime.hour().minute()))"
                     let date = startdate
                     let fifteenminutes = Calendar.current.date(byAdding: .minute, value: -15, to: date)
                     content.sound = UNNotificationSound.default
@@ -327,7 +331,7 @@ struct SessionAdd: View{
                     
                     let currentcontent = UNMutableNotificationContent()
                     currentcontent.title = name
-                    currentcontent.subtitle = "Session Started"
+                    currentcontent.body = "Session Started"
                     let currentdate = startdate
                     let currenttime = Calendar.current.date(byAdding: .day, value: 0, to: currentdate)
                     content.sound = UNNotificationSound.default
@@ -339,7 +343,7 @@ struct SessionAdd: View{
                     
                     let endcontent = UNMutableNotificationContent()
                     endcontent.title = "Session Ending"
-                    endcontent.subtitle = "Finish Up Last Thoughts"
+                    endcontent.body = "Finish Up Last Thoughts"
                     let enddate = enddate
                     let endtime = Calendar.current.date(byAdding: .day, value: 0, to: enddate)
                     endcontent.sound = UNNotificationSound.default

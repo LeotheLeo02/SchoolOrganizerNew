@@ -411,9 +411,9 @@ struct AddAssignment: View {
                             repcontent.title = "Read \(assigname)"
                             //Change depending on what the user wants
                             if turnonsuggest{
-                                repcontent.subtitle = "Pages: \(Int(suggestdays))"
+                                repcontent.body = "Pages: \(Int(suggestdays))"
                             }else{
-                            repcontent.subtitle = "Pages: \(Int(ownpages))"
+                            repcontent.body = "Pages: \(Int(ownpages))"
                             }
                         let daterepcomp = Calendar.current.dateComponents([.hour, .minute], from: duedate)
                         let reptrigger  = UNCalendarNotificationTrigger(dateMatching: daterepcomp, repeats: true)
@@ -422,7 +422,7 @@ struct AddAssignment: View {
                         }else{
                         let content = UNMutableNotificationContent()
                         content.title = assigname
-                        content.subtitle = "This is Due Tomorrow!"
+                        content.body = "This is Due Tomorrow!"
                         let date = duedate
                         content.sound = UNNotificationSound.default
                         let OneDayEarly = Calendar.current.date(byAdding: .day, value: -1, to: date)

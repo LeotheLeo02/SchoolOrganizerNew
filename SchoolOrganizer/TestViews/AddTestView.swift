@@ -181,7 +181,7 @@ struct AddTestView: View {
                             //Finish Notifications
                             let content = UNMutableNotificationContent()
                             content.title = testname
-                            content.subtitle = "\(testname) is in Two Days! Make Sure To Study!"
+                            content.body = "\(testname) is in Two Days! Make Sure To Study!"
                             let date = newtestdate
                             let TwoDaysEarly = Calendar.current.date(byAdding: .day, value: -2, to: date)
                             content.sound = UNNotificationSound.default
@@ -199,7 +199,7 @@ struct AddTestView: View {
                         let date2 = newtestdate
                         let secondcontent = UNMutableNotificationContent()
                         secondcontent.title = testname
-                        secondcontent.subtitle = "\(testname) is Tomorrow! Make Sure To Study!"
+                        secondcontent.body = "\(testname) is Tomorrow! Make Sure To Study!"
                         secondcontent.sound = UNNotificationSound.default
                         let OneDayEarly = Calendar.current.date(byAdding: .day, value: -1, to: date2)
                         let dateComp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: OneDayEarly!)
