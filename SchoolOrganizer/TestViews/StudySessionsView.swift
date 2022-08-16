@@ -9,12 +9,30 @@ import SwiftUI
 
 struct StudySessionsView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.start)]) var session: FetchedResults<StudySessions>
+    @Environment(\.managedObjectContext) var managedObjContext
     @State private var add = false
     var body: some View {
         NavigationView{
-        ScrollView{
+        VStack{
+            List{
             ForEach(session){study in
+                NavigationLink(destination: SessionEditView(session: study)){
+                VStack{
+                HStack{
                 Text(study.name!)
+                    Spacer()
+                    Text(study.start!, style: .time)
+                    Text(study.start!, style: .date)
+                }
+                    let hours = daysBetween(start: Date.now, end: study.start!)
+                    if hours <= 2{
+                        Text("Starting Soon")
+                            .font(.system(size: 20, weight: .heavy, design: .rounded))
+                            .foregroundColor(.red)
+                    }
+                }
+            }
+            }
             }
         }
         .sheet(isPresented: $add, content: {
@@ -33,6 +51,18 @@ struct StudySessionsView: View {
             }
         }
     }
+    }
+    func daysBetween(start: Date, end: Date) -> Int {
+        return Calendar.current.dateComponents([.hour], from: start, to: end).hour!
+    }
+    private func deleteSession(offsets: IndexSet) {
+        withAnimation {
+            offsets.map { session[$0] }
+            .forEach(managedObjContext.delete)
+            
+            // Saves to our database
+            StudyDataController().save(context: managedObjContext)
+        }
     }
 }
 
@@ -101,6 +131,18 @@ struct SessionAdd: View{
                     let identifier = name + "CC"
                     let currentrequest = UNNotificationRequest(identifier: identifier, content: currentcontent, trigger: currenttrigger)
                     UNUserNotificationCenter.current().add(currentrequest)
+                    
+                    let endcontent = UNMutableNotificationContent()
+                    endcontent.title = "Session Ending"
+                    endcontent.subtitle = "Finish Up Last Thoughts"
+                    let enddate = enddate
+                    let endtime = Calendar.current.date(byAdding: .day, value: 0, to: enddate)
+                    endcontent.sound = UNNotificationSound.default
+                    let endcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: endtime!)
+                    let endtrigger = UNCalendarNotificationTrigger(dateMatching: endcomp , repeats: false)
+                    let endidentifier = name + "EE"
+                    let endrequest = UNNotificationRequest(identifier: endidentifier, content: endcontent, trigger: endtrigger)
+                    UNUserNotificationCenter.current().add(endrequest)
                     dismiss()
                 } label: {
                     Text("Submit")
