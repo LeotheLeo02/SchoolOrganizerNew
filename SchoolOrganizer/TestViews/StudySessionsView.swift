@@ -12,6 +12,7 @@ struct StudySessionsView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.start)]) var session: FetchedResults<StudySessions>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.intensity, order: .reverse)]) var studytopic: FetchedResults<StudyTopics>
     @Environment(\.managedObjectContext) var managedObjContext
+    @Environment(\.dismiss) var dismiss
     @State private var add = false
     @State private var addedSession = false
     @State private var newtopic = false
@@ -233,6 +234,14 @@ struct StudySessionsView: View {
                 }
 
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                   dismiss()
+                } label: {
+                    Text("Cancel")
+                }
+
+            }
         }
     }
         .navigationViewStyle(.stack)
@@ -340,7 +349,7 @@ struct SessionAdd: View{
                     
                     let currentcontent = UNMutableNotificationContent()
                     currentcontent.title = name
-                    currentcontent.body = "Session Started"
+                    currentcontent.body = "\(name) Session Started"
                     let currentdate = startdate
                     let currenttime = Calendar.current.date(byAdding: .day, value: 0, to: currentdate)
                     content.sound = UNNotificationSound.default
@@ -351,7 +360,7 @@ struct SessionAdd: View{
                     UNUserNotificationCenter.current().add(currentrequest)
                     
                     let endcontent = UNMutableNotificationContent()
-                    endcontent.title = "Session Ending"
+                    endcontent.title = "\(name) Session Ending"
                     endcontent.body = "Finish Up Last Thoughts"
                     let enddate = enddate
                     let endtime = Calendar.current.date(byAdding: .day, value: 0, to: enddate)

@@ -49,6 +49,7 @@ struct AddAssignment: View {
     @State private var suggestdays: Int = 0
     @State private var turnonsuggest = true
     @State private var ownpages: Int = 0
+    @State private var owntext = ""
     @State private var pagenumber: Int = 0
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -67,6 +68,29 @@ struct AddAssignment: View {
                 assigname = ""
             }
             if type == "Book"{
+                Toggle(isOn: $turnonsuggest) {
+                    HStack{
+                        Spacer()
+                    Text("Use Suggestion")
+                        Spacer()
+                    }
+                }.toggleStyle(.button)
+                if !turnonsuggest{
+                    TextField("Number Of Pages To Read EveryDay", text: Binding(
+                        get: {owntext},
+                        set: {owntext = $0.filter{"0123456789".contains($0)}}))
+                    .multilineTextAlignment(.center)
+                    .keyboardType(.numberPad)
+                    .onChange(of: owntext) { _ in
+                        ownpages = NumberFormatter().number(from: "0" + owntext) as! Int
+                    }
+                    .onChange(of: undoall) { V in
+                        owntext = ""
+                        ownpages = 0
+                    }
+                }
+            }
+            if type == "Book" && turnonsuggest{
                 HStack{
                     Spacer()
                 Text("How Many Pages Are In The Book?")
@@ -264,6 +288,7 @@ struct AddAssignment: View {
                             TopicDataController().addTopic(topicname: newname.trimmingCharacters(in: .whitespaces), context: managedObjContext)
                             withAnimation{
                             addtopic.toggle()
+                                newname = ""
                             }
                         }
                 }
@@ -335,22 +360,12 @@ struct AddAssignment: View {
                     }
                 }
                 if type == "Book"{
-                    Toggle(isOn: $turnonsuggest) {
-                        Text("Use Suggestion")
-                    }
                     DatePicker("Choose Reminder Time", selection: $duedate, displayedComponents: .hourAndMinute)
                         .datePickerStyle(.graphical)
                         .frame(maxHeight: 400)
                         .onChange(of: undoall) { newValue in
                             duedate = Date.now
                         }
-                    if !turnonsuggest{
-                        Picker("Choose the Amount of Pages You Want To Read Everyday", selection: $ownpages){
-                            ForEach(1...150, id: \.self){custom in
-                                Text("\(custom)")
-                            }
-                        }.pickerStyle(.menu)
-                    }
                 }else{
                 DatePicker("Choose a Due Date", selection: $duedate)
                     .datePickerStyle(.graphical)

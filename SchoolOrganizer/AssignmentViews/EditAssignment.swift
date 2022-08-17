@@ -171,6 +171,7 @@ struct EditAssignment: View {
                 }
                 ToolbarItem(placement: .principal) {
                     VStack{
+                        if assignment.name != nil{
                         Text(assignment.name!)
                             .font(.system(size: 15, weight: .heavy, design: .rounded))
                             .if(assignment.color == "Red") { Text in
@@ -182,6 +183,7 @@ struct EditAssignment: View {
                             .if(assignment.color == "Yellow") { Text in
                                 Text.foregroundColor(.yellow)
                             }
+                        }
                     }
                 }
             }

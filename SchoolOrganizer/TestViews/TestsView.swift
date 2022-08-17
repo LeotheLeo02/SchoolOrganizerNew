@@ -52,7 +52,7 @@ struct TestsView: View {
                         }
                             HStack{
                                 if tes.score == 0{
-                            Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                            Text(tes.testdate ?? Date.now, style: .date)
                                 .bold()
                                 .foregroundColor(.gray)
                                 Image(systemName: "calendar.circle.fill")
@@ -95,7 +95,7 @@ struct TestsView: View {
                         }
                             HStack{
                                 if tes.score == 0{
-                            Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                            Text(tes.testdate ?? Date.now, style: .date)
                                 .bold()
                                 .foregroundColor(.gray)
                                 Image(systemName: "calendar.circle.fill")
@@ -139,7 +139,7 @@ struct TestsView: View {
                         }
                             HStack{
                                 if tes.score == 0{
-                            Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                            Text(tes.testdate ?? Date.now, style: .date)
                                 .bold()
                                 .foregroundColor(.gray)
                                 Image(systemName: "calendar.circle.fill")
@@ -181,7 +181,7 @@ struct TestsView: View {
                         }
                             HStack{
                                 if tes.score == 0{
-                            Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                            Text(tes.testdate ?? Date.now, style: .date)
                                 .bold()
                                 .foregroundColor(.gray)
                                 Image(systemName: "calendar.circle.fill")
@@ -243,7 +243,7 @@ struct TestsView: View {
                         }
                             HStack{
                                 if tes.score == 0{
-                            Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                            Text(tes.testdate ?? Date.now, style: .date)
                                 .bold()
                                 .foregroundColor(.gray)
                                 Image(systemName: "calendar.circle.fill")
@@ -286,7 +286,7 @@ struct TestsView: View {
                         }
                             HStack{
                                 if tes.score == 0{
-                            Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                            Text(tes.testdate ?? Date.now, style: .date)
                                 .bold()
                                 .foregroundColor(.gray)
                                 Image(systemName: "calendar.circle.fill")
@@ -330,7 +330,7 @@ struct TestsView: View {
                         }
                             HStack{
                                 if tes.score == 0{
-                            Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                            Text(tes.testdate ?? Date.now, style: .date)
                                 .bold()
                                 .foregroundColor(.gray)
                                 Image(systemName: "calendar.circle.fill")
@@ -372,7 +372,7 @@ struct TestsView: View {
                         }
                             HStack{
                                 if tes.score == 0{
-                            Text(tes.testdate?.addingTimeInterval(600) ?? Date.now, style: .date)
+                            Text(tes.testdate ?? Date.now, style: .date)
                                 .bold()
                                 .foregroundColor(.gray)
                                 Image(systemName: "calendar.circle.fill")
