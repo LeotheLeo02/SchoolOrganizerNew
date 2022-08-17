@@ -111,6 +111,20 @@ struct EditTestView: View {
     }
     private func deleteTest() {
         withAnimation {
+            UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+                let formatter1 = DateFormatter()
+                formatter1.dateStyle = .long
+                var identifiers: [String] = [name, formatter1.string(from: testdate)]
+                print(formatter1.string(from: testdate))
+                print("\(name)")
+               for notification:UNNotificationRequest in notificationRequests {
+                   if notification.identifier == "identifierCancel" {
+                      identifiers.append(notification.identifier)
+                   }
+               }
+               UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                print("Deleted Notifcation")
+            }
             test.managedObjectContext?.delete(test)
             TestDataController().save(context: managedObjContext)
         }

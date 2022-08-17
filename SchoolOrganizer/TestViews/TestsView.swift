@@ -18,13 +18,12 @@ struct TestsView: View {
     @State private var filtername = ""
     @State private var reconfigure = false
     @State private var Study = false
-    @Binding var Background: Color
     var body: some View {
         NavigationView{
             ScrollView{
                 if test.isEmpty{
                     HStack{
-                        StrokeText(text: "No Upcoming Assignments", width: 0.2, color: .black)
+                        Text("No Upcoming Assignments")
                         .font(.system(size: 25, weight: .heavy, design: .rounded))
                         .foregroundColor(.gray)
                         Image(systemName:"checkmark.circle.fill")
@@ -416,8 +415,7 @@ struct TestsView: View {
                 }
             }
                 
-            }.frame(maxWidth: .infinity,maxHeight: .infinity)
-            .background(Background)
+            }
             .sheet(isPresented: $AddTest, content: {
                 AddTestView()
             })

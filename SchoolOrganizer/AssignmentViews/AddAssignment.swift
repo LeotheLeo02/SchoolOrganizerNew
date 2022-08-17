@@ -417,7 +417,8 @@ struct AddAssignment: View {
                             }
                         let daterepcomp = Calendar.current.dateComponents([.hour, .minute], from: duedate)
                         let reptrigger  = UNCalendarNotificationTrigger(dateMatching: daterepcomp, repeats: true)
-                            let setup = UNNotificationRequest(identifier: assigname, content: repcontent, trigger: reptrigger)
+                            let bookassign = assigname + "B"
+                            let setup = UNNotificationRequest(identifier: bookassign, content: repcontent, trigger: reptrigger)
                             UNUserNotificationCenter.current().add(setup)
                         }else{
                         let content = UNMutableNotificationContent()

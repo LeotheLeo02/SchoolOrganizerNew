@@ -222,7 +222,7 @@ struct StudySessionsView: View {
         .sheet(isPresented: $add, content: {
             SessionAdd(added: $addedSession)
         })
-        .navigationTitle("Study Sessions")
+        .navigationTitle(session.isEmpty ? "No Sessions":"Study Sessions")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {

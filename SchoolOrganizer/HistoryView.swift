@@ -11,7 +11,6 @@ struct HistoryView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.assignname)]) var historya: FetchedResults<HistoryA>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.dateoftest, order: .reverse)]) var completedtest: FetchedResults<CompletedTest>
-    @Binding var Background: Color
     var body: some View {
         NavigationView{
             let count = completedtest.isEmpty ? 1 : Int(completedtest.count)
@@ -146,15 +145,12 @@ struct HistoryView: View {
                     }
             }
             }
-            .frame(maxWidth: .infinity,maxHeight: .infinity)
-            .background(Background)
             .padding(2)
         .navigationTitle("History")
-        .background(Background)
         .toolbar {
             ToolbarItem(placement: .bottomBar){
                 VStack{
-                    StrokeText(text: "Score Average: \(average)", width: 0.5, color: .black)
+                    Text("Score Average: \(average)")
                     .font(.system(size: 20, weight: .heavy, design: .rounded))
                     .if(average == 0 && completedtest.isEmpty){view in
                         view.foregroundColor(.gray)
@@ -166,7 +162,6 @@ struct HistoryView: View {
                         view.foregroundColor(.green)
                     }
                 }.padding(10)
-                    .background(Background)
                     .cornerRadius(20)
             }
         }
@@ -180,24 +175,6 @@ struct HistoryView: View {
             
             // Saves to our database
             CompletedTestsDataController().save(context: managedObjContext)
-        }
-    }
-}
-struct StrokeText: View {
-    let text: String
-    let width: CGFloat
-    let color: Color
-
-    var body: some View {
-        ZStack{
-            ZStack{
-                Text(text).offset(x:  width, y:  width)
-                Text(text).offset(x: -width, y: -width)
-                Text(text).offset(x: -width, y:  width)
-                Text(text).offset(x:  width, y: -width)
-            }
-            .foregroundColor(color)
-            Text(text)
         }
     }
 }

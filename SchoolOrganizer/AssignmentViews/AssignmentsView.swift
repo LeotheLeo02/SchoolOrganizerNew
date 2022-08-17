@@ -24,7 +24,6 @@ struct AssignmentsView: View {
     @State private var search = false
     @State private var editpop = false
     @State private var confirm = false
-    @Binding var Background: Color
    private let adaptiveColumns = [
     GridItem(.adaptive(minimum: 160))
    ]
@@ -32,7 +31,7 @@ struct AssignmentsView: View {
         NavigationView{
             ScrollView{
                 HStack{
-                    StrokeText(text: "Assignments Completed: \(assignmentscompleted)", width: 0.2, color: .black)
+                    Text("Assignments Completed: \(assignmentscompleted)")
                     .font(.system(size: 12, weight: .heavy, design: .rounded))
                     .if(assignmentscompleted <= 25){ view in
                         view.foregroundColor(.brown)
@@ -45,17 +44,17 @@ struct AssignmentsView: View {
                     }
                     Spacer()
                     if assignmentscompleted <= 25{
-                        StrokeText(text: "Bronze", width: 0.5, color: .black)
+                            Text("Bronze")
                             .font(.system(size: 15, weight: .heavy, design: .rounded))
                             .foregroundColor(.brown)
                     }
                     if assignmentscompleted <= 50 && assignmentscompleted > 25{
-                        StrokeText(text: "Silver", width: 0.5, color: .black)
+                            Text("Silver")
                             .font(.system(size: 15, weight: .heavy, design: .rounded))
                             .foregroundColor(.gray)
                     }
                     if assignmentscompleted <= 100 && assignmentscompleted > 50{
-                        StrokeText(text: "Gold", width: 0.5, color: .black)
+                            Text("Gold")
                             .font(.system(size: 15, weight: .heavy, design: .rounded))
                             .foregroundColor(.yellow)
                     }
@@ -76,7 +75,7 @@ struct AssignmentsView: View {
                         if filter{
                             if assign.topic == filtername{
                                 VStack{
-                                NavigationLink(destination: EditAssignment(assignment: assign, color: $Background)){
+                                NavigationLink(destination: EditAssignment(assignment: assign)){
                                     Rectangle()
                                         .frame(width: 160, height: 160)
                                         .cornerRadius(30)
@@ -187,7 +186,7 @@ struct AssignmentsView: View {
                             }
                         }else{
                         VStack{
-                            NavigationLink(destination: EditAssignment(assignment: assign, color: $Background)){
+                            NavigationLink(destination: EditAssignment(assignment: assign)){
                             Rectangle()
                                 .frame(width: 160, height: 160)
                                 .cornerRadius(30)
@@ -250,14 +249,26 @@ struct AssignmentsView: View {
                                             UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
                                                 let formatter1 = DateFormatter()
                                                 formatter1.dateStyle = .long
+                                                let bookassign = assign.name! + "B"
+                                                if assign.book{
+                                                var identifiers: [String] = [bookassign]
+                                                    for notification:UNNotificationRequest in notificationRequests {
+                                                        if notification.identifier == "identifierCancel" {
+                                                           identifiers.append(notification.identifier)
+                                                        }
+                                                    }
+                                                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                                     print("Deleted Notifcation")
+                                                }else{
                                                 var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
-                                               for notification:UNNotificationRequest in notificationRequests {
-                                                   if notification.identifier == "identifierCancel" {
-                                                      identifiers.append(notification.identifier)
-                                                   }
-                                               }
-                                               UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                                print("Deleted Notifcation")
+                                                    for notification:UNNotificationRequest in notificationRequests {
+                                                        if notification.identifier == "identifierCancel" {
+                                                           identifiers.append(notification.identifier)
+                                                        }
+                                                    }
+                                                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                                     print("Deleted Notifcation")
+                                                }
                                             }
                                         assign.managedObjectContext?.delete(assign)
                                             AssignmentDataController().save(context: managedObjContext)
@@ -298,7 +309,7 @@ struct AssignmentsView: View {
                     }
                     }
                 }
-            }.background(Background)
+            }
             .sheet(isPresented: $showFolder, content: {
                 FolderView()
             })

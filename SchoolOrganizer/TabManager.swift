@@ -8,29 +8,26 @@
 import SwiftUI
 
 struct TabManager: View {
-    @AppStorage("Color") var Color: Color = .clear
     var body: some View {
         TabView{
-            AssignmentsView(Background: $Color)
+            AssignmentsView()
                 .tabItem {
                     Text("Assignments")
                     Image(systemName: "doc.text")
                 }
             
-            TestsView(Background: $Color)
+            TestsView()
                 .tabItem {
                     Text("Tests")
                     Image(systemName: "doc.on.clipboard")
                 }
             
-            HistoryView(Background: $Color)
+            HistoryView()
                 .tabItem {
                     Text("History")
                     Image(systemName: "clock")
                 }
         }
-        ColorPicker("Pick", selection: $Color)
-            .frame(width: 25, height: 25, alignment: .center)
     }
 }
 
