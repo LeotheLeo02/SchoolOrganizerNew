@@ -24,6 +24,7 @@ struct AssignmentsView: View {
     @State private var search = false
     @State private var editpop = false
     @State private var confirm = false
+    @State private var newvalue = false
    private let adaptiveColumns = [
     GridItem(.adaptive(minimum: 160))
    ]
@@ -33,6 +34,9 @@ struct AssignmentsView: View {
                 HStack{
                     Text("Assignments Completed: \(assignmentscompleted)")
                     .font(.system(size: 12, weight: .heavy, design: .rounded))
+                    .onChange(of: newvalue, perform: { _ in
+                        assignmentscompleted += 1
+                    })
                     .if(assignmentscompleted <= 25){ view in
                         view.foregroundColor(.brown)
                     }
@@ -75,7 +79,7 @@ struct AssignmentsView: View {
                         if filter{
                             if assign.topic == filtername{
                                 VStack{
-                                NavigationLink(destination: EditAssignment(assignment: assign)){
+                                NavigationLink(destination: EditAssignment(assignment: assign, newvalue: $newvalue)){
                                     Rectangle()
                                         .frame(width: 160, height: 160)
                                         .cornerRadius(30)
@@ -186,7 +190,7 @@ struct AssignmentsView: View {
                             }
                         }else{
                         VStack{
-                            NavigationLink(destination: EditAssignment(assignment: assign)){
+                            NavigationLink(destination: EditAssignment(assignment: assign, newvalue: $newvalue)){
                             Rectangle()
                                 .frame(width: 160, height: 160)
                                 .cornerRadius(30)

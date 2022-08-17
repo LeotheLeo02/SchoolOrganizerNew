@@ -119,7 +119,7 @@ struct AddAssignment: View {
                 .multilineTextAlignment(.center)
                 Text("Pages: \(Int(pagenumber))")
                 Text("Suggestion: \(suggestdays) Pages Per Day")
-                DatePicker("When Is It Due", selection: $duedate, displayedComponents: .date)
+                DatePicker("When Is It Due", selection: $duedate,in: Date.now... ,displayedComponents: .date)
                     .onChange(of: duedate) { V in
                         let days = daysBetween(start: Date.now, end: duedate)
                         if days != 0{

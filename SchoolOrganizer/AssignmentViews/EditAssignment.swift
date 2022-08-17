@@ -19,6 +19,7 @@ struct EditAssignment: View {
     @State private var complete = false
     @State private var assigntopic = false
     @State private var assigned = false
+    @Binding var newvalue: Bool
     @State private var orientation = UIDevice.current.orientation
     private let orientationChanged = NotificationCenter.default
         .publisher(for: UIDevice.orientationDidChangeNotification)
@@ -107,7 +108,9 @@ struct EditAssignment: View {
             ToolbarItem(placement: .bottomBar) {
                 Button {
                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                        var identifiers: [String] = [assignment.name!]
+                        let formatter1 = DateFormatter()
+                        formatter1.dateStyle = .long
+                        var identifiers: [String] = [assignment.name!, formatter1.string(from: assignment.duedate!)]
                        for notification:UNNotificationRequest in notificationRequests {
                            if notification.identifier == "identifierCancel" {
                               identifiers.append(notification.identifier)
@@ -131,21 +134,33 @@ struct EditAssignment: View {
                     Button{
                         complete.toggle()
                         simpleSuccess()
-                        AssignmentDataController().editAssign(assign: assignment, complete: complete, context: managedObjContext)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
-                        UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                            var identifiers: [String] = [assignment.name!]
-                           for notification:UNNotificationRequest in notificationRequests {
-                               if notification.identifier == "identifierCancel" {
-                                  identifiers.append(notification.identifier)
-                               }
-                           }
-                           UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                            print("Deleted Notifcation")
+                        if complete{
+                            simpleSuccess()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                withAnimation{
+                                    // Add to App Storage
+                                    HistoryADataController().addAssign(assignname: assignment.name!, assigncolor: assignment.color!, assigndate: Date.now, context: managedObjContext)
+                                    if complete != false{
+                                    UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+                                        let formatter1 = DateFormatter()
+                                        formatter1.dateStyle = .long
+                                        var identifiers: [String] = [assignment.name!, formatter1.string(from: assignment.duedate!)]
+                                       for notification:UNNotificationRequest in notificationRequests {
+                                           if notification.identifier == "identifierCancel" {
+                                              identifiers.append(notification.identifier)
+                                           }
+                                       }
+                                       UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                        print("Deleted Notifcation")
+                                    }
+                                newvalue.toggle()
+                                dismiss()
+                                assignment.managedObjectContext?.delete(assignment)
+                                    AssignmentDataController().save(context: managedObjContext)
+                                }
+                            }
+                            }
                         }
-                        deleteAssignment()
-                        dismiss()
-                    }
                     } label: {
                         HStack{
                             Text("Complete")
