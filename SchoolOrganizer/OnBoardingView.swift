@@ -35,7 +35,7 @@ struct PresentReady: View{
     var body: some View{
         VStack{
             Rectangle()
-                .frame(width: 400, height: .infinity)
+                .frame(width: .infinity, height: .infinity)
                 .foregroundColor(Color(.systemGray5))
                 .cornerRadius(20)
                 .overlay {
@@ -69,13 +69,14 @@ struct PresentDynamic: View{
     var body: some View{
         VStack{
             Rectangle()
-                .frame(width: 400, height: .infinity)
+                .frame(width: .infinity, height: .infinity)
                 .foregroundColor(Color(.systemGray5))
                 .cornerRadius(20)
                 .overlay {
                     VStack{
                         Circle()
                             .foregroundColor(Color(.systemGray3))
+                            .padding()
                             .overlay {
                                 Text("Dynamically Filter And Organize Assignments and Tests")
                                     .font(.system(size: 30, weight: .heavy, design: .rounded))
@@ -107,7 +108,7 @@ struct PresentNotification: View{
     var body: some View{
         VStack{
             Rectangle()
-                .frame(width: 400, height: .infinity)
+                .frame(width: .infinity, height: .infinity)
                 .foregroundColor(Color(.systemGray5))
                 .cornerRadius(20)
                 .overlay {
@@ -183,7 +184,7 @@ struct PresentAssign: View{
     var body: some View{
         VStack(alignment: .center){
             Rectangle()
-                .frame(width: 400, height: .infinity)
+                .frame(width: .infinity, height: .infinity)
                 .foregroundColor(Color(.systemGray5))
                 .cornerRadius(20)
                 .overlay {
