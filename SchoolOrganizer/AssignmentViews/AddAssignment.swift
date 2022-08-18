@@ -251,6 +251,9 @@ struct AddAssignment: View {
                     .buttonStyle(.bordered)
                     Button {
                         withAnimation {
+                            if topics == top.topicname{
+                                topics = ""
+                            }
                             if attached{
                                 attachtopic = top.topicname!
                                 presentnewassign.toggle()
@@ -287,6 +290,7 @@ struct AddAssignment: View {
                         .onSubmit {
                             TopicDataController().addTopic(topicname: newname.trimmingCharacters(in: .whitespaces), context: managedObjContext)
                             withAnimation{
+                                topics = newname
                             addtopic.toggle()
                                 newname = ""
                             }
@@ -367,7 +371,7 @@ struct AddAssignment: View {
                             duedate = Date.now
                         }
                 }else{
-                DatePicker("Choose a Due Date", selection: $duedate)
+                    DatePicker("Choose a Due Date", selection: $duedate, in: Date.now...)
                     .datePickerStyle(.graphical)
                     .frame(maxHeight: 400)
                     .onChange(of: undoall) { newValue in

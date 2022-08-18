@@ -24,6 +24,7 @@ struct AddTestView: View {
     @State private var attached = false
     @State private var presentnewassign = false
     @State private var attachtopic = ""
+    @State private var addsession = false
     var body: some View {
         NavigationView{
             VStack{
@@ -39,6 +40,21 @@ struct AddTestView: View {
                                 undosignal.toggle()
                             }
                     }
+                    Section {
+                        Button {
+                            addsession.toggle()
+                        } label: {
+                            HStack{
+                                Text("Add Session")
+                                Image(systemName: "rectangle.fill.badge.person.crop")
+                                    .font(.title)
+                            }
+                        }
+
+                    } header: {
+                        Text("Create A Session")
+                    }
+
                     
                     Section {
                         if testtopic.isEmpty{
@@ -88,6 +104,9 @@ struct AddTestView: View {
                                         .buttonStyle(.bordered)
                                         Button {
                                             withAnimation {
+                                                if testtopic == top.topicname!{
+                                                    testtopic = ""
+                                                }
                                                 if attached{
                                                     attachtopic = top.topicname!
                                                     presentnewassign.toggle()
@@ -122,6 +141,8 @@ struct AddTestView: View {
                             TextField("Enter New Topic Name", text: $newtopic)
                                 .onSubmit {
                                     TopicDataController().addTopic(topicname: newtopic.trimmingCharacters(in: .whitespaces), context: managedObjContext)
+                                    testtopic = newtopic.trimmingCharacters(in: .whitespaces)
+                                    newtopic = ""
                                     withAnimation {
                                         addtopic.toggle()
                                     }
@@ -162,6 +183,9 @@ struct AddTestView: View {
                     
                 }
             }
+            .sheet(isPresented: $addsession, content: {
+                StudySessionsView()
+            })
             .sheet(isPresented: $presentnewassign, content: {
                 AssignIndiviualTopicView(topicname: $attachtopic)
             })
