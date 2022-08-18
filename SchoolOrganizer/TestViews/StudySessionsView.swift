@@ -37,10 +37,12 @@ struct StudySessionsView: View {
                     Text(study.start!, style: .date)
                         .font(.system(size: 15, weight: .heavy, design: .rounded))
                         .fixedSize(horizontal: false, vertical: true)
-                }
+                }.padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(20)
                     VStack{
                         let minuteend = daysBetweenMinute(start: Date.now, end: study.end!)
-                    let hours = daysBetween(start: Date.now, end: study.start!)
+                        let hours = daysBetween(start: Date.now, end: study.start!)
                         if hours >= 2{
                             HStack{
                             Text("Session Set")
@@ -101,6 +103,8 @@ struct StudySessionsView: View {
                     }
                         
                     }.padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(20)
                 }.padding()
                 }.onChange(of: add) { V in
                     simpleSuccess()
