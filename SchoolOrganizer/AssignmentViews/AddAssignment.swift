@@ -51,6 +51,7 @@ struct AddAssignment: View {
     @State private var ownpages: Int = 0
     @State private var owntext = ""
     @State private var pagenumber: Int = 0
+    @State private var timetocomplete = Date()
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
@@ -88,6 +89,10 @@ struct AddAssignment: View {
                         owntext = ""
                         ownpages = 0
                     }
+                    DatePicker("When Is It Due", selection: $timetocomplete,in: Date.now... ,displayedComponents: .date)
+                        .onChange(of: undoall) { _ in
+                            timetocomplete = Date.now
+                        }
                 }
             }
             if type == "Book" && turnonsuggest{
@@ -119,9 +124,9 @@ struct AddAssignment: View {
                 .multilineTextAlignment(.center)
                 Text("Pages: \(Int(pagenumber))")
                 Text("Suggestion: \(suggestdays) Pages Per Day")
-                DatePicker("When Is It Due", selection: $duedate,in: Date.now... ,displayedComponents: .date)
-                    .onChange(of: duedate) { V in
-                        let days = daysBetween(start: Date.now, end: duedate)
+                DatePicker("When Is It Due", selection: $timetocomplete,in: Date.now... ,displayedComponents: .date)
+                    .onChange(of: timetocomplete) { _ in
+                        let days = daysBetween(start: Date.now, end: timetocomplete)
                         if days != 0{
                         let suggest = pagenumber/days
                         suggestdays = suggest
@@ -142,7 +147,13 @@ struct AddAssignment: View {
             }
             if type != "Book"{
             DisclosureGroup(isExpanded: $showpast) {
-                List{
+                ScrollView(.horizontal){
+                    if pastname.isEmpty{
+                        Text("No Past Names")
+                            .bold()
+                            .foregroundColor(.gray)
+                    }
+                    HStack{
                 ForEach(pastname){pass in
                     Button {
                         assigname = pass.pastnames!
@@ -152,23 +163,6 @@ struct AddAssignment: View {
                         Text(pass.pastnames!)
                                 .font(.caption)
                                 .bold()
-                            Spacer()
-                            Button {
-                                withAnimation {
-                                        pass
-                                        .managedObjectContext?.delete(pass)
-                                    
-                                    // Saves to our database
-                                    PastNamesDataController().save(context: managedObjContext)
-                                }
-                            } label: {
-                                Text("Delete")
-                                    .font(.caption2)
-                                    .foregroundColor(.red)
-                                Image(systemName: "trash.fill")
-                                    .font(.caption2)
-                                    .foregroundColor(.red)
-                            }
                         }
                     }.tint(.blue)
                         .buttonStyle(.bordered)
@@ -177,16 +171,35 @@ struct AddAssignment: View {
                             exists = true
                         }
                     })
+                    Divider()
+                }
                 }
             }
 
             } label: {
+                HStack{
                 if showpast{
                     Text("Hide Past Names")
                 }else{
                 Text("See Past Names")
                 }
-                
+                    Spacer()
+                    Button {
+                        withAnimation{
+                        pastname
+                        .forEach(managedObjContext.delete)
+                        
+                        // Saves to our database
+                        PastNamesDataController().save(context: managedObjContext)
+                        }
+                    } label: {
+                        Text("Delete All")
+                            .bold()
+                            .foregroundColor(.red)
+                    }.buttonStyle(.bordered)
+                        .buttonBorderShape(.roundedRectangle(radius: 30))
+
+                }
             }
         }
             Section {
@@ -364,11 +377,11 @@ struct AddAssignment: View {
                     }
                 }
                 if type == "Book"{
-                    DatePicker("Choose Reminder Time", selection: $duedate, displayedComponents: .hourAndMinute)
+                    DatePicker("Choose Reminder Time", selection: $timetocomplete, displayedComponents: .hourAndMinute)
                         .datePickerStyle(.graphical)
                         .frame(maxHeight: 400)
                         .onChange(of: undoall) { newValue in
-                            duedate = Date.now
+                            timetocomplete = Date.now
                         }
                 }else{
                     DatePicker("Choose a Due Date", selection: $duedate, in: Date.now...)
@@ -414,7 +427,7 @@ struct AddAssignment: View {
                         NotComplete.toggle()
                         complexSuccess()
                     }else{
-                        if exists == false{
+                        if exists == false && type == "Original"{
                     PastNamesDataController().addName(pastnames: assigname, context: managedObjContext)
                         }
                         AssignmentDataController().addAssign(topic: topics, color: color.trimmingCharacters(in: .whitespaces), duedate: duedate, name: assigname, complete: false, book: type == "Book" ? true:false, context: managedObjContext)
@@ -434,11 +447,21 @@ struct AddAssignment: View {
                             }else{
                             repcontent.body = "Pages: \(Int(ownpages))"
                             }
-                        let daterepcomp = Calendar.current.dateComponents([.hour, .minute], from: duedate)
+                        let daterepcomp = Calendar.current.dateComponents([.hour, .minute], from: timetocomplete)
                         let reptrigger  = UNCalendarNotificationTrigger(dateMatching: daterepcomp, repeats: true)
                             let bookassign = assigname + "B"
                             let setup = UNNotificationRequest(identifier: bookassign, content: repcontent, trigger: reptrigger)
                             UNUserNotificationCenter.current().add(setup)
+                            
+                            let completecontent = UNMutableNotificationContent()
+                            completecontent.title = "Complete Reading"
+                            completecontent.body = "Make Sure To Mark \(assigname) As Complete"
+                            let HourEarly = Calendar.current.date(byAdding: .hour, value: -1, to: timetocomplete)
+                            let completecomp = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute], from: HourEarly!)
+                            let completetrigger = UNCalendarNotificationTrigger(dateMatching: completecomp, repeats: false)
+                            let completeid = assigname + "C"
+                            let completesetup = UNNotificationRequest(identifier: completeid, content: completecontent, trigger: completetrigger)
+                            UNUserNotificationCenter.current().add(completesetup)
                         }else{
                         let content = UNMutableNotificationContent()
                         content.title = assigname

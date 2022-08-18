@@ -140,18 +140,31 @@ struct AssignmentsView: View {
                                                     assignmentscompleted += 1
                                                     HistoryADataController().addAssign(assignname: assign.name!, assigncolor: assign.color!, assigndate: Date.now, context: managedObjContext)
                                                     if assign.complete != false{
-                                                    UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                                                        let formatter1 = DateFormatter()
-                                                        formatter1.dateStyle = .long
-                                                        var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
-                                                       for notification:UNNotificationRequest in notificationRequests {
-                                                           if notification.identifier == "identifierCancel" {
-                                                              identifiers.append(notification.identifier)
-                                                           }
-                                                       }
-                                                       UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                                        print("Deleted Notifcation")
-                                                    }
+                                                        UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+                                                            let formatter1 = DateFormatter()
+                                                            formatter1.dateStyle = .long
+                                                            let bookassign = assign.name! + "B"
+                                                            let bookcomplete = assign.name! + "C"
+                                                            if assign.book{
+                                                            var identifiers: [String] = [bookassign, bookcomplete]
+                                                                for notification:UNNotificationRequest in notificationRequests {
+                                                                    if notification.identifier == "identifierCancel" {
+                                                                       identifiers.append(notification.identifier)
+                                                                    }
+                                                                }
+                                                                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                                                 print("Deleted Notifcation")
+                                                            }else{
+                                                            var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
+                                                                for notification:UNNotificationRequest in notificationRequests {
+                                                                    if notification.identifier == "identifierCancel" {
+                                                                       identifiers.append(notification.identifier)
+                                                                    }
+                                                                }
+                                                                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                                                 print("Deleted Notifcation")
+                                                            }
+                                                        }
                                                 assign.managedObjectContext?.delete(assign)
                                                     AssignmentDataController().save(context: managedObjContext)
                                                 }
@@ -255,8 +268,9 @@ struct AssignmentsView: View {
                                                 let formatter1 = DateFormatter()
                                                 formatter1.dateStyle = .long
                                                 let bookassign = assign.name! + "B"
+                                                let bookcomplete = assign.name! + "C"
                                                 if assign.book{
-                                                var identifiers: [String] = [bookassign]
+                                                var identifiers: [String] = [bookassign, bookcomplete]
                                                     for notification:UNNotificationRequest in notificationRequests {
                                                         if notification.identifier == "identifierCancel" {
                                                            identifiers.append(notification.identifier)

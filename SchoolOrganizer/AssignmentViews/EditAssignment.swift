@@ -110,14 +110,27 @@ struct EditAssignment: View {
                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
                         let formatter1 = DateFormatter()
                         formatter1.dateStyle = .long
+                        let bookassign = assignment.name! + "B"
+                        let bookcomplete = assignment.name! + "C"
+                        if assignment.book{
+                        var identifiers: [String] = [bookassign, bookcomplete]
+                            for notification:UNNotificationRequest in notificationRequests {
+                                if notification.identifier == "identifierCancel" {
+                                   identifiers.append(notification.identifier)
+                                }
+                            }
+                            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                             print("Deleted Notifcation")
+                        }else{
                         var identifiers: [String] = [assignment.name!, formatter1.string(from: assignment.duedate!)]
-                       for notification:UNNotificationRequest in notificationRequests {
-                           if notification.identifier == "identifierCancel" {
-                              identifiers.append(notification.identifier)
-                           }
-                       }
-                       UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                        print("Deleted Notifcation")
+                            for notification:UNNotificationRequest in notificationRequests {
+                                if notification.identifier == "identifierCancel" {
+                                   identifiers.append(notification.identifier)
+                                }
+                            }
+                            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                             print("Deleted Notifcation")
+                        }
                     }
                     deleteAssignment()
                     dismiss()
@@ -140,18 +153,32 @@ struct EditAssignment: View {
                                 withAnimation{
                                     HistoryADataController().addAssign(assignname: assignment.name!, assigncolor: assignment.color!, assigndate: Date.now, context: managedObjContext)
                                     if complete != false{
-                                    UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                                        let formatter1 = DateFormatter()
-                                        formatter1.dateStyle = .long
-                                        var identifiers: [String] = [assignment.name!, formatter1.string(from: assignment.duedate!)]
-                                       for notification:UNNotificationRequest in notificationRequests {
-                                           if notification.identifier == "identifierCancel" {
-                                              identifiers.append(notification.identifier)
-                                           }
-                                       }
-                                       UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                        print("Deleted Notifcation")
-                                    }
+                                        UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+                                            let formatter1 = DateFormatter()
+                                            formatter1.dateStyle = .long
+                                            let bookassign = assignment.name! + "B"
+                                            let bookcomplete = assignment.name! + "C"
+                                            if assignment.book{
+                                            var identifiers: [String] = [bookassign, bookcomplete]
+                                                for notification:UNNotificationRequest in notificationRequests {
+                                                    if notification.identifier == "identifierCancel" {
+                                                       identifiers.append(notification.identifier)
+                                                    }
+                                                }
+                                                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                                 print("Deleted Notifcation")
+                                            }else{
+                                            var identifiers: [String] = [assignment.name!, formatter1.string(from: assignment.duedate!)]
+                                                for notification:UNNotificationRequest in notificationRequests {
+                                                    if notification.identifier == "identifierCancel" {
+                                                       identifiers.append(notification.identifier)
+                                                    }
+                                                }
+                                                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                                 print("Deleted Notifcation")
+                                            }
+                                        }
+
                                 newvalue.toggle()
                                 dismiss()
                                 assignment.managedObjectContext?.delete(assignment)
