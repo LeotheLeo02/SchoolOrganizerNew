@@ -40,6 +40,7 @@ struct FolderView: View {
                     TextField("Link", text: $siteLink)
                         .keyboardType(.URL)
                         .textContentType(.URL)
+                        .textInputAutocapitalization(.never)
                     List{
                         ForEach(link){lin in
                             if lin.linname != nil{
