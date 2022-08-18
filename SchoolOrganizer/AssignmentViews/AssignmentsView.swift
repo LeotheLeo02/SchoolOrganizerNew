@@ -25,6 +25,7 @@ struct AssignmentsView: View {
     @State private var editpop = false
     @State private var confirm = false
     @State private var newvalue = false
+    @AppStorage("OnBoarding") var onboarding = true
    private let adaptiveColumns = [
     GridItem(.adaptive(minimum: 160))
    ]
@@ -314,6 +315,9 @@ struct AssignmentsView: View {
                     }
                 }
             }
+            .fullScreenCover(isPresented: $onboarding, content: {
+                OnBoardingView()
+            })
             .sheet(isPresented: $showFolder, content: {
                 FolderView()
             })

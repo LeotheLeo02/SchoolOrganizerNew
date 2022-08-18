@@ -138,7 +138,6 @@ struct EditAssignment: View {
                             simpleSuccess()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                 withAnimation{
-                                    // Add to App Storage
                                     HistoryADataController().addAssign(assignname: assignment.name!, assigncolor: assignment.color!, assigndate: Date.now, context: managedObjContext)
                                     if complete != false{
                                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
