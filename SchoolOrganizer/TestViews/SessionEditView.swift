@@ -55,43 +55,43 @@ struct SessionEditView: View {
                                         print(error.localizedDescription)
                                     }
                                 }
-                                let content = UNMutableNotificationContent()
-                                content.title = name
-                                let saydate = newstart
-                                content.body = "In 15 minutes! \(saydate.formatted(.dateTime.hour().minute()))"
-                                let date = newstart
-                                let fifteenminutes = Calendar.current.date(byAdding: .minute, value: -15, to: date)
-                                content.sound = UNNotificationSound.default
-                                let earlycomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: fifteenminutes!)
-                                let earlycalendartrigger = UNCalendarNotificationTrigger(dateMatching: earlycomp, repeats: false)
-                                let firstrequest = UNNotificationRequest(identifier: name, content: content, trigger: earlycalendartrigger)
-                                
-                                UNUserNotificationCenter.current().add(firstrequest)
-                                
-                                let currentcontent = UNMutableNotificationContent()
-                                currentcontent.title = name
-                                currentcontent.body = "\(name) Session Started"
-                                let currentdate = newstart
-                                let currenttime = Calendar.current.date(byAdding: .day, value: 0, to: currentdate)
-                                content.sound = UNNotificationSound.default
-                                let currentcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: currenttime!)
-                                let currenttrigger = UNCalendarNotificationTrigger(dateMatching: currentcomp , repeats: false)
-                                let identifier = name + "CC"
-                                let currentrequest = UNNotificationRequest(identifier: identifier, content: currentcontent, trigger: currenttrigger)
-                                UNUserNotificationCenter.current().add(currentrequest)
-                                
-                                let endcontent = UNMutableNotificationContent()
-                                endcontent.title = "\(name) Session Ending"
-                                endcontent.body = "Finish Up Last Thoughts"
-                                let enddate = newend
-                                let endtime = Calendar.current.date(byAdding: .day, value: 0, to: enddate)
-                                endcontent.sound = UNNotificationSound.default
-                                let endcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: endtime!)
-                                let endtrigger = UNCalendarNotificationTrigger(dateMatching: endcomp , repeats: false)
-                                let endidentifier = name + "EE"
-                                let endrequest = UNNotificationRequest(identifier: endidentifier, content: endcontent, trigger: endtrigger)
-                                UNUserNotificationCenter.current().add(endrequest)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
+                                    let content = UNMutableNotificationContent()
+                                    content.title = name
+                                    let saydate = newstart
+                                    content.body = "In 15 minutes! \(saydate.formatted(.dateTime.hour().minute()))"
+                                    let date = newstart
+                                    let fifteenminutes = Calendar.current.date(byAdding: .minute, value: -15, to: date)
+                                    content.sound = UNNotificationSound.default
+                                    let earlycomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: fifteenminutes!)
+                                    let earlycalendartrigger = UNCalendarNotificationTrigger(dateMatching: earlycomp, repeats: false)
+                                    let firstrequest = UNNotificationRequest(identifier: name, content: content, trigger: earlycalendartrigger)
+                                    
+                                    UNUserNotificationCenter.current().add(firstrequest)
+                                    
+                                    let currentcontent = UNMutableNotificationContent()
+                                    currentcontent.title = name
+                                    currentcontent.body = "\(name) Session Started"
+                                    let currentdate = newstart
+                                    let currenttime = Calendar.current.date(byAdding: .day, value: 0, to: currentdate)
+                                    content.sound = UNNotificationSound.default
+                                    let currentcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: currenttime!)
+                                    let currenttrigger = UNCalendarNotificationTrigger(dateMatching: currentcomp , repeats: false)
+                                    let identifier = name + "CC"
+                                    let currentrequest = UNNotificationRequest(identifier: identifier, content: currentcontent, trigger: currenttrigger)
+                                    UNUserNotificationCenter.current().add(currentrequest)
+                                    
+                                    let endcontent = UNMutableNotificationContent()
+                                    endcontent.title = "\(name) Session Ending"
+                                    endcontent.body = "Finish Up Last Thoughts"
+                                    let enddate = newend
+                                    let endtime = Calendar.current.date(byAdding: .day, value: 0, to: enddate)
+                                    endcontent.sound = UNNotificationSound.default
+                                    let endcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: endtime!)
+                                    let endtrigger = UNCalendarNotificationTrigger(dateMatching: endcomp , repeats: false)
+                                    let endidentifier = name + "EE"
+                                    let endrequest = UNNotificationRequest(identifier: endidentifier, content: endcontent, trigger: endtrigger)
+                                    UNUserNotificationCenter.current().add(endrequest)
                                     dismiss()
                                 }
                             }
