@@ -12,6 +12,7 @@ struct StudySessionsView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.start)]) var session: FetchedResults<StudySessions>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.intensity, order: .reverse)]) var studytopic: FetchedResults<StudyTopics>
     @Environment(\.managedObjectContext) var managedObjContext
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @State private var add = false
     @State private var addedSession = false
@@ -116,7 +117,7 @@ struct StudySessionsView: View {
                 HStack{
                 Text("Important Topics To Study")
                         .bold()
-                }
+                }.padding()
                 if newtopic{
                     Slider(value: $intensityValue, in: 0...10)
                         .onChange(of: intensityValue) { Bob in
@@ -217,9 +218,10 @@ struct StudySessionsView: View {
                     } label: {
                         Text("Add")
                     }.buttonStyle(.borderedProminent)
+                        .padding()
 
                 }
-            }
+            }.background(colorScheme == .dark ? Color(.systemGray4) : .white)
         }
         .toast(isPresenting: $addedSession, alert: {
             AlertToast(type: .complete(.green), title: "Added",style: .style(backgroundColor: Color(.systemGray5)))
