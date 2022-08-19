@@ -10,7 +10,6 @@ import AlertToast
 struct FolderView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.number)]) var period: FetchedResults<Periods>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.link)]) var link: FetchedResults<Links>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.imagetitle)]) var Images: FetchedResults<Images>
     @Environment(\.dismiss) var dismiss
@@ -30,7 +29,6 @@ struct FolderView: View {
     @State private var addingValue: Int64 = 0
     @State private var addedName = ""
     @State private var sizename = ""
-    @State private var addperiod = false
     var body: some View {
         NavigationView{
         VStack{
@@ -230,40 +228,12 @@ struct FolderView: View {
                     }
                 }
                 .headerProminence(.increased)
-                Section{
-                    ForEach(period){per in
-                        HStack{
-                            Text("\(Int64(per.number)).")
-                            Text(per.name!)
-                                .underline()
-                                .bold()
-                            Spacer()
-                            Text(per.perioddate!, style: .time)
-                        }
-                    }.onDelete(perform: deletePeriod)
-                    Button {
-                        addperiod.toggle()
-                    } label: {
-                        HStack{
-                            Spacer()
-                            Image(systemName: "plus")
-                                .font(.title)
-                            Spacer()
-                        }
-                    }
-                }header: {
-                    Text("School Periods")
-                }
-                .headerProminence(.increased)
             }.alert(isPresented: $showAlert){
                 Alert(title: Text("Missing Information"), message: Text("You must have a valid link and a name"), dismissButton: .cancel(Text("Ok")))
             }
             .sheet(isPresented: $imagepicker) {
                 ImagePicker(images: $image, show: $imagepicker, camera: $camera)
             }
-            .sheet(isPresented: $addperiod, content: {
-                AddSchoolPeriod()
-            })
             .toast(isPresenting: $Added) {
                 AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "\(sizename) \(addedName) Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 20, weight: .heavy, design: .rounded), subTitleFont: .title))
             }
@@ -310,14 +280,6 @@ struct FolderView: View {
             LinksDataController().save(context: managedObjContext)
         }
     }
-    private func deletePeriod(offsets: IndexSet){
-        withAnimation {
-            offsets.map { period[$0] }
-                .forEach(managedObjContext.delete)
-            
-            PeriodDataController().save(context: managedObjContext)
-        }
-    }
     private func deleteImage(offsets: IndexSet) {
         withAnimation {
             offsets.map { Images[$0] }
@@ -341,6 +303,7 @@ struct AddSchoolPeriod: View{
     @State private var existingalert = false
     @State private var present = false
     @State private var replacenumber: Int = 0
+    @Binding var swapped: Bool
     var body: some View{
         Form{
             Section{
@@ -366,15 +329,6 @@ struct AddSchoolPeriod: View{
                     }label: {
                         Text("Choose School Period Number")
                     }
-                    if existingalert{
-                        HStack{
-                        Text("This period is taken")
-                            .bold()
-                            .foregroundColor(.red)
-                            Image(systemName: "exclamationmark.octagon.fill")
-                                .foregroundColor(.red)
-                        }
-                    }
                     if periodnumber != 0 {
                         Text("\(Int64(periodnumber))")
                     }                }
@@ -383,6 +337,7 @@ struct AddSchoolPeriod: View{
                     replacenumber = Int(periodnumber)
                     PeriodDataController().addPeriod(number: periodnumber, perioddate: periodtime, name: periodname, context: managedObjContext)
                     dismiss()
+                    swapped.toggle()
                 }
                 Button("Cancel"){
                     

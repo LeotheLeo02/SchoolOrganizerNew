@@ -30,6 +30,8 @@ struct AddTestView: View {
     @State private var periodhour: Int = 0
     @State private var periodminute: Int = 0
     @State private var timechanged = false
+    @State private var addperiod = false
+    @State private var presentswapped = false
     var body: some View {
         NavigationView{
             VStack{
@@ -189,9 +191,16 @@ struct AddTestView: View {
                                     Text(per.perioddate!, style: .time)
                                 }
                             }
-                        }
+                        }.onDelete(perform: deletePeriod)
                     }header: {
                         Text("School Periods")
+                    }footer: {
+                        Button {
+                            addperiod.toggle()
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.title3)
+                        }
                     }
                     Section {
                         DatePicker("Select The Day Of Your Test", selection: $newtestdate, in: Date.now...)
@@ -214,6 +223,12 @@ struct AddTestView: View {
                     
                 }
             }
+            .toast(isPresenting: $presentswapped, alert: {
+                AlertToast(displayMode: .alert, type: .systemImage("arrow.left.arrow.right", .blue), title: "Swapped")
+            })
+            .sheet(isPresented: $addperiod, content: {
+                AddSchoolPeriod(swapped: $presentswapped)
+            })
             .sheet(isPresented: $addsession, content: {
                 StudySessionsView()
             })
@@ -290,6 +305,14 @@ struct AddTestView: View {
             
             // Saves to our database
             TopicDataController().save(context: managedObjContext)
+        }
+    }
+    private func deletePeriod(offsets: IndexSet){
+        withAnimation {
+            offsets.map { period[$0] }
+                .forEach(managedObjContext.delete)
+            
+            PeriodDataController().save(context: managedObjContext)
         }
     }
     func simpleSuccess() {

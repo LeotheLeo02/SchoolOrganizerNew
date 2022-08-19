@@ -53,6 +53,7 @@ struct AddAssignment: View {
     @State private var pagenumber: Int = 0
     @State private var timetocomplete = Date()
     @State private var addperiod = false
+    @State private var presentswapped = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
@@ -363,7 +364,7 @@ struct AddAssignment: View {
                             Text(per.perioddate!, style: .time)
                         }
                     }
-                }
+                }.onDelete(perform: deletePeriod)
             }header: {
                 Text("School Periods")
             }footer: {
@@ -414,7 +415,7 @@ struct AddAssignment: View {
             ChangeAllTopicsView()
         })
         .sheet(isPresented: $addperiod, content: {
-            AddSchoolPeriod()
+            AddSchoolPeriod(swapped: $presentswapped)
         })
         .alert("Undo All?", isPresented: $undosignal) {
             Button("Yes") {
@@ -430,6 +431,9 @@ struct AddAssignment: View {
         .toast(isPresenting: $timechanged) {
             AlertToast(displayMode: .banner(.pop), type: .systemImage("clock.badge.checkmark.fill", .green), title: "Time Changed", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
         }
+        .toast(isPresenting: $presentswapped, alert: {
+            AlertToast(displayMode: .alert, type: .systemImage("arrow.left.arrow.right", .blue), title: "Swapped")
+        })
         .navigationTitle(assigname.isEmpty ? "Add Assignment": "Add \(assigname)")
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
@@ -532,6 +536,14 @@ struct AddAssignment: View {
     }
     func daysBetween(start: Date, end: Date) -> Int {
         return Calendar.current.dateComponents([.day, .hour, .minute], from: start, to: end).day!
+    }
+    private func deletePeriod(offsets: IndexSet){
+        withAnimation {
+            offsets.map { period[$0] }
+                .forEach(managedObjContext.delete)
+            
+            PeriodDataController().save(context: managedObjContext)
+        }
     }
     func simpleSuccess() {
         let generator = UINotificationFeedbackGenerator()
