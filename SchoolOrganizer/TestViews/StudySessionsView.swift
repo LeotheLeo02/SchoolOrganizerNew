@@ -166,7 +166,7 @@ struct StudySessionsView: View {
                             Text(topic.name!)
                                 .font(.system(size: 15, weight: .heavy, design: .rounded))
                                 .if (topic.intensity > 4 && topic.intensity < 6){ view in
-                                    view.foregroundColor(.yellow)
+                                    view.foregroundColor(.orange)
                                 }
                                 .if (topic.intensity < 4){view in
                                     view.foregroundColor(.green)

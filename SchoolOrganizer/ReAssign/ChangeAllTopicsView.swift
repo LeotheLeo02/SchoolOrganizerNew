@@ -44,6 +44,10 @@ struct ChangeAllTopicsView: View {
                                 .if(!assign.topic!.trimmingCharacters(in: .whitespaces).isEmpty){ view in
                                     view.foregroundColor(.green)
                                 }
+                                if assign.book{
+                                    Image(systemName: "book.closed.fill")
+                                        .font(.title)
+                                }
                             }
 
                             .onTapGesture {
@@ -108,6 +112,10 @@ struct ChangeAllTopicsView: View {
                                     .if(!assign.topic!.trimmingCharacters(in: .whitespaces).isEmpty){ view in
                                         view.foregroundColor(.green)
                                     }
+                                if assign.book{
+                                    Image(systemName: "book.closed.fill")
+                                        .font(.title)
+                                }
                             }
                         }
                     }
