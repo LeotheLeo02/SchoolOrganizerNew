@@ -329,20 +329,18 @@ struct FolderView: View {
     }
 }
 
-struct FolderView_Previews: PreviewProvider {
-    static var previews: some View {
-        FolderView()
-    }
-}
-
 struct AddSchoolPeriod: View{
     @Environment(\.managedObjectContext) var managedObjContext
     @Environment(\.dismiss) var dismiss
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.number)]) var period: FetchedResults<Periods>
     @FocusState var focusonname: Bool
     @State private var periodname = ""
     @State private var periodtime = Date()
     @State private var periodnumber: Int64 = 0
     @State private var numbers: [Int64] = [1,2,3,4,5,6,7]
+    @State private var existingalert = false
+    @State private var present = false
+    @State private var replacenumber: Int = 0
     var body: some View{
         Form{
             Section{
@@ -351,7 +349,7 @@ struct AddSchoolPeriod: View{
                         .focused($focusonname)
                         .textFieldStyle(.roundedBorder)
                         .onAppear(){
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                             focusonname = true
                         }
                         }
@@ -364,19 +362,40 @@ struct AddSchoolPeriod: View{
                             } label: {
                                 Text("\(Int64(num))")
                             }
-
                         }
                     }label: {
                         Text("Choose School Period Number")
                     }
+                    if existingalert{
+                        HStack{
+                        Text("This period is taken")
+                            .bold()
+                            .foregroundColor(.red)
+                            Image(systemName: "exclamationmark.octagon.fill")
+                                .foregroundColor(.red)
+                        }
+                    }
                     if periodnumber != 0 {
                         Text("\(Int64(periodnumber))")
-                    }
+                    }                }
+            }.alert("This period is already filled. What Do you Want To Do", isPresented: $present) {
+                Button("Replace") {
+                    replacenumber = Int(periodnumber)
+                    PeriodDataController().addPeriod(number: periodnumber, perioddate: periodtime, name: periodname, context: managedObjContext)
+                    dismiss()
+                }
+                Button("Cancel"){
+                    
                 }
             }
             Button {
+                if existingalert{
+                    present.toggle()
+                }
+                if !existingalert{
                 PeriodDataController().addPeriod(number: periodnumber, perioddate: periodtime, name: periodname, context: managedObjContext)
                 dismiss()
+                }
             } label: {
                 HStack{
                     Spacer()
@@ -384,6 +403,36 @@ struct AddSchoolPeriod: View{
                     Spacer()
                 }.buttonStyle(.bordered)
             }.disabled(periodnumber == 0 || periodname.trimmingCharacters(in: .whitespaces).isEmpty)
+            List{
+                ForEach(period){per in
+                    HStack{
+                        Text("\(per.number)")
+                            .italic()
+                            .foregroundColor(.gray)
+                        Spacer()
+                        Text(per.name!)
+                            .italic()
+                            .bold()
+                            .foregroundColor(.gray)
+                    }.onChange(of: periodnumber) { newValue in
+                        if periodnumber == per.number{
+                            withAnimation{
+                            existingalert  = true
+                            }
+                        }else{
+                            withAnimation{
+                            existingalert = false
+                            }
+                        }
+                    }
+                    .onChange(of: replacenumber) { newValue in
+                        if replacenumber == per.number {
+                            per.managedObjectContext?.delete(per)
+                                PeriodDataController().save(context: managedObjContext)
+                        }
+                    }
+                }
+            }
         }
     }
 }

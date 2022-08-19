@@ -108,7 +108,7 @@ struct AssignmentsView: View {
                                                         view.foregroundColor(.green)
                                                     }
                                                     .if( days < 7 && days > 3){ view in
-                                                        view.foregroundColor(.yellow)
+                                                        view.foregroundColor(.orange)
                                                     }
                                                     .if(days <= 3){ view in
                                                         view.foregroundColor(.red)
@@ -232,7 +232,7 @@ struct AssignmentsView: View {
                                                 view.foregroundColor(.green)
                                             }
                                             .if( days < 7 && days > 3){ view in
-                                                view.foregroundColor(.yellow)
+                                                view.foregroundColor(.orange)
                                             }
                                             .if(days <= 3){ view in
                                                 view.foregroundColor(.red)

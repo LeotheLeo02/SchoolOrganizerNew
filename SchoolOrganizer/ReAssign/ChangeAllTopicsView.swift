@@ -83,7 +83,7 @@ struct ChangeAllTopicsView: View {
                             }
                             }
                             if nothing{
-                            Text("Cannot Submit Nothing")
+                            Text("Cannot Submit An Empty Field")
                                 .bold()
                                 .foregroundColor(.red)
                                 .underline()

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct AddTestView: View {
     @Environment(\.managedObjectContext) var managedObjContext
@@ -13,6 +14,7 @@ struct AddTestView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.score)]) var test: FetchedResults<Tests>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.number)]) var period: FetchedResults<Periods>
     @State private var testname = ""
     @State private var testtopic = ""
     @State private var addtopic = false
@@ -25,6 +27,9 @@ struct AddTestView: View {
     @State private var presentnewassign = false
     @State private var attachtopic = ""
     @State private var addsession = false
+    @State private var periodhour: Int = 0
+    @State private var periodminute: Int = 0
+    @State private var timechanged = false
     var body: some View {
         NavigationView{
             VStack{
@@ -162,6 +167,32 @@ struct AddTestView: View {
                                 .bold()
                         }.buttonStyle(.bordered)
                     }
+                    Section{
+                        ForEach(period){per in
+                            Button {
+                                let date  = newtestdate
+                                let calendar  = Calendar.current
+                                let hour = calendar.component(.hour, from: per.perioddate!)
+                                let minute = calendar.component(.minute, from: per.perioddate!)
+                                periodhour = hour
+                                periodminute = minute
+                                let newtime = Calendar.current.date(bySettingHour: periodhour, minute: periodminute, second: 0, of: date)
+                                newtestdate = newtime!
+                                simpleSuccess()
+                                timechanged.toggle()
+                            } label: {
+                                HStack{
+                                    Text("\(Int64(per.number))")
+                                    Text(per.name!)
+                                        .bold()
+                                    Spacer()
+                                    Text(per.perioddate!, style: .time)
+                                }
+                            }
+                        }
+                    }header: {
+                        Text("School Periods")
+                    }
                     Section {
                         DatePicker("Select The Day Of Your Test", selection: $newtestdate, in: Date.now...)
                             .datePickerStyle(.graphical)
@@ -192,6 +223,9 @@ struct AddTestView: View {
             .sheet(isPresented: $deleteall, content: {
                 ChangeAllTopicsView()
             })
+            .toast(isPresenting: $timechanged) {
+                AlertToast(displayMode: .banner(.pop), type: .systemImage("clock.badge.checkmark.fill", .green), title: "Time Changed", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
+            }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
@@ -257,6 +291,10 @@ struct AddTestView: View {
             // Saves to our database
             TopicDataController().save(context: managedObjContext)
         }
+    }
+    func simpleSuccess() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
     }
 }
 

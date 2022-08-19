@@ -52,6 +52,7 @@ struct AddAssignment: View {
     @State private var owntext = ""
     @State private var pagenumber: Int = 0
     @State private var timetocomplete = Date()
+    @State private var addperiod = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
@@ -365,6 +366,13 @@ struct AddAssignment: View {
                 }
             }header: {
                 Text("School Periods")
+            }footer: {
+                Button {
+                    addperiod.toggle()
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.title3)
+                }
             }
             Section {
                 if type == "Book"{
@@ -404,6 +412,9 @@ struct AddAssignment: View {
         }
         .sheet(isPresented: $reassign, content: {
             ChangeAllTopicsView()
+        })
+        .sheet(isPresented: $addperiod, content: {
+            AddSchoolPeriod()
         })
         .alert("Undo All?", isPresented: $undosignal) {
             Button("Yes") {
