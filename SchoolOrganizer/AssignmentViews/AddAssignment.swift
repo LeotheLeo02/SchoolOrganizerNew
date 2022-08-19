@@ -63,6 +63,10 @@ struct AddAssignment: View {
                 Image(systemName: "book.closed.fill").tag("Book")
             }.labelsHidden()
                 .pickerStyle(.segmented)
+                .onChange(of: type, perform: { _ in
+                    let impactHeavy = UIImpactFeedbackGenerator(style: .rigid)
+                        impactHeavy.impactOccurred()
+                })
                 .onChange(of: undoall) { V in
                     type = "Original"
                 }
