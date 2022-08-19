@@ -65,24 +65,33 @@ struct AddTestView: View {
                     
                     Section {
                         if testtopic.isEmpty{
+                            HStack{
                             Text("No topic is selected")
                                 .bold()
-                                .foregroundColor(.gray)
+                                .foregroundColor(.red)
+                                Image(systemName: "xmark.octagon.fill")
+                                    .foregroundColor(.red)
+                            }
                         }else{
+                            HStack{
+                                Spacer()
                         Text(testtopic)
                                 .bold()
                                 .foregroundColor(.green)
                                 .onChange(of: undo, perform: { newValue in
                                     testtopic = ""
                                 })
-                             
+                                Spacer()
+                            }
                         }
                         ScrollView(.horizontal){
                             HStack{
                                 if !topic.isEmpty{
                                     ForEach(topic){top in
                                         Button {
+                                            withAnimation{
                                             testtopic = top.topicname!
+                                            }
                                         } label: {
                                             Text(top.topicname!)
                                             ForEach(assignment){assign in

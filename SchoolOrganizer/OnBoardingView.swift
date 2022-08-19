@@ -118,7 +118,7 @@ struct PresentNotification: View{
                             .font(.system(size: 20, weight: .bold, design: .rounded))
                             .multilineTextAlignment(.center)
                         Rectangle()
-                            .frame(width: 375, height: 70)
+                            .frame(minWidth: 320, idealWidth: 350, maxWidth: 375, minHeight: 70, maxHeight: 70)
                             .cornerRadius(30)
                             .foregroundColor(Color(.systemGray3))
                             .overlay {
@@ -137,7 +137,7 @@ struct PresentNotification: View{
                                 }.padding()
                             }
                         Rectangle()
-                            .frame(width: 375, height: 70)
+                            .frame(minWidth: 320, idealWidth: 350, maxWidth: 375, minHeight: 70, maxHeight: 70)
                             .cornerRadius(30)
                             .foregroundColor(Color(.systemGray3))
                             .overlay {
@@ -156,7 +156,7 @@ struct PresentNotification: View{
                                 }.padding()
                             }
                         Rectangle()
-                            .frame(width: 375, height: 70)
+                            .frame(minWidth: 320, idealWidth: 350, maxWidth: 375, minHeight: 70, maxHeight: 70)
                             .cornerRadius(30)
                             .foregroundColor(Color(.systemGray3))
                             .overlay {

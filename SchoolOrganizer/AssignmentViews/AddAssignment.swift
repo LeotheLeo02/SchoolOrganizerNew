@@ -206,16 +206,24 @@ struct AddAssignment: View {
         }
             Section {
                 if topics.isEmpty{
+                    HStack{
                     Text("No topic selected")
                         .bold()
-                        .foregroundColor(.gray)
+                        .foregroundColor(.red)
+                        Image(systemName: "xmark.octagon.fill")
+                            .foregroundColor(.red)
+                    }
                 }else{
+                    HStack{
+                        Spacer()
                 Text(topics)
                         .bold()
                         .foregroundColor(.green)
                         .onChange(of: undoall, perform: { newValue in
                             topics = ""
                         })
+                        Spacer()
+                    }
                 }
                 ScrollView(.horizontal){
                 HStack{
@@ -225,7 +233,9 @@ struct AddAssignment: View {
                     }else{
                 ForEach(topic){top in
                     Button {
+                        withAnimation{
                         topics = top.topicname!
+                        }
                     } label: {
                         Text(top.topicname!)
                         ForEach(assignment){assign in
@@ -399,9 +409,14 @@ struct AddAssignment: View {
                     .onChange(of: undoall) { newValue in
                         duedate = Date.now
                     }
-                Toggle("Reminder Two Days Prior To Due Date", isOn: $twodaysearly)
-                    .font(.system(size: 15, weight: .heavy, design: .rounded))
-                    .multilineTextAlignment(.center)
+                    Toggle(isOn: $twodaysearly) {
+                        VStack{
+                        Text("Reminder Two Days Prior To Due Date")
+                            .font(.system(size: 15, weight: .heavy, design: .rounded))
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
                     .onShake {
                         simpleSuccess()
                         undosignal.toggle()

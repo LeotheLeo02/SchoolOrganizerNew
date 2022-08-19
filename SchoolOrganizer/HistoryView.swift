@@ -165,6 +165,22 @@ struct HistoryView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(20)
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(role: .destructive) {
+                    withAnimation{
+                    historya
+                        .forEach(managedObjContext.delete)
+                    HistoryADataController().save(context: managedObjContext)
+                    
+                    completedtest
+                        .forEach(managedObjContext.delete)
+                    CompletedTestsDataController().save(context: managedObjContext)
+                    }
+                } label: {
+                    Text("Clear")
+                }
+
+            }
         }
     }
         .navigationViewStyle(.stack)
