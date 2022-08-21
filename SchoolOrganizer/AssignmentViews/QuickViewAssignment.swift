@@ -12,6 +12,7 @@ struct QuickViewAssignment: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @State private var edit = false
     @State private var name = ""
+    @State private var complete = false
     var body: some View {
         VStack{
         Rectangle()
@@ -65,55 +66,26 @@ struct QuickViewAssignment: View {
             }
             Button {
                 withAnimation{
-                    assignment.complete.toggle()
-                    AssignmentDataController().editAssign(assign: assignment, complete: assignment.complete, context: managedObjContext)
-                    if assignment.complete{
-                        simpleSuccess()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            withAnimation{
-                                assignmentscompleted += 1
-                                HistoryADataController().addAssign(assignname: assignment.name!, assigncolor: assignment.color!, assigndate: Date.now, context: managedObjContext)
-                                if assignment.complete != false{
-                                    UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                                        let formatter1 = DateFormatter()
-                                        formatter1.dateStyle = .long
-                                        let bookassign = assignment.name! + "B"
-                                        let bookcomplete = assignment.name! + "C"
-                                        if assignment.book{
-                                        var identifiers: [String] = [bookassign, bookcomplete]
-                                            for notification:UNNotificationRequest in notificationRequests {
-                                                if notification.identifier == "identifierCancel" {
-                                                   identifiers.append(notification.identifier)
-                                                }
-                                            }
-                                            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                             print("Deleted Notifcation")
-                                        }else{
-                                        var identifiers: [String] = [assignment.name!, formatter1.string(from: assignment.duedate!)]
-                                            for notification:UNNotificationRequest in notificationRequests {
-                                                if notification.identifier == "identifierCancel" {
-                                                   identifiers.append(notification.identifier)
-                                                }
-                                            }
-                                            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                             print("Deleted Notifcation")
-                                        }
-                                    }
-                            assignment.managedObjectContext?.delete(assignment)
-                                AssignmentDataController().save(context: managedObjContext)
-                            }
-                        }
-                        }
+                    complete.toggle()
+                    AssignmentDataController().editAssign(assign: assignment, complete: complete, context: managedObjContext)
+                    if complete{
+                    simpleSuccess()
                     }
                 }
             } label: {
-                Image(systemName: assignment.complete ?  "checkmark.circle.fill":"circle")
+                Image(systemName: complete ?  "checkmark.circle.fill":"circle")
                     .foregroundColor(.green)
                     .font(.largeTitle)
+            }.onAppear(){
+                complete = assignment.complete
             }
 
         }.padding()
         .background(Color(.systemGray5))
         .cornerRadius(20)
+    }
+    func simpleSuccess() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
     }
 }
