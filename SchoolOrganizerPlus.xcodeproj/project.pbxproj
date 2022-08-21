@@ -46,7 +46,7 @@
 
 /* Begin PBXFileReference section */
 		43122BB7289C3DB6002F6CA9 /* PastNamesDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastNamesDataController.swift; sourceTree = "<group>"; };
-		4333E9D52899A4B700E80A67 /* SchoolOrganizerHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SchoolOrganizerHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4333E9D52899A4B700E80A67 /* SchoolOrganizerPlus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SchoolOrganizerPlus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4333E9D82899A4B700E80A67 /* SchoolOrganizerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolOrganizerApp.swift; sourceTree = "<group>"; };
 		4333E9DC2899A4B800E80A67 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4333E9DF2899A4B800E80A67 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		4333E9D62899A4B700E80A67 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4333E9D52899A4B700E80A67 /* SchoolOrganizerHelper.app */,
+				4333E9D52899A4B700E80A67 /* SchoolOrganizerPlus.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -194,9 +194,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4333E9D42899A4B700E80A67 /* SchoolOrganizerHelper */ = {
+		4333E9D42899A4B700E80A67 /* SchoolOrganizerPlus */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4333E9E32899A4B800E80A67 /* Build configuration list for PBXNativeTarget "SchoolOrganizerHelper" */;
+			buildConfigurationList = 4333E9E32899A4B800E80A67 /* Build configuration list for PBXNativeTarget "SchoolOrganizerPlus" */;
 			buildPhases = (
 				4333E9D12899A4B700E80A67 /* Sources */,
 				4333E9D22899A4B700E80A67 /* Frameworks */,
@@ -206,12 +206,12 @@
 			);
 			dependencies = (
 			);
-			name = SchoolOrganizerHelper;
+			name = SchoolOrganizerPlus;
 			packageProductDependencies = (
 				43D57A40289C5F1000F37A34 /* AlertToast */,
 			);
 			productName = SchoolOrganizer;
-			productReference = 4333E9D52899A4B700E80A67 /* SchoolOrganizerHelper.app */;
+			productReference = 4333E9D52899A4B700E80A67 /* SchoolOrganizerPlus.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -229,7 +229,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4333E9D02899A4B700E80A67 /* Build configuration list for PBXProject "SchoolOrganizerHelper" */;
+			buildConfigurationList = 4333E9D02899A4B700E80A67 /* Build configuration list for PBXProject "SchoolOrganizerPlus" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -245,7 +245,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4333E9D42899A4B700E80A67 /* SchoolOrganizerHelper */,
+				4333E9D42899A4B700E80A67 /* SchoolOrganizerPlus */,
 			);
 		};
 /* End PBXProject section */
@@ -482,7 +482,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4333E9D02899A4B700E80A67 /* Build configuration list for PBXProject "SchoolOrganizerHelper" */ = {
+		4333E9D02899A4B700E80A67 /* Build configuration list for PBXProject "SchoolOrganizerPlus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4333E9E12899A4B800E80A67 /* Debug */,
@@ -491,7 +491,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4333E9E32899A4B800E80A67 /* Build configuration list for PBXNativeTarget "SchoolOrganizerHelper" */ = {
+		4333E9E32899A4B800E80A67 /* Build configuration list for PBXNativeTarget "SchoolOrganizerPlus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4333E9E42899A4B800E80A67 /* Debug */,

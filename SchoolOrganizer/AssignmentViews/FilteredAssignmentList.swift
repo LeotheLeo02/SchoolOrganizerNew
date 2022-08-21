@@ -11,7 +11,8 @@ struct FilteredAssignmentList: View {
     @FetchRequest var fetchRequest: FetchedResults<Assignment>
     var body: some View {
         NavigationView{
-            Form{
+            ScrollView{
+            VStack{
             if fetchRequest.isEmpty{
                 Text("No Items Found")
                     .foregroundColor(.gray)
@@ -23,6 +24,7 @@ struct FilteredAssignmentList: View {
                     .scaledToFill()
                 Spacer()
             }
+        }
         }
         }
         .navigationBarHidden(true)

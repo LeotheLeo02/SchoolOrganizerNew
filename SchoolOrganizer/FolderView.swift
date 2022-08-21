@@ -98,6 +98,9 @@ struct FolderView: View {
                 .headerProminence(.increased)
                 Button {
                     withAnimation{
+                        if !siteLink.contains("https://"){
+                            siteLink = "https://\(siteLink)"
+                        }
                     let isValid = canOpenURL(siteLink)
                     if isValid && !linkname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty{
                     LinksDataController().addLink(linkn: siteLink, linkname: linkname, context: managedObjContext)

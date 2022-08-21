@@ -63,44 +63,57 @@ struct QuickViewAssignment: View {
                         name = assignment.name!
                     }
             }
-            DisclosureGroup("Resources") {
-                if assignment.imagedata != nil{
-                    VStack{
-                    Image(uiImage: UIImage(data: assignment.imagedata!)!)
-                        .resizable()
-                        .frame(width: 200, height: 200)
-                        .if(assignment.imagesize == 1, transform: { View in
-                            View.frame(width: 150, height: 150, alignment: .center)
-                        })
-                        .if(assignment.imagesize == 2, transform: { View in
-                            View.frame(width: 250, height: 250, alignment: .center)
-                        })
-                        .if(assignment.imagesize == 3, transform: { View in
-                            View.frame(width: 350, height: 350, alignment: .center)
-                        })
-                        Text(assignment.imagetitle!)
-                            .font(.system(size: 30, weight: .heavy, design: .rounded))
-                    }.padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(20)
-                    .contextMenu{
-                        Button(role: .destructive) {
+            Button {
+                withAnimation{
+                    assignment.complete.toggle()
+                    AssignmentDataController().editAssign(assign: assignment, complete: assignment.complete, context: managedObjContext)
+                    if assignment.complete{
+                        simpleSuccess()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                             withAnimation{
-                            assignment.imagedata = nil
-                                assignment.imagetitle = ""
-                                assignment.imagesize = 0
-                                try? managedObjContext.save()
-                            }
-                        } label: {
-                            HStack{
-                            Text("Delete Image")
-                                Image(systemName: "trash")
+                                assignmentscompleted += 1
+                                HistoryADataController().addAssign(assignname: assignment.name!, assigncolor: assignment.color!, assigndate: Date.now, context: managedObjContext)
+                                if assignment.complete != false{
+                                    UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+                                        let formatter1 = DateFormatter()
+                                        formatter1.dateStyle = .long
+                                        let bookassign = assignment.name! + "B"
+                                        let bookcomplete = assignment.name! + "C"
+                                        if assignment.book{
+                                        var identifiers: [String] = [bookassign, bookcomplete]
+                                            for notification:UNNotificationRequest in notificationRequests {
+                                                if notification.identifier == "identifierCancel" {
+                                                   identifiers.append(notification.identifier)
+                                                }
+                                            }
+                                            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                             print("Deleted Notifcation")
+                                        }else{
+                                        var identifiers: [String] = [assignment.name!, formatter1.string(from: assignment.duedate!)]
+                                            for notification:UNNotificationRequest in notificationRequests {
+                                                if notification.identifier == "identifierCancel" {
+                                                   identifiers.append(notification.identifier)
+                                                }
+                                            }
+                                            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                             print("Deleted Notifcation")
+                                        }
+                                    }
+                            assignment.managedObjectContext?.delete(assignment)
+                                AssignmentDataController().save(context: managedObjContext)
                             }
                         }
-
+                        }
                     }
                 }
+            } label: {
+                Image(systemName: assignment.complete ?  "checkmark.circle.fill":"circle")
+                    .foregroundColor(.green)
+                    .font(.largeTitle)
             }
-    }
+
+        }.padding()
+        .background(Color(.systemGray5))
+        .cornerRadius(20)
     }
 }
