@@ -67,9 +67,6 @@ struct FolderView: View {
                                         AddedLink.toggle()
                                         AssignmentDataController().editAssignLink(assign: assign, link: lin.link!, context: managedObjContext)
                                         simpleSuccess()
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
-                                            dismiss()
-                                        }
                                     } label: {
                                         HStack{
                                         Text(assign.name!)

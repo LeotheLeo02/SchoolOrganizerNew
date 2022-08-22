@@ -22,24 +22,31 @@ struct AssignImageDataSpecific: View{
                         added.toggle()
                         addedName = image.imagetitle!
                         sizename = "Large"
+                        simpleSuccess()
                     }
                     Button("Medium"){
                         AssignmentDataController().editAssignImage(assign: assignment, imagedata: image.imageD!, imagetitle: image.imagetitle!, imagesize: 2, context: managedObjContext)
                         added.toggle()
                         addedName = image.imagetitle!
                         sizename = "Medium"
+                        simpleSuccess()
                     }
                     Button("Small"){
                         AssignmentDataController().editAssignImage(assign: assignment, imagedata: image.imageD!, imagetitle: image.imagetitle!, imagesize: 1, context: managedObjContext)
                         added.toggle()
                         addedName = image.imagetitle!
                         sizename = "Small"
+                        simpleSuccess()
                     }
                 }label: {
                     Image(systemName: "plus")
                         .font(.title)
                 }
         }
+    }
+    func simpleSuccess() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
     }
 }
 
@@ -244,7 +251,9 @@ struct FolderViewSpecific: View {
                         }.padding()
                             AssignImageDataSpecific(assignment: assignment, image: imag, added: $Added, sizename: $sizename, addedName: $addedName)
                                 .onChange(of: Added) { V in
-                                    simpleSuccess()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
+                                        dismiss()
+                                    }
                                 }
                         }
                     }.onDelete(perform: deleteImage)
