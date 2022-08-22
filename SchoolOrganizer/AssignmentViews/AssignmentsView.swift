@@ -132,14 +132,20 @@ struct AssignmentsView: View {
                                     }
                                     Button {
                                         assign.complete.toggle()
-                                        AssignmentDataController().editAssign(assign: assign, complete: assign.complete, context: managedObjContext)
-                                        if assign.complete{
-                                            simpleSuccess()
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                                withAnimation{
-                                                    assignmentscompleted += 1
-                                                    HistoryADataController().addAssign(assignname: assign.name!, assigncolor: assign.color!, assigndate: Date.now, context: managedObjContext)
-                                                    if assign.complete != false{
+                                    } label: {
+                                        HStack{
+                                            Image(systemName: assign.complete ? "checkmark.circle.fill" : "circle")
+                                                .font(.largeTitle)
+                                            .foregroundColor(.green)
+                                        }.onChange(of: assign.complete) { _ in
+                                            AssignmentDataController().editAssign(assign: assign, complete: assign.complete, context: managedObjContext)
+                                            if assign.complete{
+                                                simpleSuccess()
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                                    withAnimation{
+                                                        assignmentscompleted += 1
+                                                        HistoryADataController().addAssign(assignname: assign.name!, assigncolor: assign.color!, assigndate: Date.now, context: managedObjContext)
+                                                        if assign.complete != false{
                                                         UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
                                                             let formatter1 = DateFormatter()
                                                             formatter1.dateStyle = .long
@@ -165,52 +171,11 @@ struct AssignmentsView: View {
                                                                  print("Deleted Notifcation")
                                                             }
                                                         }
-                                                assign.managedObjectContext?.delete(assign)
-                                                    AssignmentDataController().save(context: managedObjContext)
-                                                }
-                                            }
-                                            }
-                                        }
-                                    } label: {
-                                        HStack{
-                                            Image(systemName: assign.complete ? "checkmark.circle.fill" : "circle")
-                                                .font(.largeTitle)
-                                            .foregroundColor(.green)
-                                        }.onChange(of: assign.complete) { _ in
-                                            if assign.complete{
-                                                withAnimation{
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
-                                                assignmentscompleted += 1
-                                                HistoryADataController().addAssign(assignname: assign.name!, assigncolor: assign.color!, assigndate: Date.now, context: managedObjContext)
-                                                UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                                                    let formatter1 = DateFormatter()
-                                                    formatter1.dateStyle = .long
-                                                    let bookassign = assign.name! + "B"
-                                                    let bookcomplete = assign.name! + "C"
-                                                    if assign.book{
-                                                    var identifiers: [String] = [bookassign, bookcomplete]
-                                                        for notification:UNNotificationRequest in notificationRequests {
-                                                            if notification.identifier == "identifierCancel" {
-                                                               identifiers.append(notification.identifier)
-                                                            }
-                                                        }
-                                                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                                         print("Deleted Notifcation")
-                                                    }else{
-                                                    var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
-                                                        for notification:UNNotificationRequest in notificationRequests {
-                                                            if notification.identifier == "identifierCancel" {
-                                                               identifiers.append(notification.identifier)
-                                                            }
-                                                        }
-                                                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                                         print("Deleted Notifcation")
+                                                    assign.managedObjectContext?.delete(assign)
+                                                        AssignmentDataController().save(context: managedObjContext)
                                                     }
                                                 }
-                                                assign.managedObjectContext?.delete(assign)
-                                                    AssignmentDataController().save(context: managedObjContext)
                                                 }
-                                            }
                                             }
                                         }
                                     }
@@ -292,85 +257,50 @@ struct AssignmentsView: View {
                             }
                             Button {
                                 assign.complete.toggle()
-                                AssignmentDataController().editAssign(assign: assign, complete: assign.complete, context: managedObjContext)
-                                if assign.complete{
-                                    simpleSuccess()
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                        withAnimation{
-                                            assignmentscompleted += 1
-                                            HistoryADataController().addAssign(assignname: assign.name!, assigncolor: assign.color!, assigndate: Date.now, context: managedObjContext)
-                                            if assign.complete != false{
-                                            UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                                                let formatter1 = DateFormatter()
-                                                formatter1.dateStyle = .long
-                                                let bookassign = assign.name! + "B"
-                                                let bookcomplete = assign.name! + "C"
-                                                if assign.book{
-                                                var identifiers: [String] = [bookassign, bookcomplete]
-                                                    for notification:UNNotificationRequest in notificationRequests {
-                                                        if notification.identifier == "identifierCancel" {
-                                                           identifiers.append(notification.identifier)
-                                                        }
-                                                    }
-                                                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                                     print("Deleted Notifcation")
-                                                }else{
-                                                var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
-                                                    for notification:UNNotificationRequest in notificationRequests {
-                                                        if notification.identifier == "identifierCancel" {
-                                                           identifiers.append(notification.identifier)
-                                                        }
-                                                    }
-                                                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                                     print("Deleted Notifcation")
-                                                }
-                                            }
-                                        assign.managedObjectContext?.delete(assign)
-                                            AssignmentDataController().save(context: managedObjContext)
-                                        }
-                                    }
-                                    }
-                                }
                             } label: {
                                 HStack{
                                     Image(systemName: assign.complete ? "checkmark.circle.fill" : "circle")
                                         .font(.largeTitle)
                                     .foregroundColor(.green)
                                 }.onChange(of: assign.complete) { _ in
+                                    AssignmentDataController().editAssign(assign: assign, complete: assign.complete, context: managedObjContext)
                                     if assign.complete{
-                                        withAnimation{
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
-                                        assignmentscompleted += 1
-                                        HistoryADataController().addAssign(assignname: assign.name!, assigncolor: assign.color!, assigndate: Date.now, context: managedObjContext)
-                                        UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-                                            let formatter1 = DateFormatter()
-                                            formatter1.dateStyle = .long
-                                            let bookassign = assign.name! + "B"
-                                            let bookcomplete = assign.name! + "C"
-                                            if assign.book{
-                                            var identifiers: [String] = [bookassign, bookcomplete]
-                                                for notification:UNNotificationRequest in notificationRequests {
-                                                    if notification.identifier == "identifierCancel" {
-                                                       identifiers.append(notification.identifier)
+                                        simpleSuccess()
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                            withAnimation{
+                                                assignmentscompleted += 1
+                                                HistoryADataController().addAssign(assignname: assign.name!, assigncolor: assign.color!, assigndate: Date.now, context: managedObjContext)
+                                                if assign.complete != false{
+                                                UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+                                                    let formatter1 = DateFormatter()
+                                                    formatter1.dateStyle = .long
+                                                    let bookassign = assign.name! + "B"
+                                                    let bookcomplete = assign.name! + "C"
+                                                    if assign.book{
+                                                    var identifiers: [String] = [bookassign, bookcomplete]
+                                                        for notification:UNNotificationRequest in notificationRequests {
+                                                            if notification.identifier == "identifierCancel" {
+                                                               identifiers.append(notification.identifier)
+                                                            }
+                                                        }
+                                                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                                         print("Deleted Notifcation")
+                                                    }else{
+                                                    var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
+                                                        for notification:UNNotificationRequest in notificationRequests {
+                                                            if notification.identifier == "identifierCancel" {
+                                                               identifiers.append(notification.identifier)
+                                                            }
+                                                        }
+                                                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                                         print("Deleted Notifcation")
                                                     }
                                                 }
-                                                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                                 print("Deleted Notifcation")
-                                            }else{
-                                            var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
-                                                for notification:UNNotificationRequest in notificationRequests {
-                                                    if notification.identifier == "identifierCancel" {
-                                                       identifiers.append(notification.identifier)
-                                                    }
-                                                }
-                                                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                                 print("Deleted Notifcation")
+                                            assign.managedObjectContext?.delete(assign)
+                                                AssignmentDataController().save(context: managedObjContext)
                                             }
                                         }
-                                        assign.managedObjectContext?.delete(assign)
-                                            AssignmentDataController().save(context: managedObjContext)
-                                    }
-                                    }
+                                        }
                                     }
                                 }
                             }

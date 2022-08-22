@@ -14,7 +14,7 @@ import AlertToast
 struct AddAssignment: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.score)]) var test: FetchedResults<Tests>
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.uses, order: .reverse)]) var topic: FetchedResults<Topics>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.pastnames)]) var pastname: FetchedResults<PastNames>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.number)]) var period: FetchedResults<Periods>
@@ -54,6 +54,10 @@ struct AddAssignment: View {
     @State private var timetocomplete = Date()
     @State private var addperiod = false
     @State private var presentswapped = false
+    @State private var addtopicusage = false
+    private let adaptiveColumns = [
+     GridItem(.adaptive(minimum: 50))
+    ]
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView{
@@ -221,7 +225,7 @@ struct AddAssignment: View {
                     HStack{
                         Spacer()
                 Text(topics)
-                        .bold()
+                        .font(.system(size: 40, weight: .heavy, design: .rounded))
                         .foregroundColor(.green)
                         .onChange(of: undoall, perform: { newValue in
                             topics = ""
@@ -229,25 +233,35 @@ struct AddAssignment: View {
                         Spacer()
                     }
                 }
-                ScrollView(.horizontal){
-                HStack{
+                List{
                     if topic.isEmpty{
                         Text("No Topics")
                             .foregroundColor(.gray)
                     }else{
                 ForEach(topic){top in
+                    HStack{
+                        Spacer()
                     Button {
                         withAnimation{
                         topics = top.topicname!
                         }
                     } label: {
+                        Spacer()
                         Text(top.topicname!)
+                            .font(.title2)
+                            .bold()
+                            Spacer()
                         ForEach(assignment){assign in
                             VStack{
                             if assign.topic == top.topicname{
                                 Image(systemName: "doc.plaintext.fill")
                             }
                             }
+                            .onChange(of: addtopicusage, perform: { _ in
+                                if topics == top.topicname!{
+                                    top.uses += 1
+                                }
+                            })
                             .onAppear(){
                                 if assign.topic == top.topicname{
                                     attached = true
@@ -278,6 +292,7 @@ struct AddAssignment: View {
                         }
                     }.tint(.green)
                     .buttonStyle(.bordered)
+                        Spacer()
                     Button {
                         withAnimation {
                             if topics == top.topicname{
@@ -297,7 +312,7 @@ struct AddAssignment: View {
                         Image(systemName: "trash.fill")
                     }.tint(.red)
                     .buttonStyle(.borderedProminent)
-
+                }
                 }
                     }
                     Button {
@@ -308,8 +323,7 @@ struct AddAssignment: View {
                     } label: {
                         Image(systemName: "plus")
                             .foregroundColor(.green)
-                    }
-                }.sheet(isPresented: $presentnewassign) {
+                    }.sheet(isPresented: $presentnewassign) {
                     AssignIndiviualTopicView(topicname: $attachtopic)
                 }
                 }
@@ -464,6 +478,7 @@ struct AddAssignment: View {
                         if exists == false && type == "Original"{
                     PastNamesDataController().addName(pastnames: assigname, context: managedObjContext)
                         }
+                        addtopicusage.toggle()
                         AssignmentDataController().addAssign(topic: topics, color: color.trimmingCharacters(in: .whitespaces), duedate: duedate, name: assigname, complete: false, book: type == "Book" ? true:false, context: managedObjContext)
                     dismiss()
                     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in

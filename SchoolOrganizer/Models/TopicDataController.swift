@@ -39,4 +39,8 @@ class TopicDataController: ObservableObject {
         save(context: context)
     }
     
+    func addUse(topic: Topics, uses: Int64, context: NSManagedObjectContext){
+        topic.uses = uses
+    }
+    
 }
