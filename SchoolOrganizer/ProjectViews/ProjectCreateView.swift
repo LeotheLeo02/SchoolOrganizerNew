@@ -37,7 +37,7 @@ struct ProjectCreateView: View {
                             TextField("Checkpoint 1 Goal", text: $goal1)
                                 .textFieldStyle(.roundedBorder)
                         }
-                        DatePicker("Checkpoint 1 Due Date", selection: $checkpoint1,in: Date.now... ,displayedComponents: .date)
+                        DatePicker("Checkpoint 1 Due Date", selection: $checkpoint1,in: Date.now...)
                             .datePickerStyle(.compact)
                     }.padding()
                 }
@@ -53,7 +53,7 @@ struct ProjectCreateView: View {
                             TextField("Checkpoint 2 Goal", text: $goal2)
                                 .textFieldStyle(.roundedBorder)
                         }
-                        DatePicker("Checkpoint 2 Due Date", selection: $checkpoint2, in: Date.now..., displayedComponents: .date)
+                        DatePicker("Checkpoint 2 Due Date", selection: $checkpoint2, in: Date.now...)
                             .datePickerStyle(.compact)
                     }.padding()
                 }
@@ -69,7 +69,7 @@ struct ProjectCreateView: View {
                             TextField("Checkpoint 3 Goal", text: $goal3)
                                 .textFieldStyle(.roundedBorder)
                         }
-                        DatePicker("Checkpoint 3 Due Date", selection: $checkpoint3, in: Date.now..., displayedComponents: .date)
+                        DatePicker("Checkpoint 3 Due Date", selection: $checkpoint3, in: Date.now...)
                             .datePickerStyle(.compact)
                     }.padding()
                 }
@@ -106,7 +106,7 @@ struct ProjectCreateView: View {
                         let date = checkpoint1
                         let Check1 = Calendar.current.date(byAdding: .day, value: 0, to: date)
                         check1content.sound = UNNotificationSound.default
-                        let check1comp = Calendar.current.dateComponents([.year,.month,.day], from: Check1!)
+                        let check1comp = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute], from: Check1!)
 
                         let check1trigger = UNCalendarNotificationTrigger(dateMatching: check1comp, repeats: false)
                         let check1request = UNNotificationRequest(identifier: goal1 , content: check1content, trigger: check1trigger)
@@ -119,7 +119,7 @@ struct ProjectCreateView: View {
                     let date = checkpoint2
                     let Check2 = Calendar.current.date(byAdding: .day, value: 0, to: date)
                     check2content.sound = UNNotificationSound.default
-                    let check2comp = Calendar.current.dateComponents([.year,.month,.day], from: Check2!)
+                    let check2comp = Calendar.current.dateComponents([.year,.month,.day, .hour,.minute], from: Check2!)
                     
                     let check2trigger  = UNCalendarNotificationTrigger(dateMatching: check2comp, repeats: false)
                     let check2request = UNNotificationRequest(identifier: goal2, content: check2content, trigger: check2trigger)
@@ -132,7 +132,7 @@ struct ProjectCreateView: View {
                     let date3 = checkpoint3
                     let Check3 = Calendar.current.date(byAdding: .day, value: 0, to: date3)
                     check3content.sound = UNNotificationSound.default
-                    let check3comp = Calendar.current.dateComponents([.year,.month,.day], from: Check3!)
+                    let check3comp = Calendar.current.dateComponents([.year,.month,.day, .hour,.minute], from: Check3!)
                     
                     let check3trigger  = UNCalendarNotificationTrigger(dateMatching: check3comp, repeats: false)
                     let check3request = UNNotificationRequest(identifier: goal3, content: check3content, trigger: check3trigger)

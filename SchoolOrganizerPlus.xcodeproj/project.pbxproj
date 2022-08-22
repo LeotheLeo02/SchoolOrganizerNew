@@ -40,6 +40,7 @@
 		43C7B14528B402B500C43C5B /* ProjectDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B14428B402B500C43C5B /* ProjectDataController.swift */; };
 		43C7B14728B4070C00C43C5B /* ProjectCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B14628B4070C00C43C5B /* ProjectCreateView.swift */; };
 		43C7B14A28B4081F00C43C5B /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B14928B4081F00C43C5B /* ProjectsView.swift */; };
+		43C7B14C28B43B9F00C43C5B /* EditProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B14B28B43B9F00C43C5B /* EditProjectView.swift */; };
 		43CA7B68289EBE7200C90701 /* AssignmentSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CA7B67289EBE7200C90701 /* AssignmentSearchView.swift */; };
 		43CA7B6A289EBEC300C90701 /* FilteredAssignmentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CA7B69289EBEC300C90701 /* FilteredAssignmentList.swift */; };
 		43D57A41289C5F1000F37A34 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 43D57A40289C5F1000F37A34 /* AlertToast */; };
@@ -83,6 +84,7 @@
 		43C7B14428B402B500C43C5B /* ProjectDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDataController.swift; sourceTree = "<group>"; };
 		43C7B14628B4070C00C43C5B /* ProjectCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCreateView.swift; sourceTree = "<group>"; };
 		43C7B14928B4081F00C43C5B /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
+		43C7B14B28B43B9F00C43C5B /* EditProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectView.swift; sourceTree = "<group>"; };
 		43CA7B67289EBE7200C90701 /* AssignmentSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentSearchView.swift; sourceTree = "<group>"; };
 		43CA7B69289EBEC300C90701 /* FilteredAssignmentList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredAssignmentList.swift; sourceTree = "<group>"; };
 		43D5861928A3043300829981 /* HistoryADataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryADataController.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				43C7B14928B4081F00C43C5B /* ProjectsView.swift */,
+				43C7B14B28B43B9F00C43C5B /* EditProjectView.swift */,
 				43C7B14628B4070C00C43C5B /* ProjectCreateView.swift */,
 			);
 			path = ProjectViews;
@@ -311,6 +314,7 @@
 				43D5861A28A3043300829981 /* HistoryADataController.swift in Sources */,
 				436DB7CE28A9DA3F0042844D /* QuickViewAssignment.swift in Sources */,
 				4333E9FD2899A66100E80A67 /* TestDataController.swift in Sources */,
+				43C7B14C28B43B9F00C43C5B /* EditProjectView.swift in Sources */,
 				4333E9ED2899A53500E80A67 /* EditAssignment.swift in Sources */,
 				43C7B14528B402B500C43C5B /* ProjectDataController.swift in Sources */,
 				4333E9D92899A4B700E80A67 /* SchoolOrganizerApp.swift in Sources */,

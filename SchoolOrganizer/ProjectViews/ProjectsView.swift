@@ -16,6 +16,7 @@ struct ProjectsView: View {
             ScrollView{
                 VStack{
                     ForEach(project){pro in
+                        NavigationLink(destination: EditProjectView(project: pro)){
                         VStack{
                         Rectangle()
                             .frame(width: .infinity, height: 200)
@@ -24,6 +25,8 @@ struct ProjectsView: View {
                             .overlay {
                                 VStack{
                                     Text(pro.name!)
+                                        .font(.title)
+                                        .foregroundColor(.black)
                                     HStack{
                                         if pro.check1done && pro.check2done && pro.check3done{
                                             HStack{
@@ -180,6 +183,7 @@ struct ProjectsView: View {
                             Image(systemName: "trash")
                         }
 
+                    }
                     }
                     }
                 }.padding()
