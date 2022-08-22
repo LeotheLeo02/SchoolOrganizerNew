@@ -37,6 +37,9 @@
 		43BFFD5A28AE6FBD00F30116 /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BFFD5928AE6FBD00F30116 /* OnBoardingView.swift */; };
 		43C4A5CF28AADCA300EB94D9 /* StudyDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C4A5CE28AADCA300EB94D9 /* StudyDataController.swift */; };
 		43C4A5D128AADE6E00EB94D9 /* StudySessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C4A5D028AADE6E00EB94D9 /* StudySessionsView.swift */; };
+		43C7B14528B402B500C43C5B /* ProjectDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B14428B402B500C43C5B /* ProjectDataController.swift */; };
+		43C7B14728B4070C00C43C5B /* ProjectCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B14628B4070C00C43C5B /* ProjectCreateView.swift */; };
+		43C7B14A28B4081F00C43C5B /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B14928B4081F00C43C5B /* ProjectsView.swift */; };
 		43CA7B68289EBE7200C90701 /* AssignmentSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CA7B67289EBE7200C90701 /* AssignmentSearchView.swift */; };
 		43CA7B6A289EBEC300C90701 /* FilteredAssignmentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CA7B69289EBEC300C90701 /* FilteredAssignmentList.swift */; };
 		43D57A41289C5F1000F37A34 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 43D57A40289C5F1000F37A34 /* AlertToast */; };
@@ -77,6 +80,9 @@
 		43BFFD5928AE6FBD00F30116 /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
 		43C4A5CE28AADCA300EB94D9 /* StudyDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyDataController.swift; sourceTree = "<group>"; };
 		43C4A5D028AADE6E00EB94D9 /* StudySessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySessionsView.swift; sourceTree = "<group>"; };
+		43C7B14428B402B500C43C5B /* ProjectDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDataController.swift; sourceTree = "<group>"; };
+		43C7B14628B4070C00C43C5B /* ProjectCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCreateView.swift; sourceTree = "<group>"; };
+		43C7B14928B4081F00C43C5B /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
 		43CA7B67289EBE7200C90701 /* AssignmentSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentSearchView.swift; sourceTree = "<group>"; };
 		43CA7B69289EBEC300C90701 /* FilteredAssignmentList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredAssignmentList.swift; sourceTree = "<group>"; };
 		43D5861928A3043300829981 /* HistoryADataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryADataController.swift; sourceTree = "<group>"; };
@@ -124,6 +130,7 @@
 				43BFFD5928AE6FBD00F30116 /* OnBoardingView.swift */,
 				43AAB15A28A6DF4600CB0631 /* ReAssign */,
 				43E4B5E72899D02E0064A107 /* AssignmentViews */,
+				43C7B14828B4080300C43C5B /* ProjectViews */,
 				43E4B5E62899CF2A0064A107 /* TestViews */,
 				4333E9DC2899A4B800E80A67 /* Assets.xcassets */,
 				4333E9DE2899A4B800E80A67 /* Preview Content */,
@@ -154,6 +161,7 @@
 				43C4A5CE28AADCA300EB94D9 /* StudyDataController.swift */,
 				43660C8028AC3D23008DA81B /* StudyTopicsDataController.swift */,
 				4339D3B628A452890093D9D4 /* PeriodDataController.swift */,
+				43C7B14428B402B500C43C5B /* ProjectDataController.swift */,
 				4333E9F92899A58300E80A67 /* SchoolModel.xcdatamodeld */,
 			);
 			path = Models;
@@ -166,6 +174,15 @@
 				437F98BD28A2B8D700C936FF /* ChangeAllTopicsView.swift */,
 			);
 			path = ReAssign;
+			sourceTree = "<group>";
+		};
+		43C7B14828B4080300C43C5B /* ProjectViews */ = {
+			isa = PBXGroup;
+			children = (
+				43C7B14928B4081F00C43C5B /* ProjectsView.swift */,
+				43C7B14628B4070C00C43C5B /* ProjectCreateView.swift */,
+			);
+			path = ProjectViews;
 			sourceTree = "<group>";
 		};
 		43E4B5E62899CF2A0064A107 /* TestViews */ = {
@@ -276,11 +293,13 @@
 				43122BB8289C3DB6002F6CA9 /* PastNamesDataController.swift in Sources */,
 				43660C8128AC3D23008DA81B /* StudyTopicsDataController.swift in Sources */,
 				43C4A5CF28AADCA300EB94D9 /* StudyDataController.swift in Sources */,
+				43C7B14A28B4081F00C43C5B /* ProjectsView.swift in Sources */,
 				4333E9F62899A57B00E80A67 /* TopicDataController.swift in Sources */,
 				4333EA032899ABF500E80A67 /* AddTestView.swift in Sources */,
 				4333E9FB2899A58300E80A67 /* SchoolModel.xcdatamodeld in Sources */,
 				43D5861C28A3054300829981 /* HistoryView.swift in Sources */,
 				4333EA052899B28200E80A67 /* TestsView.swift in Sources */,
+				43C7B14728B4070C00C43C5B /* ProjectCreateView.swift in Sources */,
 				43C4A5D128AADE6E00EB94D9 /* StudySessionsView.swift in Sources */,
 				437F98BE28A2B8D700C936FF /* ChangeAllTopicsView.swift in Sources */,
 				43CA7B6A289EBEC300C90701 /* FilteredAssignmentList.swift in Sources */,
@@ -293,6 +312,7 @@
 				436DB7CE28A9DA3F0042844D /* QuickViewAssignment.swift in Sources */,
 				4333E9FD2899A66100E80A67 /* TestDataController.swift in Sources */,
 				4333E9ED2899A53500E80A67 /* EditAssignment.swift in Sources */,
+				43C7B14528B402B500C43C5B /* ProjectDataController.swift in Sources */,
 				4333E9D92899A4B700E80A67 /* SchoolOrganizerApp.swift in Sources */,
 				4333E9F22899A57300E80A67 /* LinksDataController.swift in Sources */,
 				4333E9E92899A51900E80A67 /* FolderView.swift in Sources */,
