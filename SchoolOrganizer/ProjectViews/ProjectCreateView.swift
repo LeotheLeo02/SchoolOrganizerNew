@@ -141,7 +141,7 @@ struct ProjectCreateView: View {
                     dismiss()
                 } label: {
                     Text("Add")
-                }
+                }.disabled(name.trimmingCharacters(in: .whitespaces).isEmpty || goal1.trimmingCharacters(in: .whitespaces).isEmpty || goal2.trimmingCharacters(in: .whitespaces).isEmpty || goal3.trimmingCharacters(in: .whitespaces).isEmpty)
 
             }
         }

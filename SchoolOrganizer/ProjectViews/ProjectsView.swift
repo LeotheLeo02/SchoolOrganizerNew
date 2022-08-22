@@ -16,6 +16,7 @@ struct ProjectsView: View {
             ScrollView{
                 VStack{
                     ForEach(project){pro in
+                        VStack{
                         Rectangle()
                             .frame(width: .infinity, height: 200)
                             .foregroundColor(Color(.systemGray6))
@@ -155,6 +156,30 @@ struct ProjectsView: View {
                                 }
                                 }
                                 .padding()
+                    }
+                    }.contextMenu{
+                        Button(role: .destructive) {
+                            withAnimation{
+                                UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+                                    var identifiers: [String] = [pro.goal1!, pro.goal2!, pro.goal3!]
+                                        for notification:UNNotificationRequest in notificationRequests {
+                                            if notification.identifier == "identifierCancel" {
+                                               identifiers.append(notification.identifier)
+                                            }
+                                        }
+                                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+                                         print("Deleted Notifcation")
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+                            pro.managedObjectContext?.delete(pro)
+                                ProjectDataController().save(context: managedObjContext)
+                                }
+                            }
+                        } label: {
+                            Text("Delete")
+                            Image(systemName: "trash")
+                        }
+
                     }
                     }
                 }.padding()
