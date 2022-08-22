@@ -11,7 +11,7 @@ import AlertToast
 struct AddTestView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @Environment(\.dismiss) var dismiss
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.topicname)]) var topic: FetchedResults<Topics>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.uses, order: .reverse)]) var topic: FetchedResults<Topics>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.score)]) var test: FetchedResults<Tests>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.number)]) var period: FetchedResults<Periods>
@@ -32,6 +32,7 @@ struct AddTestView: View {
     @State private var timechanged = false
     @State private var addperiod = false
     @State private var presentswapped = false
+    @State private var addtopicusage = false
     var body: some View {
         NavigationView{
             VStack{
@@ -76,7 +77,7 @@ struct AddTestView: View {
                             HStack{
                                 Spacer()
                         Text(testtopic)
-                                .bold()
+                                .font(.system(size: 40, weight: .heavy, design: .rounded))
                                 .foregroundColor(.green)
                                 .onChange(of: undo, perform: { newValue in
                                     testtopic = ""
@@ -84,22 +85,33 @@ struct AddTestView: View {
                                 Spacer()
                             }
                         }
-                        ScrollView(.horizontal){
-                            HStack{
+                        List{
                                 if !topic.isEmpty{
                                     ForEach(topic){top in
+                                        HStack{
+                                            Spacer()
                                         Button {
                                             withAnimation{
                                             testtopic = top.topicname!
                                             }
                                         } label: {
+                                            Spacer()
                                             Text(top.topicname!)
+                                                .font(.title2)
+                                                .bold()
+                                            Spacer()
                                             ForEach(assignment){assign in
                                                 HStack{
                                                 if top.topicname == assign.topic{
                                                     Image(systemName: "doc.plaintext.fill")
                                                 }
-                                                }.onAppear(){
+                                                }.onChange(of: addtopicusage, perform: { _ in
+                                                    if testtopic == top.topicname!{
+                                                        top.uses += 1
+                                                    }
+                                                })
+
+                                                .onAppear(){
                                                     if assign.topic == top.topicname{
                                                         attached = true
                                                     }
@@ -118,6 +130,7 @@ struct AddTestView: View {
                                             }
                                         }.tint(.green)
                                         .buttonStyle(.bordered)
+                                            Spacer()
                                         Button {
                                             withAnimation {
                                                 if testtopic == top.topicname!{
@@ -138,6 +151,7 @@ struct AddTestView: View {
                                         }.tint(.red)
                                         .buttonStyle(.borderedProminent)
                                     }
+                                    }
                                 }else{
                                     Text("No topics")
                                         .foregroundColor(.gray)
@@ -150,8 +164,6 @@ struct AddTestView: View {
                                     Image(systemName: "plus")
                                         .foregroundColor(.green)
                                 }
-
-                            }
                         }
                         if addtopic{
                             TextField("Enter New Topic Name", text: $newtopic)
@@ -260,7 +272,7 @@ struct AddTestView: View {
                             }else if let error = error{
                                 print(error.localizedDescription)
                             }
-                            //Finish Notifications
+                            addtopicusage.toggle()
                             let content = UNMutableNotificationContent()
                             content.title = testname
                             content.body = "\(testname) is in Two Days! Make Sure To Study!"
