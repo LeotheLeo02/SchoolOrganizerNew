@@ -33,6 +33,9 @@ struct QuickViewAssignment: View {
                         .if(assignment.color == "Green") { View in
                             View.foregroundColor(.green)
                         }
+                        .if(assignment.color == "Purple"){ view in
+                            view.foregroundColor(.purple)
+                        }
                 Text(assignment.topic!)
                         .multilineTextAlignment(.center)
                         .font(.system(size: 20, weight: .bold, design: .rounded))

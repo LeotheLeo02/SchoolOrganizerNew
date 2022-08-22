@@ -34,6 +34,9 @@ struct HistoryView: View {
                     .if(hisa.assigncolor == "Green") { Text in
                         Text.foregroundColor(.green)
                     }
+                    .if(hisa.assigncolor == "Purple") { Text in
+                        Text.foregroundColor(.purple)
+                    }
                 Text(hisa.assigndate!, style: .date)
                     .font(.system(size: 13, weight: .heavy, design: .rounded))
                     .foregroundColor(.gray)

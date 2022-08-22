@@ -368,6 +368,9 @@ struct AddAssignment: View {
                     Text("Green").tag("Green")
                         .font(.system(size: 40, weight: .heavy, design: .rounded))
                         .foregroundColor(.green)
+                    Text("Purple").tag("Purple")
+                        .font(.system(size: 40, weight: .heavy, design: .rounded))
+                        .foregroundColor(.purple)
                 }
             }
             Section{

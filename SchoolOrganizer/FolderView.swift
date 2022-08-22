@@ -434,6 +434,9 @@ struct AssignImageData: View{
                         .if(assign.color == "Red"){ view in
                             view.foregroundColor(.red)
                         }
+                        .if(assign.color == "Purple"){ view in
+                            view.foregroundColor(.purple)
+                        }
                         .padding(7)
                         .background(Color(.systemGray6))
                         .cornerRadius(20)

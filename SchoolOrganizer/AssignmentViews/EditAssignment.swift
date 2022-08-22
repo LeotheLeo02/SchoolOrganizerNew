@@ -224,6 +224,9 @@ struct EditAssignment: View {
                             .if(assignment.color == "Yellow") { Text in
                                 Text.foregroundColor(.yellow)
                             }
+                            .if(assignment.color == "Purple"){ view in
+                                view.foregroundColor(.purple)
+                            }
                         }
                     }
                 }

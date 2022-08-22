@@ -46,6 +46,9 @@ struct AssignIndiviualTopicView: View {
                             .if(assign.color == "Green") { Text in
                                 Text.foregroundColor(.green)
                             }
+                            .if(assign.color == "Purple"){ view in
+                                view.foregroundColor(.purple)
+                            }
                             .if(!assign.topic!.trimmingCharacters(in: .whitespaces).isEmpty){ view in
                                 view.foregroundColor(.green)
                             }

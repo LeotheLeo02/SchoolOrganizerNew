@@ -93,6 +93,9 @@ struct AssignmentsView: View {
                                         .if(assign.color == "Red"){ view in
                                             view.foregroundColor(.red)
                                         }
+                                        .if(assign.color == "Purple"){ view in
+                                            view.foregroundColor(.purple)
+                                        }
                                         .overlay {
                                             VStack{
                                                 let days = daysBetween(start: Date.now, end: assign.duedate!)
@@ -217,6 +220,9 @@ struct AssignmentsView: View {
                                 }
                                 .if(assign.color == "Red"){ view in
                                     view.foregroundColor(.red)
+                                }
+                                .if(assign.color == "Purple"){ view in
+                                    view.foregroundColor(.purple)
                                 }
                                 .overlay {
                                     VStack{
@@ -495,6 +501,9 @@ struct EditPopupView: View{
             }
             .if(assignment.color == "Red"){ view in
                 view.background(.red)
+            }
+            .if(assignment.color == "Purple"){ view in
+                view.foregroundColor(.purple)
             }
                 .cornerRadius(20)
     }
