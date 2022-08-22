@@ -98,7 +98,7 @@ struct EditAssignment: View {
                         .font(.largeTitle)
                 }.padding()
             }.sheet(isPresented: $FolderOn, content: {
-                FolderView()
+                FolderViewSpecific(assignment: assignment)
             })
             .toast(isPresenting: $assigned) {
                 AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Assigned Topic", style: .style(backgroundColor: Color(.systemGray6), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))

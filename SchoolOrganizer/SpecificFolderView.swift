@@ -1,15 +1,51 @@
 //
-//  FolderView.swift
-//  SchoolKit
+//  SpecificFolderView.swift
+//  SchoolOrganizerPlus
 //
-//  Created by Nate on 8/1/22.
+//  Created by Nate on 8/21/22.
 //
-
 import SwiftUI
 import AlertToast
-struct FolderView: View {
+struct AssignImageDataSpecific: View{
     @Environment(\.managedObjectContext) var managedObjContext
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
+    var assignment: FetchedResults<Assignment>.Element
+    var image: FetchedResults<Images>.Element
+    @Binding var added: Bool
+    @State private var size = false
+    @Binding var sizename: String
+    @Binding var addedName: String
+    var body: some View{
+        ScrollView{
+                Menu{
+                    Button("Large"){
+                        AssignmentDataController().editAssignImage(assign: assignment, imagedata: image.imageD!, imagetitle: image.imagetitle!, imagesize: 3, context: managedObjContext)
+                        added.toggle()
+                        addedName = image.imagetitle!
+                        sizename = "Large"
+                    }
+                    Button("Medium"){
+                        AssignmentDataController().editAssignImage(assign: assignment, imagedata: image.imageD!, imagetitle: image.imagetitle!, imagesize: 2, context: managedObjContext)
+                        added.toggle()
+                        addedName = image.imagetitle!
+                        sizename = "Medium"
+                    }
+                    Button("Small"){
+                        AssignmentDataController().editAssignImage(assign: assignment, imagedata: image.imageD!, imagetitle: image.imagetitle!, imagesize: 1, context: managedObjContext)
+                        added.toggle()
+                        addedName = image.imagetitle!
+                        sizename = "Small"
+                    }
+                }label: {
+                    Image(systemName: "plus")
+                        .font(.title)
+                }
+        }
+    }
+}
+
+struct FolderViewSpecific: View {
+    @Environment(\.managedObjectContext) var managedObjContext
+    var assignment: FetchedResults<Assignment>.Element
     @FetchRequest(sortDescriptors: [SortDescriptor(\.link)]) var link: FetchedResults<Links>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.imagetitle)]) var Images: FetchedResults<Images>
     @Environment(\.dismiss) var dismiss
@@ -58,25 +94,12 @@ struct FolderView: View {
                                     Spacer()
                             }
                             }
-                            Menu {
-                                if assignment.isEmpty{
-                                    Text("No Assignments Made")
-                                }
-                                ForEach(assignment){assign in
-                                    Button {
-                                        AddedLink.toggle()
-                                        AssignmentDataController().editAssignLink(assign: assign, link: lin.link!, context: managedObjContext)
-                                        simpleSuccess()
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
-                                            dismiss()
-                                        }
-                                    } label: {
-                                        HStack{
-                                        Text(assign.name!)
-                                            Spacer()
-                                            Image(systemName: "plus")
-                                        }
-                                    }
+                            Button {
+                                AddedLink.toggle()
+                                AssignmentDataController().editAssignLink(assign: assignment, link: lin.link!, context: managedObjContext)
+                                simpleSuccess()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
+                                    dismiss()
                                 }
                             } label: {
                                 HStack{
@@ -219,7 +242,7 @@ struct FolderView: View {
                         }
                             Spacer()
                         }.padding()
-                            AssignImageData(image: imag, added: $Added, sizename: $sizename, addedName: $addedName)
+                            AssignImageDataSpecific(assignment: assignment, image: imag, added: $Added, sizename: $sizename, addedName: $addedName)
                                 .onChange(of: Added) { V in
                                     simpleSuccess()
                                 }
@@ -290,158 +313,6 @@ struct FolderView: View {
             
             // Saves to our database
             ImageDataController().save(context: managedObjContext)
-        }
-    }
-}
-
-
-struct AddSchoolPeriod: View{
-    @Environment(\.managedObjectContext) var managedObjContext
-    @Environment(\.dismiss) var dismiss
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.number)]) var period: FetchedResults<Periods>
-    @FocusState var focusonname: Bool
-    @State private var periodname = ""
-    @State private var periodtime = Date()
-    @State private var periodnumber: Int64 = 0
-    @State private var numbers: [Int64] = [1,2,3,4,5,6,7]
-    @State private var existingalert = false
-    @State private var present = false
-    @State private var replacenumber: Int = 0
-    @Binding var swapped: Bool
-    var body: some View{
-        Form{
-            Section{
-                VStack{
-                TextField("Enter School Period Name", text: $periodname)
-                        .focused($focusonname)
-                        .textFieldStyle(.roundedBorder)
-                        .onAppear(){
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                            focusonname = true
-                        }
-                        }
-                    DatePicker("Choose Time", selection: $periodtime, displayedComponents: .hourAndMinute)
-                        .datePickerStyle(.graphical)
-                    Menu{
-                        ForEach(numbers, id: \.self){num in
-                            Button {
-                                periodnumber = num
-                            } label: {
-                                Text("\(Int64(num))")
-                            }
-                        }
-                    }label: {
-                        Text("Choose School Period Number")
-                    }
-                    if periodnumber != 0 {
-                        Text("\(Int64(periodnumber))")
-                    }                }
-            }.alert("This period is already filled. What Do you Want To Do", isPresented: $present) {
-                Button("Replace") {
-                    replacenumber = Int(periodnumber)
-                    PeriodDataController().addPeriod(number: periodnumber, perioddate: periodtime, name: periodname, context: managedObjContext)
-                    dismiss()
-                    swapped.toggle()
-                }
-                Button("Cancel"){
-                    
-                }
-            }
-            Button {
-                if existingalert{
-                    present.toggle()
-                }
-                if !existingalert{
-                PeriodDataController().addPeriod(number: periodnumber, perioddate: periodtime, name: periodname, context: managedObjContext)
-                dismiss()
-                }
-            } label: {
-                HStack{
-                    Spacer()
-                Text("Submit")
-                    Spacer()
-                }.buttonStyle(.bordered)
-            }.disabled(periodnumber == 0 || periodname.trimmingCharacters(in: .whitespaces).isEmpty)
-            List{
-                ForEach(period){per in
-                    HStack{
-                        Text("\(per.number)")
-                            .italic()
-                            .foregroundColor(.gray)
-                        Spacer()
-                        Text(per.name!)
-                            .italic()
-                            .bold()
-                            .foregroundColor(.gray)
-                    }.onChange(of: periodnumber) { newValue in
-                        if periodnumber == per.number{
-                            withAnimation{
-                            existingalert  = true
-                            }
-                        }else{
-                            withAnimation{
-                            existingalert = false
-                            }
-                        }
-                    }
-                    .onChange(of: replacenumber) { newValue in
-                        if replacenumber == per.number {
-                            per.managedObjectContext?.delete(per)
-                                PeriodDataController().save(context: managedObjContext)
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-struct AssignImageData: View{
-    @Environment(\.managedObjectContext) var managedObjContext
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
-    var image: FetchedResults<Images>.Element
-    @Binding var added: Bool
-    @State private var size = false
-    @Binding var sizename: String
-    @Binding var addedName: String
-    var body: some View{
-        ScrollView{
-            ForEach(assignment){assign in
-                Menu{
-                    Button("Large"){
-                        AssignmentDataController().editAssignImage(assign: assign, imagedata: image.imageD!, imagetitle: image.imagetitle!, imagesize: 3, context: managedObjContext)
-                        added.toggle()
-                        addedName = image.imagetitle!
-                        sizename = "Large"
-                    }
-                    Button("Medium"){
-                        AssignmentDataController().editAssignImage(assign: assign, imagedata: image.imageD!, imagetitle: image.imagetitle!, imagesize: 2, context: managedObjContext)
-                        added.toggle()
-                        addedName = image.imagetitle!
-                        sizename = "Medium"
-                    }
-                    Button("Small"){
-                        AssignmentDataController().editAssignImage(assign: assign, imagedata: image.imageD!, imagetitle: image.imagetitle!, imagesize: 1, context: managedObjContext)
-                        added.toggle()
-                        addedName = image.imagetitle!
-                        sizename = "Small"
-                    }
-                }label: {
-                    Text(assign.name!)
-                        .font(.system(size: 17, weight: .heavy, design: .rounded))
-                        .if(assign.color == "Blue"){view in
-                            view.foregroundColor(.blue)
-                        }
-                        .if(assign.color == "Green"){ view in
-                            view.foregroundColor(.green)
-                        }
-                        .if(assign.color == "Red"){ view in
-                            view.foregroundColor(.red)
-                        }
-                        .padding(7)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(20)
-                }
-            }
         }
     }
 }
