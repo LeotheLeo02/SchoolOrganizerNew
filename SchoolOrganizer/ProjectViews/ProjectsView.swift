@@ -28,6 +28,7 @@ struct ProjectsView: View {
                                         .font(.title)
                                         .foregroundColor(.black)
                                     HStack{
+                                        //Error Fix
                                         if pro.check1done && pro.check2done && pro.check3done{
                                             HStack{
                                             Text("All Checkpoints Completed")
@@ -77,6 +78,7 @@ struct ProjectsView: View {
                                                 .foregroundColor(.green)
                                         }
                                     }
+                                            if pro.check1done{
                                     let daysnowandend2 = daysBetween(start: Date.now, end: pro.checkpoint2!)
                                     let between2 = daysBetween(start: pro.startdate!, end: Date.now)
                                         if !pro.check2done{
@@ -116,9 +118,11 @@ struct ProjectsView: View {
                                                     .foregroundColor(.green)
                                             }
                                         }
+                                            }
+                                            if pro.check2done{
                                         let daysnowandend3 = daysBetween(start: Date.now, end: pro.checkpoint3!)
                                         let between3 = daysBetween(start: pro.startdate!, end: Date.now)
-                                            if !pro.check2done{
+                                            if !pro.check3done{
                                                 VStack{
                                                     Text(pro.goal3!)
                                                         .font(.caption)
@@ -155,10 +159,47 @@ struct ProjectsView: View {
                                                         .foregroundColor(.green)
                                                 }
                                             }
+                                            }
                                     }
                                 }
+                                    if pro.check1done == false || pro.check2done == false{
+                                    Divider()
+                                        Text("Upcoming:")
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
+                                    }
+                                    HStack{
+                                    if pro.check1done == false || pro.check2done == false {
+                                    if !pro.check1done{
+                                        Text(pro.goal2!)
+                                            .font(.subheadline)
+                                            .bold()
+                                            .foregroundColor(.blue)
+                                            .padding(8)
+                                            .background(Color(.systemGray5))
+                                            .cornerRadius(20)
+                                        Text(pro.goal3!)
+                                            .font(.subheadline)
+                                            .bold()
+                                            .foregroundColor(.blue)
+                                            .padding(8)
+                                            .background(Color(.systemGray5))
+                                            .cornerRadius(20)
+                                    }
+                                    if pro.check1done && !pro.check2done{
+                                            Text(pro.goal3!)
+                                            .font(.subheadline)
+                                            .bold()
+                                            .foregroundColor(.blue)
+                                            .padding(8)
+                                            .background(Color(.systemGray5))
+                                            .cornerRadius(20)
+                                        }
+
+                                    }
                                 }
-                                .padding()
+                                }.padding()
+                    }
                     }
                     }.contextMenu{
                         Button(role: .destructive) {
@@ -183,7 +224,6 @@ struct ProjectsView: View {
                             Image(systemName: "trash")
                         }
 
-                    }
                     }
                     }
                 }.padding()
