@@ -75,6 +75,24 @@ struct FolderViewSpecific: View {
     var body: some View {
         NavigationView{
         VStack{
+            Text(assignment.name!)
+                .multilineTextAlignment(.center)
+                .font(.system(size: 20, weight: .heavy, design: .rounded))
+                .if(assignment.color == "Red") { Text in
+                    Text.foregroundColor(.red)
+                }
+                .if(assignment.color == "Blue") { Text in
+                    Text.foregroundColor(.blue)
+                }
+                .if(assignment.color == "Yellow") { Text in
+                    Text.foregroundColor(.yellow)
+                }
+                .if(assignment.color == "Purple"){ view in
+                    view.foregroundColor(.purple)
+                }
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(20)
             Form{
                 Section{
                     TextField("Link Name", text: $linkname)
@@ -232,6 +250,7 @@ struct FolderViewSpecific: View {
                 }header: {
                     Text("Add a Photo")
                 }
+                .headerProminence(.increased)
                 Section{
                     ForEach(Images){imag in
                         VStack{

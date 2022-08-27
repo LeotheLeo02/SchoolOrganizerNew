@@ -19,6 +19,7 @@ struct AddAssignment: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.number)]) var period: FetchedResults<Periods>
     @FocusState private var focusonTopic: Bool
+    @State private var sidenotes = ""
     @State private var topics = ""
     @State private var color  = ""
     @State private var duedate = Date()
@@ -78,6 +79,14 @@ struct AddAssignment: View {
                 .onChange(of: undoall) { newValue in
                 assigname = ""
             }
+                .simultaneousGesture(
+                    TapGesture()
+                        .onEnded({ _ in
+                            withAnimation{
+                            addtopic = false
+                            }
+                        })
+                )
             if type == "Book"{
                 Toggle(isOn: $turnonsuggest) {
                     HStack{
@@ -99,6 +108,14 @@ struct AddAssignment: View {
                         owntext = ""
                         ownpages = 0
                     }
+                    .simultaneousGesture(
+                        TapGesture()
+                            .onEnded({ _ in
+                                withAnimation{
+                                addtopic = false
+                                }
+                            })
+                    )
                     DatePicker("When Is It Due", selection: $timetocomplete,in: Date.now... ,displayedComponents: .date)
                         .onChange(of: undoall) { _ in
                             timetocomplete = Date.now
@@ -126,6 +143,14 @@ struct AddAssignment: View {
                         suggestdays = suggest
                     }
                 }
+                .simultaneousGesture(
+                    TapGesture()
+                        .onEnded({ _ in
+                            withAnimation{
+                            addtopic = false
+                            }
+                        })
+                )
                 .onChange(of: undoall) { V in
                     pages = ""
                     pagenumber = 0
@@ -212,14 +237,17 @@ struct AddAssignment: View {
                 }
             }
         }
+            
             Section {
                 if topics.isEmpty{
                     HStack{
+                        Spacer()
                     Text("No topic selected")
                         .bold()
                         .foregroundColor(.red)
                         Image(systemName: "xmark.octagon.fill")
                             .foregroundColor(.red)
+                        Spacer()
                     }
                 }else{
                     HStack{
@@ -343,8 +371,7 @@ struct AddAssignment: View {
             }
             header: {
                 Text("Topic")
-            }
-            footer: {
+            } footer: {
                 Button {
                     deleteTopics()
                     topics = ""
@@ -357,8 +384,18 @@ struct AddAssignment: View {
                         .foregroundColor(.red)
                 }.buttonStyle(.bordered)
             }
+            
             Section{
-                Picker("Color:", selection: $color) {
+                TextEditor(text: $sidenotes)
+                    .simultaneousGesture(
+                        TapGesture()
+                            .onEnded({ _ in
+                                withAnimation{
+                                addtopic = false
+                                }
+                            })
+                    )
+                Picker(selection: $color) {
                     Text("Red").tag("Red")
                         .font(.system(size: 40, weight: .heavy, design: .rounded))
                         .foregroundColor(.red)
@@ -371,7 +408,26 @@ struct AddAssignment: View {
                     Text("Purple").tag("Purple")
                         .font(.system(size: 40, weight: .heavy, design: .rounded))
                         .foregroundColor(.purple)
+                }label: {
+                    HStack{
+                    if color == ""{
+                    Text("Color: ")
+                            .italic()
+                            .foregroundColor(.gray)
+                            .bold()
+                        Spacer()
+                        Text("None")
+                            .italic()
+                            .foregroundColor(.gray)
+                            .bold()
+                    }else{
+                        Text("Color: ")
+                            .bold()
+                    }
+                    }
                 }
+            }header:{
+                Text("Color And Side Notes")
             }
             Section{
                 ForEach(period){per in
@@ -398,15 +454,16 @@ struct AddAssignment: View {
                 }.onDelete(perform: deletePeriod)
             }header: {
                 Text("School Periods")
-            }footer: {
-                Button {
-                    addperiod.toggle()
-                } label: {
-                    Image(systemName: "plus")
-                        .font(.title3)
-                }
             }
-            Section {
+        footer: {
+            Button {
+                addperiod.toggle()
+            } label: {
+                Image(systemName: "plus")
+                    .font(.title3)
+            }
+        }
+            Section{
                 if type == "Book"{
                     HStack{
                         Spacer()
@@ -443,7 +500,7 @@ struct AddAssignment: View {
                         undosignal.toggle()
                     }
             }
-            } header: {
+            }header: {
                 Text("Select Due Date")
             }
         }
@@ -482,7 +539,7 @@ struct AddAssignment: View {
                     PastNamesDataController().addName(pastnames: assigname, context: managedObjContext)
                         }
                         addtopicusage.toggle()
-                        AssignmentDataController().addAssign(topic: topics, color: color.trimmingCharacters(in: .whitespaces), duedate: duedate, name: assigname, complete: false, book: type == "Book" ? true:false, context: managedObjContext)
+                        AssignmentDataController().addAssign(topic: topics, color: color.trimmingCharacters(in: .whitespaces), duedate: duedate, name: assigname, complete: false, book: type == "Book" ? true:false, sidenotes: sidenotes, context: managedObjContext)
                     dismiss()
                     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                         if success{
@@ -559,11 +616,22 @@ struct AddAssignment: View {
             }
             ToolbarItem(placement: .keyboard) {
                 Button {
+                    if addtopic{
+                        TopicDataController().addTopic(topicname: newname.trimmingCharacters(in: .whitespaces), context: managedObjContext)
+                        withAnimation{
+                            topics = newname
+                        addtopic.toggle()
+                            newname = ""
+                        }
+                    }
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 } label: {
                     Text("Done")
                         .font(.title)
                         .bold()
+                        .if(addtopic){view in
+                            view.foregroundColor(.green)
+                        }
                 }
 
             }

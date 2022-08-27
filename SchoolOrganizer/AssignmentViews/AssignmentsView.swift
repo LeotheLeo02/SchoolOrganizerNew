@@ -503,7 +503,7 @@ struct EditPopupView: View{
                 view.background(.red)
             }
             .if(assignment.color == "Purple"){ view in
-                view.foregroundColor(.purple)
+                view.background(.purple)
             }
                 .cornerRadius(20)
     }

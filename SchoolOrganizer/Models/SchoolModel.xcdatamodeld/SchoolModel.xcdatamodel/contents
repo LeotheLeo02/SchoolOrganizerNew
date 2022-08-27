@@ -13,6 +13,7 @@
         <attribute name="imagetitle" optional="YES" attributeType="String"/>
         <attribute name="link" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sidenotes" optional="YES" attributeType="String"/>
         <attribute name="topic" optional="YES" attributeType="String"/>
     </entity>
     <entity name="CompletedTest" representedClassName="CompletedTest" syncable="YES" codeGenerationType="class">
@@ -97,7 +98,7 @@
         <attribute name="uses" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="Assignment" positionX="-63" positionY="-18" width="128" height="224"/>
+        <element name="Assignment" positionX="-63" positionY="-18" width="128" height="239"/>
         <element name="CompletedTest" positionX="-27" positionY="81" width="128" height="104"/>
         <element name="HistoryA" positionX="-18" positionY="108" width="128" height="89"/>
         <element name="HistoryT" positionX="0" positionY="117" width="128" height="59"/>

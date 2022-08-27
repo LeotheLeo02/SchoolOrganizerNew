@@ -19,6 +19,8 @@ struct EditAssignment: View {
     @State private var complete = false
     @State private var assigntopic = false
     @State private var assigned = false
+    @State private var editnotes = false
+    @State private var sidenotes = ""
     @Binding var newvalue: Bool
     @State private var orientation = UIDevice.current.orientation
     private let orientationChanged = NotificationCenter.default
@@ -33,18 +35,44 @@ struct EditAssignment: View {
                 if assignment.name != nil{
                     Text(assignment.name!)
                         .font(.system(size: 30, weight: .heavy, design: .rounded))
-                        .contextMenu{
-                            Button {
-                                withAnimation{
-                                    //Add Sheet Later
-                                assigntopic = true
-                                }
-                            } label: {
-                                Text("Reassign Topic")
-                                Image(systemName: "rectangle.portrait.and.arrow.right.fill")
-                            }
-
+                        .if(assignment.color == "Red") { Text in
+                            Text.foregroundColor(.red)
                         }
+                        .if(assignment.color == "Blue") { Text in
+                            Text.foregroundColor(.blue)
+                        }
+                        .if(assignment.color == "Yellow") { Text in
+                            Text.foregroundColor(.yellow)
+                        }
+                        .if(assignment.color == "Purple"){ view in
+                            view.foregroundColor(.purple)
+                        }
+                    if assignment.sidenotes != nil{
+                        if editnotes == false{
+                        Text(assignment.sidenotes!)
+                            .italic()
+                            .bold()
+                            .foregroundColor(.gray)
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(15)
+                            .onLongPressGesture {
+                                withAnimation{
+                                editnotes = true
+                                }
+                            }
+                        }
+                        if editnotes{
+                            TextEditor(text: $sidenotes)
+                                .multilineTextAlignment(.center)
+                                .padding()
+                                .background(Color(.systemGray6))
+                                .cornerRadius(15)
+                                .onAppear(){
+                                    sidenotes = assignment.sidenotes!
+                                }
+                        }
+                    }
                     if assignment.link != nil {
                     Link("\(assignment.link!)", destination: URL(string: assignment.link!)!)
                     }
@@ -94,10 +122,11 @@ struct EditAssignment: View {
                 Button {
                     FolderOn.toggle()
                 } label: {
-                    Image(systemName: "folder.fill")
+                    Image(systemName: "folder.fill.badge.plus")
                         .font(.largeTitle)
                 }.padding()
-            }.sheet(isPresented: $FolderOn, content: {
+            }.padding()
+            .sheet(isPresented: $FolderOn, content: {
                 FolderViewSpecific(assignment: assignment)
             })
             .toast(isPresenting: $assigned) {
@@ -215,20 +244,23 @@ struct EditAssignment: View {
                         if assignment.name != nil{
                         Text(assignment.name!)
                             .font(.system(size: 15, weight: .heavy, design: .rounded))
-                            .if(assignment.color == "Red") { Text in
-                                Text.foregroundColor(.red)
-                            }
-                            .if(assignment.color == "Blue") { Text in
-                                Text.foregroundColor(.blue)
-                            }
-                            .if(assignment.color == "Yellow") { Text in
-                                Text.foregroundColor(.yellow)
-                            }
-                            .if(assignment.color == "Purple"){ view in
-                                view.foregroundColor(.purple)
-                            }
+                            .fixedSize(horizontal: false, vertical: true)
                         }
                     }
+                }
+                ToolbarItem(placement: .keyboard) {
+                    Button {
+                        withAnimation {
+                                AssignmentDataController().editAssignNotes(assign: assignment, sidenotes: sidenotes, context: managedObjContext)
+                                editnotes = false
+                        }
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                    } label: {
+                        Text("Done")
+                            .font(.title)
+                            .bold()
+                    }
+
                 }
             }
         }

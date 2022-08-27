@@ -199,6 +199,7 @@ struct FolderView: View {
                 }header: {
                     Text("Add a Photo")
                 }
+                .headerProminence(.increased)
                 Section{
                     ForEach(Images){imag in
                         VStack{
