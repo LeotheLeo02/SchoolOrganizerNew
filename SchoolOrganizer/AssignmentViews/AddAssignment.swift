@@ -605,6 +605,19 @@ struct AddAssignment: View {
                         let request = UNNotificationRequest(identifier: assigname, content: content, trigger: calendarTrigger)
                         
                         UNUserNotificationCenter.current().add(request)
+                
+                            let OnTimeContent = UNMutableNotificationContent()
+                            OnTimeContent.title = assigname
+                            OnTimeContent.body = "This is Due!"
+                            let dateOn = duedate
+                            OnTimeContent.sound = UNNotificationSound.default
+                            let OnTime = Calendar.current.date(byAdding: .day, value: 0, to: dateOn)
+                            let dateCompOn = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: OnTime!)
+                            print(dateCompOn)
+                            let calendarTriggerOn  = UNCalendarNotificationTrigger(dateMatching: dateCompOn, repeats: false)
+                            let requestOn = UNNotificationRequest(identifier: assigname + "ON", content: OnTimeContent, trigger: calendarTriggerOn)
+                            
+                            UNUserNotificationCenter.current().add(requestOn)
                         }
                     }
                         if twodaysearly && type == "Original"{

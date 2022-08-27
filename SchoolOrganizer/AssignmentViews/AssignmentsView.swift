@@ -156,8 +156,9 @@ struct AssignmentsView: View {
                                                             let bookcomplete = assign.name! + "C"
                                                             let notif1 = assign.name! + "notif1"
                                                             let notif2 = assign.name! + "notif2"
+                                                            let ontime = assign.name! + "ON"
                                                             if assign.book{
-                                                            var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2]
+                                                            var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime]
                                                                 for notification:UNNotificationRequest in notificationRequests {
                                                                     if notification.identifier == "identifierCancel" {
                                                                        identifiers.append(notification.identifier)
@@ -286,8 +287,9 @@ struct AssignmentsView: View {
                                                     let bookcomplete = assign.name! + "C"
                                                     let notif1 = assign.name! + "notif1"
                                                     let notif2 = assign.name! + "notif2"
+                                                    let ontime = assign.name! + "ON"
                                                     if assign.book{
-                                                    var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2]
+                                                    var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime]
                                                         for notification:UNNotificationRequest in notificationRequests {
                                                             if notification.identifier == "identifierCancel" {
                                                                identifiers.append(notification.identifier)

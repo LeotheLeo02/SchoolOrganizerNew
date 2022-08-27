@@ -48,7 +48,7 @@ struct EditAssignment: View {
                             view.foregroundColor(.purple)
                         }
                     if assignment.sidenotes != nil{
-                        if editnotes == false{
+                        if editnotes == false && sidenotes != ""{
                         Text(assignment.sidenotes!)
                             .italic()
                             .bold()
@@ -143,8 +143,9 @@ struct EditAssignment: View {
                         let bookcomplete = assignment.name! + "C"
                         let notif1 = assignment.name! + "notif1"
                         let notif2 = assignment.name! + "notif2"
+                        let ontime = assignment.name! + "ON"
                         if assignment.book{
-                        var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2]
+                        var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime]
                             for notification:UNNotificationRequest in notificationRequests {
                                 if notification.identifier == "identifierCancel" {
                                    identifiers.append(notification.identifier)
@@ -191,8 +192,9 @@ struct EditAssignment: View {
                                             let bookcomplete = assignment.name! + "C"
                                             let notif1 = assignment.name! + "notif1"
                                             let notif2 = assignment.name! + "notif2"
+                                            let ontime = assignment.name! + "ON"
                                             if assignment.book{
-                                            var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2]
+                                            var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime]
                                                 for notification:UNNotificationRequest in notificationRequests {
                                                     if notification.identifier == "identifierCancel" {
                                                        identifiers.append(notification.identifier)
