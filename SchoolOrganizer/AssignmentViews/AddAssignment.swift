@@ -56,6 +56,9 @@ struct AddAssignment: View {
     @State private var addperiod = false
     @State private var presentswapped = false
     @State private var addtopicusage = false
+    @State private var addcustom = false
+    @State private var notification1 = Date()
+    @State private var notification2 = Date()
     private let adaptiveColumns = [
      GridItem(.adaptive(minimum: 50))
     ]
@@ -499,6 +502,24 @@ struct AddAssignment: View {
                         simpleSuccess()
                         undosignal.toggle()
                     }
+                    Button {
+                        withAnimation{
+                        addcustom.toggle()
+                        }
+                    } label: {
+                        HStack{
+                        Text("Add Custom Notifications")
+                                .bold()
+                            Spacer()
+                            Image(systemName: "2.circle.fill")
+                        }
+                    }
+                    if addcustom{
+                        DatePicker("Notification 1", selection: $notification1, in: Date.now...)
+                            .datePickerStyle(.compact)
+                        DatePicker("Notification 2", selection: $notification2, in: Date.now...)
+                            .datePickerStyle(.compact)
+                    }
             }
             }header: {
                 Text("Select Due Date")
@@ -599,6 +620,34 @@ struct AddAssignment: View {
                             formatter1.dateStyle = .long
                             let request2 = UNNotificationRequest(identifier: formatter1.string(from: date), content: twodaycontent, trigger: calendarTriggerTwo)
                             UNUserNotificationCenter.current().add(request2)
+                        }
+                        if addcustom{
+                            let notif1 = UNMutableNotificationContent()
+                            notif1.title = assigname
+                            notif1.body = "Reminder To Work"
+                            let date = notification1
+                            notif1.sound = UNNotificationSound.default
+                            let OneDayEarly = Calendar.current.date(byAdding: .day, value: 0, to: date)
+                            let dateComp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: OneDayEarly!)
+                            print(dateComp)
+                            let calendarTrigger  = UNCalendarNotificationTrigger(dateMatching: dateComp, repeats: false)
+                            let request = UNNotificationRequest(identifier: assigname + "notif1", content: notif1, trigger: calendarTrigger)
+                            
+                            UNUserNotificationCenter.current().add(request)
+                            
+                            let notif2 = UNMutableNotificationContent()
+                            notif2.title = assigname
+                            notif2.body = "Reminder To Work"
+                            let date2 = notification2
+                            notif2.sound = UNNotificationSound.default
+                            let AnotherDayEarly = Calendar.current.date(byAdding: .day, value: 0, to: date2)
+                            let dateComp2 = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: AnotherDayEarly!)
+                            print(dateComp2)
+                            let calendarTrigger2  = UNCalendarNotificationTrigger(dateMatching: dateComp2, repeats: false)
+                            let request2 = UNNotificationRequest(identifier: assigname + "notif3", content: notif2, trigger: calendarTrigger2)
+                            
+                            UNUserNotificationCenter.current().add(request2)
+
                         }
                         
                 }

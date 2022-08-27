@@ -141,8 +141,10 @@ struct EditAssignment: View {
                         formatter1.dateStyle = .long
                         let bookassign = assignment.name! + "B"
                         let bookcomplete = assignment.name! + "C"
+                        let notif1 = assignment.name! + "notif1"
+                        let notif2 = assignment.name! + "notif2"
                         if assignment.book{
-                        var identifiers: [String] = [bookassign, bookcomplete]
+                        var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2]
                             for notification:UNNotificationRequest in notificationRequests {
                                 if notification.identifier == "identifierCancel" {
                                    identifiers.append(notification.identifier)
@@ -187,8 +189,10 @@ struct EditAssignment: View {
                                             formatter1.dateStyle = .long
                                             let bookassign = assignment.name! + "B"
                                             let bookcomplete = assignment.name! + "C"
+                                            let notif1 = assignment.name! + "notif1"
+                                            let notif2 = assignment.name! + "notif2"
                                             if assignment.book{
-                                            var identifiers: [String] = [bookassign, bookcomplete]
+                                            var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2]
                                                 for notification:UNNotificationRequest in notificationRequests {
                                                     if notification.identifier == "identifierCancel" {
                                                        identifiers.append(notification.identifier)
