@@ -257,7 +257,7 @@ struct ProjectsView_Previews: PreviewProvider {
 }
 struct GaugeProgressStyle: ProgressViewStyle {
     var strokeColor = Color.blue
-    var strokeWidth = 8.0
+    var strokeWidth = 6.0
 
     func makeBody(configuration: Configuration) -> some View {
         let fractionCompleted = configuration.fractionCompleted ?? 0
