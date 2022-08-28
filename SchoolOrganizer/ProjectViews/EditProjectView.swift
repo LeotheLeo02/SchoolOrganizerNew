@@ -11,7 +11,8 @@ struct EditProjectView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     var project: FetchedResults<Projects>.Element
     var body: some View {
-        VStack{
+        List{
+            HStack{
             if project.check1done{
                 HStack{
                     Text(project.goal1!)
@@ -24,6 +25,7 @@ struct EditProjectView: View {
                 let daysnowandend = daysBetween(start: Date.now, end: project.checkpoint1!)
                 let between = daysBetween(start: project.startdate!, end: Date.now)
                 if !project.check1done{
+                    Spacer()
                     VStack{
                         Text(project.goal1!)
                             .font(.caption)
@@ -45,7 +47,30 @@ struct EditProjectView: View {
                             .frame(width: 25, height: 25)
                     }
                     }
+                    Spacer()
                 }
+            }
+        }
+            Section{
+            VStack{
+                if !project.check1done{
+                    Text(project.goal2!)
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(20)
+                    Divider()
+                    Text(project.goal3!)
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(20)
+                }
+                if project.check1done{
+                    Text(project.goal3!)
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(20)
+                }
+            }
             }
         }
     }
