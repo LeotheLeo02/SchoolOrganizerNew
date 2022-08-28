@@ -20,6 +20,7 @@ struct EditAssignment: View {
     @State private var assigntopic = false
     @State private var assigned = false
     @State private var editnotes = false
+    @FocusState var addside: Bool
     @State private var sidenotes = ""
     @Binding var newvalue: Bool
     @State private var orientation = UIDevice.current.orientation
@@ -48,7 +49,7 @@ struct EditAssignment: View {
                             view.foregroundColor(.purple)
                         }
                     if assignment.sidenotes != nil{
-                        if editnotes == false && sidenotes != ""{
+                        if editnotes == false && !assignment.sidenotes!.trimmingCharacters(in: .whitespaces).isEmpty{
                         Text(assignment.sidenotes!)
                             .italic()
                             .bold()
@@ -59,15 +60,43 @@ struct EditAssignment: View {
                             .onLongPressGesture {
                                 withAnimation{
                                 editnotes = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                                    addside.toggle()
+                                    }
                                 }
                             }
                         }
+                        if assignment.sidenotes!.trimmingCharacters(in: .whitespaces).isEmpty && editnotes == false{
+                            Button {
+                                withAnimation{
+                                editnotes.toggle()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                                    addside.toggle()
+                                    }
+                                }
+                            } label: {
+                                HStack{
+                                    Text("Add Note")
+                                    Image(systemName: "plus")
+                                }
+                            }.buttonStyle(.bordered)
+                            .buttonBorderShape(.roundedRectangle(radius: 30))
+
+                        }
                         if editnotes{
-                            TextEditor(text: $sidenotes)
+                            TextField("Side Notes",text: $sidenotes)
+                                .focused($addside)
                                 .multilineTextAlignment(.center)
                                 .padding()
                                 .background(Color(.systemGray6))
                                 .cornerRadius(15)
+                                .onSubmit {
+                                    withAnimation {
+                                            AssignmentDataController().editAssignNotes(assign: assignment, sidenotes: sidenotes, context: managedObjContext)
+                                            editnotes = false
+                                    }
+                                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                                }
                                 .onAppear(){
                                     sidenotes = assignment.sidenotes!
                                 }

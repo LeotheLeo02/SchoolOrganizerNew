@@ -389,7 +389,7 @@ struct AddAssignment: View {
             }
             
             Section{
-                TextEditor(text: $sidenotes)
+                TextField("Side Notes",text: $sidenotes)
                     .simultaneousGesture(
                         TapGesture()
                             .onEnded({ _ in
