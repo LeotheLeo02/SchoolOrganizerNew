@@ -41,6 +41,12 @@ struct ProjectsView: View {
                                         }else{
                                     let daysnowandend = daysBetween(start: Date.now, end: pro.checkpoint1!)
                                     let between = daysBetween(start: pro.startdate!, end: Date.now)
+                                    let percent = Double(between/daysnowandend * 100)
+                                            if percent > 100{
+                                                ProgressView()
+                                                    .progressViewStyle(.circular)
+                                                    .padding()
+                                            }else{
                                     if !pro.check1done{
                                         VStack{
                                             Text(pro.goal1!)
@@ -78,9 +84,16 @@ struct ProjectsView: View {
                                                 .foregroundColor(.green)
                                         }
                                     }
+                                            }
                                             if pro.check1done{
                                     let daysnowandend2 = daysBetween(start: Date.now, end: pro.checkpoint2!)
                                     let between2 = daysBetween(start: pro.startdate!, end: Date.now)
+                                    let percent2 = Double(between2/daysnowandend2 * 100)
+                                                if percent2 > 100{
+                                                    ProgressView()
+                                                        .progressViewStyle(.circular)
+                                                        .padding()
+                                                }else{
                                         if !pro.check2done{
                                             VStack{
                                                 Text(pro.goal2!)
@@ -119,9 +132,16 @@ struct ProjectsView: View {
                                             }
                                         }
                                             }
+                                            }
                                             if pro.check2done{
                                         let daysnowandend3 = daysBetween(start: Date.now, end: pro.checkpoint3!)
                                         let between3 = daysBetween(start: pro.startdate!, end: Date.now)
+                                        let percent3 = Double(between3/daysnowandend3 * 100)
+                                                if percent3 > 100{
+                                                    ProgressView()
+                                                        .progressViewStyle(.circular)
+                                                        .padding()
+                                                }else{
                                             if !pro.check3done{
                                                 VStack{
                                                     Text(pro.goal3!)
@@ -158,6 +178,7 @@ struct ProjectsView: View {
                                                     Image(systemName: "checkmark.circle.fill")
                                                         .foregroundColor(.green)
                                                 }
+                                            }
                                             }
                                             }
                                     }

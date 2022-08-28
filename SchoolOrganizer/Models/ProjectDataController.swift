@@ -47,12 +47,27 @@ class ProjectDataController: ObservableObject {
     }
     func editCheck1(project: Projects, check1done: Bool, context: NSManagedObjectContext){
         project.check1done = check1done
+        save(context: context)
     }
     func editCheck2(project: Projects, check2done: Bool, context: NSManagedObjectContext){
         project.check2done = check2done
+        save(context: context)
     }
     func editCheck3(project: Projects, check3done: Bool, context: NSManagedObjectContext){
         project.check3done = check3done
+        save(context: context)
+    }
+    func editPoint(project: Projects, checkpoint1: Date, context: NSManagedObjectContext){
+        project.checkpoint1 = checkpoint1
+        save(context: context)
+    }
+    func editPoint2(project: Projects, checkpoint2: Date, context: NSManagedObjectContext){
+        project.checkpoint2 = checkpoint2
+        save(context: context)
+    }
+    func editPoint3(project: Projects, checkpoint3: Date, context: NSManagedObjectContext){
+        project.checkpoint3 = checkpoint3
+        save(context: context)
     }
     
 }

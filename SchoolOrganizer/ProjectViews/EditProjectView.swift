@@ -9,9 +9,15 @@ import SwiftUI
 
 struct EditProjectView: View {
     @Environment(\.managedObjectContext) var managedObjContext
+    @State private var edit = false
+    @State private var checkpoint1 = Date()
+    @State private var checkpoint2 = Date()
+    @State private var checkpoint3 = Date()
+    @State private var extend = false
     var project: FetchedResults<Projects>.Element
     var body: some View {
-        List{
+        NavigationView{
+            ScrollView{
             HStack{
             if project.check1done{
                 HStack{
@@ -24,7 +30,12 @@ struct EditProjectView: View {
             }else{
                 let daysnowandend = daysBetween(start: Date.now, end: project.checkpoint1!)
                 let between = daysBetween(start: project.startdate!, end: Date.now)
-                let percent = Int(between/daysnowandend * 100)
+                let percent = Double(between/daysnowandend * 100)
+                if percent > 100 && !extend{
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .padding()
+                }else{
                     Spacer()
                     VStack{
                         Text(project.goal1!)
@@ -47,11 +58,25 @@ struct EditProjectView: View {
                             .progressViewStyle(GaugeProgressStyle())
                             .frame(width: 25, height: 25)
                     }
-                        Text("\(percent)%")
+                        Text("\(Int(percent))%")
                             .foregroundColor(.blue)
                             .bold()
+                    }.onLongPressGesture {
+                        withAnimation{
+                        extend = true
+                        }
+                    }
+                    if extend{
+                        DatePicker("", selection: $checkpoint3, in: Date.now...)
+                            .onAppear(){
+                                checkpoint3 = project.checkpoint1!
+                            }
+                            .onChange(of: checkpoint3) { newValue in
+                                ProjectDataController().editPoint(project: project, checkpoint1: checkpoint3, context: managedObjContext)
+                            }
                     }
                     Spacer()
+            }
             }
                 if project.check2done{
                     HStack{
@@ -62,9 +87,15 @@ struct EditProjectView: View {
                             .foregroundColor(.green)
                     }
                 }else{
+                    if project.check1done{
                     let daysnowandend2 = daysBetween(start: Date.now, end: project.checkpoint2!)
                     let between2 = daysBetween(start: project.startdate!, end: Date.now)
-                    let percent2 = Int(between2/daysnowandend2 * 100)
+                    let percent2 = Double(between2/daysnowandend2 * 100)
+                        if percent2 > 100 && !extend{
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                                .padding()
+                        }else{
                         Spacer()
                         VStack{
                             Text(project.goal2!)
@@ -87,11 +118,26 @@ struct EditProjectView: View {
                                 .progressViewStyle(GaugeProgressStyle())
                                 .frame(width: 25, height: 25)
                         }
-                            Text("\(percent2)%")
+                            Text("\(Int(percent2))%")
                                 .foregroundColor(.blue)
                                 .bold()
+                        }.onLongPressGesture {
+                            withAnimation{
+                            extend = true
+                            }
                         }
+                            if extend{
+                                DatePicker("", selection: $checkpoint3,in: Date.now...)
+                                    .onAppear(){
+                                        checkpoint3 = project.checkpoint2!
+                                    }
+                                    .onChange(of: checkpoint3) { newValue in
+                                        ProjectDataController().editPoint2(project: project, checkpoint2: checkpoint3, context: managedObjContext)
+                                    }
+                            }
                         Spacer()
+                    }
+                }
                 }
                 if project.check3done{
                     HStack{
@@ -104,7 +150,13 @@ struct EditProjectView: View {
                 }else{
                     let daysnowandend3 = daysBetween(start: Date.now, end: project.checkpoint3!)
                     let between3 = daysBetween(start: project.startdate!, end: Date.now)
-                    let percent3 = Int(between3/daysnowandend3 * 100)
+                    let percent3 = Double(between3/daysnowandend3 * 100)
+                    if percent3 > 100 && !extend{
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                            .padding()
+                    }else{
+                    if project.check2done{
                         Spacer()
                         VStack{
                             Text(project.goal3!)
@@ -127,14 +179,58 @@ struct EditProjectView: View {
                                 .progressViewStyle(GaugeProgressStyle())
                                 .frame(width: 25, height: 25)
                         }
-                            Text("\(percent3)%")
+                            Text("\(Int(percent3))%")
                                 .foregroundColor(.blue)
                                 .bold()
+                        }.onLongPressGesture {
+                            withAnimation{
+                            extend = true
+                            }
+                        }
+                        if extend{
+                            DatePicker("", selection: $checkpoint3,in: Date.now...)
+                                .onAppear(){
+                                    checkpoint3 = project.checkpoint3!
+                                }
+                                .onChange(of: checkpoint3) { newValue in
+                                    ProjectDataController().editPoint3(project: project, checkpoint3: checkpoint3, context: managedObjContext)
+                                }
                         }
                         Spacer()
+                    }
+                }
                 }
 
+            }.padding()
+                    .onChange(of: extend, perform: { newValue in
+                        let check1 = daysBetweenNegative(start: Date.now, end: project.checkpoint1!)
+                        if check1 <= 0{
+                            ProjectDataController().editCheck1(project: project, check1done: true, context: managedObjContext)
+                        }
+                        let check2 = daysBetweenNegative(start: Date.now, end: project.checkpoint2!)
+                        if check2 <= 0{
+                            ProjectDataController().editCheck2(project: project, check2done: true, context: managedObjContext)
+                        }
+                        let check3 = daysBetweenNegative(start: Date.now, end: project.checkpoint3!)
+                        if check3 <= 0{
+                            ProjectDataController().editCheck3(project: project, check3done: true, context: managedObjContext)
+                        }
+                    })
+            .onAppear(){
+            let check1 = daysBetweenNegative(start: Date.now, end: project.checkpoint1!)
+            if check1 <= 0{
+                ProjectDataController().editCheck1(project: project, check1done: true, context: managedObjContext)
+            }
+            let check2 = daysBetweenNegative(start: Date.now, end: project.checkpoint2!)
+            if check2 <= 0{
+                ProjectDataController().editCheck2(project: project, check2done: true, context: managedObjContext)
+            }
+            let check3 = daysBetweenNegative(start: Date.now, end: project.checkpoint3!)
+            if check3 <= 0{
+                ProjectDataController().editCheck3(project: project, check3done: true, context: managedObjContext)
+            }
         }
+            if !project.check2done{
             Section{
             VStack{
                 if !project.check1done{
@@ -142,10 +238,23 @@ struct EditProjectView: View {
                     Text(project.goal2!)
                             .bold()
                         Spacer()
-                        Text("Upcoming")
+                        if edit{
+                            DatePicker("", selection: $checkpoint1, in: Date.now...)
+                                .onChange(of: checkpoint1) { newValue in
+                                    ProjectDataController().editPoint(project: project, checkpoint1: checkpoint1, context: managedObjContext)
+                                }
+                        }else{
+                        let formatted = checkpoint1.formatted()
+                        Text(formatted)
                             .foregroundColor(.gray)
+                            .onLongPressGesture {
+                                withAnimation{
+                                edit = true
+                                }
+                            }
                         Image(systemName: "clock.fill")
                             .foregroundColor(.gray)
+                        }
                     }
                         .padding()
                         .background(Color(.systemGray6))
@@ -155,21 +264,34 @@ struct EditProjectView: View {
                     Text(project.goal3!)
                             .bold()
                         Spacer()
-                        Text("Upcoming")
+                        if edit{
+                            DatePicker("", selection: $checkpoint2, in: Date.now...)
+                                .onChange(of: checkpoint2) { newValue in
+                                    ProjectDataController().editPoint2(project: project, checkpoint2: checkpoint2, context: managedObjContext)
+                                }
+                        }else{
+                        let formatted = checkpoint2.formatted()
+                        Text(formatted)
                             .foregroundColor(.gray)
+                            .onLongPressGesture {
+                                withAnimation {
+                                    edit = true
+                                }
+                            }
                         Image(systemName: "clock.fill")
                             .foregroundColor(.gray)
+                        }
                     }
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(20)
                 }
-                if project.check1done{
+                if project.check1done && !project.check2done{
                     HStack{
                     Text(project.goal3!)
                             .bold()
                         Spacer()
-                        Text("Upcoming")
+                        Text(project.checkpoint3!, style: .date)
                             .foregroundColor(.gray)
                         Image(systemName: "clock.fill")
                             .foregroundColor(.gray)
@@ -178,22 +300,43 @@ struct EditProjectView: View {
                         .background(Color(.systemGray6))
                         .cornerRadius(20)
                 }
+            }.padding()
+            .onAppear(){
+                checkpoint1 = project.checkpoint1!
+                checkpoint2 = project.checkpoint2!
             }
-            }
-        }.onAppear(){
-            let check1 = daysBetweenNegative(start: Date.now, end: project.checkpoint1!)
-            if check1 <= 0{
-                project.check1done = true
-            }
-            let check2 = daysBetweenNegative(start: Date.now, end: project.checkpoint2!)
-            if check2 <= 0{
-                project.check2done = true
-            }
-            let check3 = daysBetweenNegative(start: Date.now, end: project.checkpoint3!)
-            if check3 <= 0{
-                project.check3done = true
+            }header: {
+                if edit{
+                    Button {
+                        withAnimation{
+                        edit = false
+                        }
+                    } label: {
+                        Text("Done")
+                            .bold()
+                    }
+                }
             }
         }
+        }
+        .toolbar{
+            ToolbarItem(placement: .bottomBar) {
+                if extend{
+                        Button {
+                            withAnimation {
+                                extend = false
+                            }
+                        } label: {
+                            Text("Done")
+                                .bold()
+                        }.buttonStyle(.bordered)
+                        .buttonBorderShape(.roundedRectangle(radius: 30))
+
+                    }
+            }
+        }
+        .navigationBarHidden(true)
+    }
     }
     func daysBetween(start: Date, end: Date) -> Double {
         return Double(Calendar.current.dateComponents([.second], from: start, to: end).second!)
