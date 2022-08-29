@@ -157,8 +157,9 @@ struct AssignmentsView: View {
                                                             let notif1 = assign.name! + "notif1"
                                                             let notif2 = assign.name! + "notif2"
                                                             let ontime = assign.name! + "ON"
+                                                            let rep = assign.name! + "Rep"
                                                             if assign.book{
-                                                            var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime]
+                                                            var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime, rep]
                                                                 for notification:UNNotificationRequest in notificationRequests {
                                                                     if notification.identifier == "identifierCancel" {
                                                                        identifiers.append(notification.identifier)
@@ -288,8 +289,9 @@ struct AssignmentsView: View {
                                                     let notif1 = assign.name! + "notif1"
                                                     let notif2 = assign.name! + "notif2"
                                                     let ontime = assign.name! + "ON"
+                                                    let rep = assign.name! + "Rep"
                                                     if assign.book{
-                                                    var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime]
+                                                    var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime, rep]
                                                         for notification:UNNotificationRequest in notificationRequests {
                                                             if notification.identifier == "identifierCancel" {
                                                                identifiers.append(notification.identifier)
@@ -495,7 +497,7 @@ struct EditPopupView: View{
                     }
                 } label: {
                     Text("Done")
-                }.tint(.green)
+                }.tint(assignment.color == "Green" ? .blue :.green)
                 .buttonStyle(.borderedProminent)
 
             }.padding()

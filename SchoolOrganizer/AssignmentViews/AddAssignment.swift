@@ -27,7 +27,6 @@ struct AddAssignment: View {
     @State private var newname = ""
     @State private var showAlert = false
     @State private var NotComplete = false
-    @State private var twodaysearly = false
     @State private var assigname = ""
     @State private var undosignal = false
     @State private var undoall = false
@@ -37,6 +36,8 @@ struct AddAssignment: View {
     @State private var reassign = false
     @State private var timechanged = false
     @State private var attached = false
+    @State private var repassign = false
+    @State private var reptime = Date()
     @State private var presentnewassign = false
     @State private var attachtopic = ""
     @State private var type = "Original"
@@ -490,17 +491,21 @@ struct AddAssignment: View {
                     .onChange(of: undoall) { newValue in
                         duedate = Date.now
                     }
-                    Toggle(isOn: $twodaysearly) {
-                        VStack{
-                        Text("Reminder Two Days Prior To Due Date")
-                            .font(.system(size: 15, weight: .heavy, design: .rounded))
-                            .multilineTextAlignment(.center)
-                            .fixedSize(horizontal: false, vertical: true)
-                        }
+                    Toggle(isOn: $repassign) {
+                        Text("Repeat Assignment")
+                        Image(systemName: "repeat.circle.fill")
+                            .foregroundColor(.blue)
+                            .onChange(of: addcustom) { _ in
+                                if addcustom && repassign{
+                                    withAnimation{
+                                    repassign = false
+                                    }
+                                }
+                            }
                     }
-                    .onShake {
-                        simpleSuccess()
-                        undosignal.toggle()
+                    if repassign{
+                        DatePicker("Time:", selection: $reptime, displayedComponents: .hourAndMinute)
+                            .datePickerStyle(.compact)
                     }
                     Button {
                         withAnimation{
@@ -512,6 +517,13 @@ struct AddAssignment: View {
                                 .bold()
                             Spacer()
                             Image(systemName: "2.circle.fill")
+                                .onChange(of: repassign) { _ in
+                                    if repassign && addcustom{
+                                        withAnimation{
+                                        addcustom = false
+                                        }
+                                    }
+                                }
                         }
                     }
                     if addcustom{
@@ -620,7 +632,7 @@ struct AddAssignment: View {
                             UNUserNotificationCenter.current().add(requestOn)
                         }
                     }
-                        if twodaysearly && type == "Original"{
+                        if type == "Original"{
                         let twodaycontent = UNMutableNotificationContent()
                             twodaycontent.title = assigname
                             twodaycontent.body = "This is Due in Two Days!"
@@ -633,6 +645,16 @@ struct AddAssignment: View {
                             formatter1.dateStyle = .long
                             let request2 = UNNotificationRequest(identifier: formatter1.string(from: date), content: twodaycontent, trigger: calendarTriggerTwo)
                             UNUserNotificationCenter.current().add(request2)
+                            if repassign{
+                            let repeatcontent = UNMutableNotificationContent()
+                            repeatcontent.title = assigname
+                            repeatcontent.body = "Remember To Work On This!"
+                            repeatcontent.sound = UNNotificationSound.default
+                            let repcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: reptime)
+                            let reptrigger  = UNCalendarNotificationTrigger(dateMatching: repcomp, repeats: true)
+                            let reprequest = UNNotificationRequest(identifier: assigname + "Rep", content: repeatcontent, trigger: reptrigger)
+                                UNUserNotificationCenter.current().add(reprequest)
+                        }
                         }
                         if addcustom{
                             let notif1 = UNMutableNotificationContent()

@@ -45,6 +45,9 @@ struct EditAssignment: View {
                         .if(assignment.color == "Yellow") { Text in
                             Text.foregroundColor(.yellow)
                         }
+                        .if(assignment.color == "Green") { Text in
+                            Text.foregroundColor(.green)
+                        }
                         .if(assignment.color == "Purple"){ view in
                             view.foregroundColor(.purple)
                         }
@@ -173,8 +176,9 @@ struct EditAssignment: View {
                         let notif1 = assignment.name! + "notif1"
                         let notif2 = assignment.name! + "notif2"
                         let ontime = assignment.name! + "ON"
+                        let rep = assignment.name! + "Rep"
                         if assignment.book{
-                        var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime]
+                        var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime, rep]
                             for notification:UNNotificationRequest in notificationRequests {
                                 if notification.identifier == "identifierCancel" {
                                    identifiers.append(notification.identifier)
@@ -222,8 +226,9 @@ struct EditAssignment: View {
                                             let notif1 = assignment.name! + "notif1"
                                             let notif2 = assignment.name! + "notif2"
                                             let ontime = assignment.name! + "ON"
+                                            let rep = assignment.name! + "Rep"
                                             if assignment.book{
-                                            var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime]
+                                            var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime, rep]
                                                 for notification:UNNotificationRequest in notificationRequests {
                                                     if notification.identifier == "identifierCancel" {
                                                        identifiers.append(notification.identifier)

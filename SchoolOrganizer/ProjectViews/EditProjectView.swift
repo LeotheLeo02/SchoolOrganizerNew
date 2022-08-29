@@ -23,10 +23,12 @@ struct EditProjectView: View {
                 HStack{
                     Text(project.goal1!)
                         .bold()
-                        .foregroundColor(.green)
+                        .foregroundColor(.white)
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(.green)
-                }
+                        .foregroundColor(.white)
+                }.padding()
+                    .background(.green)
+                    .cornerRadius(30)
             }else{
                 let daysnowandend = daysBetween(start: Date.now, end: project.checkpoint1!)
                 let between = daysBetween(start: project.startdate!, end: Date.now)
@@ -81,11 +83,13 @@ struct EditProjectView: View {
                 if project.check2done{
                     HStack{
                         Text(project.goal2!)
+                            .foregroundColor(.white)
                             .bold()
-                            .foregroundColor(.green)
                         Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                    }
+                            .foregroundColor(.white)
+                    }.padding()
+                    .background(.green)
+                    .cornerRadius(30)
                 }else{
                     if project.check1done{
                     let daysnowandend2 = daysBetween(start: Date.now, end: project.checkpoint2!)
@@ -143,10 +147,12 @@ struct EditProjectView: View {
                     HStack{
                         Text(project.goal3!)
                             .bold()
-                            .foregroundColor(.green)
+                            .foregroundColor(.white)
                         Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                    }
+                            .foregroundColor(.white)
+                    }.padding()
+                    .background(.green)
+                    .cornerRadius(30)
                 }else{
                     let daysnowandend3 = daysBetween(start: Date.now, end: project.checkpoint3!)
                     let between3 = daysBetween(start: project.startdate!, end: Date.now)
@@ -202,6 +208,9 @@ struct EditProjectView: View {
                 }
 
             }.padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(20)
+                    .padding()
                     .onChange(of: extend, perform: { newValue in
                         let check1 = daysBetweenNegative(start: Date.now, end: project.checkpoint1!)
                         if check1 <= 0{
@@ -291,10 +300,23 @@ struct EditProjectView: View {
                     Text(project.goal3!)
                             .bold()
                         Spacer()
-                        Text(project.checkpoint3!, style: .date)
+                        if edit{
+                            DatePicker("", selection: $checkpoint3, in: Date.now...)
+                                .onChange(of: checkpoint3) { newValue in
+                                    ProjectDataController().editPoint3(project: project, checkpoint3: checkpoint2, context: managedObjContext)
+                                }
+                        }else{
+                        let formatted = checkpoint3.formatted()
+                        Text(formatted)
                             .foregroundColor(.gray)
+                            .onLongPressGesture {
+                                withAnimation {
+                                    edit = true
+                                }
+                            }
                         Image(systemName: "clock.fill")
                             .foregroundColor(.gray)
+                    }
                     }
                         .padding()
                         .background(Color(.systemGray6))
@@ -304,6 +326,7 @@ struct EditProjectView: View {
             .onAppear(){
                 checkpoint1 = project.checkpoint1!
                 checkpoint2 = project.checkpoint2!
+                checkpoint3 = project.checkpoint3!
             }
             }header: {
                 if edit{
