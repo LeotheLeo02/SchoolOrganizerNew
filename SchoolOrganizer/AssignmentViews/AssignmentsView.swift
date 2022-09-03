@@ -15,6 +15,7 @@ struct AssignmentsView: View {
     @AppStorage("NumberOfAsCompleted") var assignmentscompleted: Int = 0
     @Environment(\.dismiss) var dismiss
     @State private var Add = false
+    @Environment(\.colorScheme) var colorScheme
     @State private var Schedule = false
     @State private var foldername = ""
     @State private var editname = false
@@ -151,8 +152,7 @@ struct AssignmentsView: View {
                                             .overlay{
                                                 if complete{
                                                 Image(systemName: "checkmark")
-                                                    .resizable()
-                                                    .scaledToFit()
+                                                    .font(.largeTitle)
                                                     .foregroundColor(.white)
                                                 }
                                             }.padding()
@@ -312,8 +312,7 @@ struct AssignmentsView: View {
                                         .overlay{
                                             if complete{
                                             Image(systemName: "checkmark")
-                                                .resizable()
-                                                .scaledToFit()
+                                                    .font(.largeTitle)
                                                 .foregroundColor(.white)
                                             }
                                         }.padding()
@@ -402,7 +401,7 @@ struct AssignmentsView: View {
                 FolderView()
             })
             .toast(isPresenting: $editpop) {
-                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Edited", style: .style(backgroundColor: Color(.systemGray6), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
+                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Edited", style: .style(backgroundColor: Color(.systemGray6), titleColor: colorScheme == .dark ?  .white :.black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
             }
             .sheet(isPresented: $Add, content: {
                 AddAssignment()
@@ -550,7 +549,8 @@ struct EditPopupView: View{
                 }.tint(assignment.color == "Green" ? .blue :.green)
                 .buttonStyle(.borderedProminent)
 
-            }.padding()
+            }.frame(width: .infinity, height: .infinity)
+            .padding()
             .if(assignment.color == "Blue"){view in
                 view.background(.blue)
             }

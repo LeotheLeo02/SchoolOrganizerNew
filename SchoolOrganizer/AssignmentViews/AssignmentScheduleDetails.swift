@@ -11,6 +11,7 @@ struct AssignmentScheduleDetails: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.duedate)]) var assignment: FetchedResults<Assignment>
     @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         NavigationView{
         Form{
@@ -20,13 +21,11 @@ struct AssignmentScheduleDetails: View {
                     if (days <= 3){
                         HStack{
                         Text(assign.name!)
-                            .foregroundColor(.black)
                             .bold()
                             .font(.title)
                             .fixedSize(horizontal: false, vertical: true)
                             Spacer()
                             Text(assign.duedate!, style: .date)
-                            .foregroundColor(.black)
                             .bold()
                         }.padding()
                     }
@@ -44,13 +43,11 @@ struct AssignmentScheduleDetails: View {
                     if (days < 7 && days > 3){
                         HStack{
                         Text(assign.name!)
-                            .foregroundColor(.black)
                             .bold()
                             .font(.title)
                             .fixedSize(horizontal: false, vertical: true)
                         Spacer()
                             Text(assign.duedate!, style: .date)
-                                .foregroundColor(.black)
                                 .bold()
                         }.padding()
                     }
@@ -69,13 +66,11 @@ struct AssignmentScheduleDetails: View {
                     if (days >= 7){
                         HStack{
                         Text(assign.name!)
-                            .foregroundColor(.black)
                             .bold()
                             .font(.title)
                             .fixedSize(horizontal: false, vertical: true)
                             Spacer()
                             Text(assign.duedate!, style: .date)
-                                .foregroundColor(.black)
                                 .bold()
                         }.padding()
                     }

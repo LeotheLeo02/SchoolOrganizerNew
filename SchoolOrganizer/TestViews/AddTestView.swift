@@ -23,6 +23,7 @@ struct AddTestView: View {
     @State private var undosignal = false
     @State private var deleteall = false
     @State private var undo = false
+    @Environment(\.colorScheme) var colorScheme
     @State private var newtestdate = Date()
     @State private var attached = false
     @State private var presentnewassign = false
@@ -268,7 +269,7 @@ struct AddTestView: View {
                 ChangeAllTopicsView()
             })
             .toast(isPresenting: $timechanged) {
-                AlertToast(displayMode: .banner(.pop), type: .systemImage("clock.badge.checkmark.fill", .green), title: "Time Changed", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
+                AlertToast(displayMode: .banner(.pop), type: .systemImage("clock.badge.checkmark.fill", .green), title: "Time Changed", style: .style(backgroundColor: Color(.systemGray4), titleColor: colorScheme == .dark ? .white:.black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
             }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {

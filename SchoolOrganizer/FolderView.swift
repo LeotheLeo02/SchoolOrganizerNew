@@ -16,6 +16,7 @@ struct FolderView: View {
     @FocusState private var focusontitle: Bool
     @State private var siteLink = ""
     @State private var linkname = ""
+    @Environment(\.colorScheme) var colorScheme
     @State private var showAlert = false
     @State private var addlink = false
     @State private var image: Data = .init(count: 0)
@@ -236,10 +237,10 @@ struct FolderView: View {
                 ImagePicker(images: $image, show: $imagepicker, camera: $camera)
             }
             .toast(isPresenting: $Added) {
-                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "\(sizename) \(addedName) Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 20, weight: .heavy, design: .rounded), subTitleFont: .title))
+                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "\(sizename) \(addedName) Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: colorScheme == .dark ? .white:.black, subTitleColor: .black, titleFont: .system(size: 20, weight: .heavy, design: .rounded), subTitleFont: .title))
             }
             .toast(isPresenting: $AddedLink) {
-                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Link Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
+                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Link Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: colorScheme == .dark ? .white:.black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
             }
         }
         .navigationTitle("Folder")

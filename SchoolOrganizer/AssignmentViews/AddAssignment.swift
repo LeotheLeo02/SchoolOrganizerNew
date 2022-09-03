@@ -23,6 +23,7 @@ struct AddAssignment: View {
     @State private var topics = ""
     @State private var color  = ""
     @State private var duedate = Date()
+    @Environment(\.colorScheme) var colorScheme
     @State private var addtopic = false
     @State private var newname = ""
     @State private var showAlert = false
@@ -504,6 +505,11 @@ struct AddAssignment: View {
                                     }
                                 }
                             }
+                            .onChange(of: repassign) { V in
+                                if repassign && addnotif1{
+                                    notifnumber = 0
+                                }
+                            }
                     }
                     if repassign{
                         DatePicker("Time:", selection: $reptime, displayedComponents: .hourAndMinute)
@@ -570,7 +576,7 @@ struct AddAssignment: View {
             Alert(title: Text("Not Complete"), message: Text("Name, Topic, and Color need to be assigned"), dismissButton: .cancel(Text("Ok")))
         }
         .toast(isPresenting: $timechanged) {
-            AlertToast(displayMode: .banner(.pop), type: .systemImage("clock.badge.checkmark.fill", .green), title: "Time Changed", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
+            AlertToast(displayMode: .banner(.pop), type: .systemImage("clock.badge.checkmark.fill", .green), title: "Time Changed", style: .style(backgroundColor: Color(.systemGray4), titleColor: colorScheme == .dark ? .white:.black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
         }
         .toast(isPresenting: $presentswapped, alert: {
             AlertToast(displayMode: .alert, type: .systemImage("arrow.left.arrow.right", .blue), title: "Swapped")

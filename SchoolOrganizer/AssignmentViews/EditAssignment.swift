@@ -23,6 +23,7 @@ struct EditAssignment: View {
     @FocusState var addside: Bool
     @State private var sidenotes = ""
     @Binding var newvalue: Bool
+    @Environment(\.colorScheme) var colorScheme
     @State private var orientation = UIDevice.current.orientation
     private let orientationChanged = NotificationCenter.default
         .publisher(for: UIDevice.orientationDidChangeNotification)
@@ -162,7 +163,7 @@ struct EditAssignment: View {
                 FolderViewSpecific(assignment: assignment)
             })
             .toast(isPresenting: $assigned) {
-                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Assigned Topic", style: .style(backgroundColor: Color(.systemGray6), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
+                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Assigned Topic", style: .style(backgroundColor: Color(.systemGray6), titleColor: colorScheme == .dark ? .white:.black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
             }
             }
             .toolbar{

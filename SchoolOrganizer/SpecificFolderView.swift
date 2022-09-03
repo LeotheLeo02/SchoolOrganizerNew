@@ -72,6 +72,7 @@ struct FolderViewSpecific: View {
     @State private var addingValue: Int64 = 0
     @State private var addedName = ""
     @State private var sizename = ""
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         NavigationView{
         VStack{
@@ -289,10 +290,10 @@ struct FolderViewSpecific: View {
                 ImagePicker(images: $image, show: $imagepicker, camera: $camera)
             }
             .toast(isPresenting: $Added) {
-                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "\(sizename) \(addedName) Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 20, weight: .heavy, design: .rounded), subTitleFont: .title))
+                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "\(sizename) \(addedName) Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: colorScheme == .dark ?  .white:.black, subTitleColor: .black, titleFont: .system(size: 20, weight: .heavy, design: .rounded), subTitleFont: .title))
             }
             .toast(isPresenting: $AddedLink) {
-                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Link Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: .black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
+                AlertToast(displayMode: .banner(.pop), type: .complete(.blue), title: "Link Added", style: .style(backgroundColor: Color(.systemGray4), titleColor: colorScheme == .dark ? .white:.black, subTitleColor: .black, titleFont: .system(size: 30, weight: .heavy, design: .rounded), subTitleFont: .title))
             }
         }
         .navigationTitle("Folder")
