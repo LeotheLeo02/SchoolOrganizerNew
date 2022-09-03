@@ -73,6 +73,7 @@ struct HistoryView: View {
                             }
                                 Text(com.dateoftest!, style: .date)
                                     .font(.system(size: 13, weight: .heavy, design: .serif))
+                                //Hi
                                 Text(com.dateoftest!, style: .time)
                                     .font(.system(size: 13, weight: .heavy, design: .serif))
                             }.padding()
