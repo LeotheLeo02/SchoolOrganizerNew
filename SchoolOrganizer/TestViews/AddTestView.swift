@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AlertToast
+import CoreHaptics
 
 struct AddTestView: View {
     @Environment(\.managedObjectContext) var managedObjContext
@@ -33,6 +34,7 @@ struct AddTestView: View {
     @State private var addperiod = false
     @State private var presentswapped = false
     @State private var addtopicusage = false
+    @State private var testsession = false
     var body: some View {
         NavigationView{
             VStack{
@@ -62,7 +64,13 @@ struct AddTestView: View {
                     } header: {
                         Text("Create A Session")
                     }
-
+                    Section{
+                        
+                    }header: {
+                        if testsession{
+                        Text("Created Sessions For Test")
+                        }
+                    }
                     
                     Section {
                         if testtopic.isEmpty{
@@ -251,7 +259,7 @@ struct AddTestView: View {
                 AddSchoolPeriod(swapped: $presentswapped)
             })
             .sheet(isPresented: $addsession, content: {
-                StudySessionsView()
+                SessionAddPlus(name: $testname)
             })
             .sheet(isPresented: $presentnewassign, content: {
                 AssignIndiviualTopicView(topicname: $attachtopic)

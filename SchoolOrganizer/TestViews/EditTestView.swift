@@ -79,7 +79,7 @@ struct EditTestView: View {
                             goodscore.toggle()
                             complexSuccess()
                         }
-                        if number < 70 {
+                        if number < 80 {
                             badscore.toggle()
                         }
                         TestDataController().editTestScore(test: test, testscore: number, context: managedObjContext)

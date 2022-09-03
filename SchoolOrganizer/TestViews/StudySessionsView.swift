@@ -280,6 +280,7 @@ struct StudySessionsView_Previews: PreviewProvider {
 }
 
 struct SessionAdd: View{
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.testdate)]) var test: FetchedResults<Tests>
     @Environment(\.managedObjectContext) var managedObjContext
     @Environment(\.dismiss) var dismiss
     @State private var name = ""
@@ -288,6 +289,136 @@ struct SessionAdd: View{
     @State private var enddate = Date()
     @State private var startday: Int = 0
     @Binding var added: Bool
+    var body: some View{
+        NavigationView{
+        Form{
+            TextField("Name...", text: $name)
+                .multilineTextAlignment(.center)
+            DatePicker(selection: $startdate, in: Date.now..., label: {
+                Text("Starting...")
+                    .italic()
+                    .bold()
+                    .foregroundColor(.gray)
+            }).datePickerStyle(.compact)
+                .onChange(of: startdate) { newValue in
+                    let calendar  = Calendar.current
+                    let day = calendar.component(.day, from: startdate)
+                    startday = day
+                    let automatic = Calendar.current.date(bySetting: .day, value: startday, of: startdate)
+                    enddate = automatic!
+                    if enddate != startdate{
+                        same = false
+                    }else{
+                        same = true
+                    }
+                }
+                .onAppear(){
+                        same = true
+                }
+            DatePicker(selection: $enddate, in: startdate..., displayedComponents: .hourAndMinute, label: {
+                Text("Ending...")
+                    .italic()
+                    .bold()
+                    .foregroundColor(.gray)
+            }).datePickerStyle(.compact)
+                .onChange(of: enddate) { newValue in
+                    if enddate != startdate{
+                        same = false
+                    }else{
+                        same = true
+                    }
+                }
+            ScrollView(.horizontal){
+                HStack{
+            ForEach(test){tes in
+                Button {
+                    name = tes.testname! + " Session"
+                } label: {
+                    Text(tes.testname!)
+                }.tint(.blue)
+                .buttonStyle(.borderedProminent)
+                .buttonBorderShape(.roundedRectangle(radius: 30))
+            }
+            }
+        }
+        }
+        .navigationTitle("Add Session")
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button {
+                    UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound]) { success, error in
+                        if success{
+                            print("All Set")
+                        }else if let error = error{
+                            print(error.localizedDescription)
+                        }
+                    }
+                    StudyDataController().addStudySession(name: name, start: startdate, end: enddate, context: managedObjContext)
+                    let content = UNMutableNotificationContent()
+                    content.title = name
+                    let saydate = startdate
+                    content.body = "In 15 minutes! \(saydate.formatted(.dateTime.hour().minute()))"
+                    let date = startdate
+                    let fifteenminutes = Calendar.current.date(byAdding: .minute, value: -15, to: date)
+                    content.sound = UNNotificationSound.default
+                    let earlycomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: fifteenminutes!)
+                    let earlycalendartrigger = UNCalendarNotificationTrigger(dateMatching: earlycomp, repeats: false)
+                    let firstrequest = UNNotificationRequest(identifier: name, content: content, trigger: earlycalendartrigger)
+                    
+                    UNUserNotificationCenter.current().add(firstrequest)
+                    
+                    let currentcontent = UNMutableNotificationContent()
+                    currentcontent.title = name
+                    currentcontent.body = "\(name) Session Started"
+                    let currentdate = startdate
+                    let currenttime = Calendar.current.date(byAdding: .day, value: 0, to: currentdate)
+                    content.sound = UNNotificationSound.default
+                    let currentcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: currenttime!)
+                    let currenttrigger = UNCalendarNotificationTrigger(dateMatching: currentcomp , repeats: false)
+                    let identifier = name + "CC"
+                    let currentrequest = UNNotificationRequest(identifier: identifier, content: currentcontent, trigger: currenttrigger)
+                    UNUserNotificationCenter.current().add(currentrequest)
+                    
+                    let endcontent = UNMutableNotificationContent()
+                    endcontent.title = "\(name) Session Ending"
+                    endcontent.body = "Finish Up Last Thoughts"
+                    let enddate = enddate
+                    let endtime = Calendar.current.date(byAdding: .day, value: 0, to: enddate)
+                    endcontent.sound = UNNotificationSound.default
+                    let endcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: endtime!)
+                    let endtrigger = UNCalendarNotificationTrigger(dateMatching: endcomp , repeats: false)
+                    let endidentifier = name + "EE"
+                    let endrequest = UNNotificationRequest(identifier: endidentifier, content: endcontent, trigger: endtrigger)
+                    UNUserNotificationCenter.current().add(endrequest)
+                    added.toggle()
+                    dismiss()
+                } label: {
+                    Text("Submit")
+                }.disabled(name.trimmingCharacters(in: .whitespaces).isEmpty || same)
+
+            }
+            ToolbarItem(placement: .cancellationAction) {
+                Button {
+                   dismiss()
+                } label: {
+                    Text("Cancel")
+                }
+
+            }
+        }
+    }
+        .navigationViewStyle(.stack)
+    }
+}
+
+struct SessionAddPlus: View{
+    @Environment(\.managedObjectContext) var managedObjContext
+    @Environment(\.dismiss) var dismiss
+    @Binding var name: String
+    @State private var startdate = Date()
+    @State private var same = false
+    @State private var enddate = Date()
+    @State private var startday: Int = 0
     var body: some View{
         NavigationView{
         Form{
@@ -376,7 +507,6 @@ struct SessionAdd: View{
                     let endidentifier = name + "EE"
                     let endrequest = UNNotificationRequest(identifier: endidentifier, content: endcontent, trigger: endtrigger)
                     UNUserNotificationCenter.current().add(endrequest)
-                    added.toggle()
                     dismiss()
                 } label: {
                     Text("Submit")

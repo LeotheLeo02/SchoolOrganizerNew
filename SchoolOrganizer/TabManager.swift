@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TabManager: View {
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.dateoftest, order: .reverse)]) var completedtest: FetchedResults<CompletedTest>
     var body: some View {
         TabView{
             AssignmentsView()
@@ -27,11 +28,13 @@ struct TabManager: View {
                     Image(systemName: "cube.transparent")
                 }
             
+            if !completedtest.isEmpty{
             HistoryView()
                 .tabItem {
-                    Text("History")
+                    Text("Past Tests")
                     Image(systemName: "clock")
                 }
+            }
         }
     }
 }

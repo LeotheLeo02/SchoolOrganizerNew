@@ -178,11 +178,6 @@ struct AssignmentsView: View {
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                                     withAnimation{
                                                         assignmentscompleted += 1
-                                                        if assign.complete{
-                                                        let name  = assign.name ?? ""
-                                                        let color = assign.color ?? ""
-                                                        HistoryADataController().addAssign(assignname: name, assigncolor: color, assigndate: Date.now, context: managedObjContext)
-                                                        }
                                                         if assign.complete != false{
                                                         UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
                                                             let formatter1 = DateFormatter()
@@ -345,11 +340,6 @@ struct AssignmentsView: View {
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                             withAnimation{
                                                 assignmentscompleted += 1
-                                                if assign.complete{
-                                                let name  = assign.name!
-                                                let color = assign.color!
-                                                HistoryADataController().addAssign(assignname: name, assigncolor: color, assigndate: Date.now, context: managedObjContext)
-                                                }
                                                 if assign.complete != false{
                                                 UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
                                                     let formatter1 = DateFormatter()

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct HistoryView: View {
     @Environment(\.managedObjectContext) var managedObjContext
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.assignname)]) var historya: FetchedResults<HistoryA>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.dateoftest, order: .reverse)]) var completedtest: FetchedResults<CompletedTest>
     var body: some View {
         NavigationView{
@@ -17,50 +16,6 @@ struct HistoryView: View {
             let average = Int(completedtest.map(\.scoreoftest).reduce(0, +)) / count
             ScrollView{
                 VStack{
-        ForEach(historya){hisa in
-            VStack{
-            HStack{
-            Text(hisa.assignname!)
-                    .bold()
-                Spacer()
-                Text("A")
-                    .font(.system(size: 50, weight: .heavy, design: .rounded))
-                    .if(hisa.assigncolor == "Red") { Text in
-                        Text.foregroundColor(.red)
-                    }
-                    .if(hisa.assigncolor == "Blue") { Text in
-                        Text.foregroundColor(.blue)
-                    }
-                    .if(hisa.assigncolor == "Green") { Text in
-                        Text.foregroundColor(.green)
-                    }
-                    .if(hisa.assigncolor == "Purple") { Text in
-                        Text.foregroundColor(.purple)
-                    }
-                Text(hisa.assigndate!, style: .date)
-                    .font(.system(size: 13, weight: .heavy, design: .rounded))
-                    .foregroundColor(.gray)
-                Text(hisa.assigndate!, style: .time)
-                    .font(.system(size: 13, weight: .heavy, design: .rounded))
-                    .foregroundColor(.gray)
-            }.padding()
-                
-            }.padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(20)
-            .contextMenu{
-                Button(role: .destructive) {
-                    withAnimation{
-                    hisa.managedObjectContext?.delete(hisa)
-                        HistoryADataController().save(context: managedObjContext)
-                    }
-                } label: {
-                    Text("Delete")
-                    Image(systemName: "trash")
-                }
-
-            }
-        }
                     Section{
                         ForEach(completedtest){com in
                             VStack(alignment: .leading){
@@ -149,7 +104,7 @@ struct HistoryView: View {
                 }.padding()
             }
             .padding(2)
-        .navigationTitle("History")
+        .navigationTitle("Past Tests")
         .toolbar {
             ToolbarItem(placement: .bottomBar){
                 VStack{
@@ -171,10 +126,6 @@ struct HistoryView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(role: .destructive) {
                     withAnimation{
-                    historya
-                        .forEach(managedObjContext.delete)
-                    HistoryADataController().save(context: managedObjContext)
-                    
                     completedtest
                         .forEach(managedObjContext.delete)
                     CompletedTestsDataController().save(context: managedObjContext)
