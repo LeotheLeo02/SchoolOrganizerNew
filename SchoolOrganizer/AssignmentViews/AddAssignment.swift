@@ -57,7 +57,9 @@ struct AddAssignment: View {
     @State private var addperiod = false
     @State private var presentswapped = false
     @State private var addtopicusage = false
-    @State private var addcustom = false
+    @State private var notifnumber = 0
+    @State private var addnotif1 = false
+    @State private var addnotif2 = false
     @State private var notification1 = Date()
     @State private var notification2 = Date()
     private let adaptiveColumns = [
@@ -495,8 +497,8 @@ struct AddAssignment: View {
                         Text("Repeat Assignment")
                         Image(systemName: "repeat.circle.fill")
                             .foregroundColor(.blue)
-                            .onChange(of: addcustom) { _ in
-                                if addcustom && repassign{
+                            .onChange(of: addnotif1) { _ in
+                                if addnotif1 && repassign{
                                     withAnimation{
                                     repassign = false
                                     }
@@ -507,30 +509,43 @@ struct AddAssignment: View {
                         DatePicker("Time:", selection: $reptime, displayedComponents: .hourAndMinute)
                             .datePickerStyle(.compact)
                     }
-                    Button {
-                        withAnimation{
-                        addcustom.toggle()
+                    HStack{
+                    Stepper("Add Custom Notifications", value: $notifnumber, in: 0...2, step: 1)
+                        .onChange(of: notifnumber) { V in
+                            if notifnumber == 0{
+                                addnotif1 = false
+                                addnotif2 = false
+                            }
+                            if notifnumber == 1{
+                                addnotif1 = true
+                                addnotif2 = false
+                            }
+                            if notifnumber == 2{
+                                addnotif1 = true
+                                addnotif2 = true
+                            }
                         }
-                    } label: {
-                        HStack{
-                        Text("Add Custom Notifications")
-                                .bold()
-                            Spacer()
-                            Image(systemName: "2.circle.fill")
-                                .onChange(of: repassign) { _ in
-                                    if repassign && addcustom{
-                                        withAnimation{
-                                        addcustom = false
-                                        }
-                                    }
-                                }
-                        }
+                        Image(systemName: "bell.square")
+                            .foregroundColor(.red)
+                            .font(.title)
                     }
-                    if addcustom{
-                        DatePicker("Notification 1", selection: $notification1, in: Date.now...)
+                    if addnotif1{
+                        DatePicker(selection: $notification1, in: Date.now...){
+                            Text("Custom")
+                            Image(systemName: "1.square.fill")
+                                .foregroundColor(.red)
+                        }
                             .datePickerStyle(.compact)
-                        DatePicker("Notification 2", selection: $notification2, in: Date.now...)
+                    }
+                    if addnotif2{
+                        HStack{
+                            DatePicker(selection: $notification2, in: Date.now...){
+                                Text("Custom")
+                                Image(systemName: "2.square.fill")
+                                    .foregroundColor(.red)
+                            }
                             .datePickerStyle(.compact)
+                        }
                     }
             }
             }header: {
@@ -656,7 +671,7 @@ struct AddAssignment: View {
                                 UNUserNotificationCenter.current().add(reprequest)
                         }
                         }
-                        if addcustom{
+                        if addnotif1{
                             let notif1 = UNMutableNotificationContent()
                             notif1.title = assigname
                             notif1.body = "Reminder To Work"
@@ -670,6 +685,8 @@ struct AddAssignment: View {
                             
                             UNUserNotificationCenter.current().add(request)
                             
+                        }
+                        if addnotif2{
                             let notif2 = UNMutableNotificationContent()
                             notif2.title = assigname
                             notif2.body = "Reminder To Work"
@@ -682,7 +699,6 @@ struct AddAssignment: View {
                             let request2 = UNNotificationRequest(identifier: assigname + "notif3", content: notif2, trigger: calendarTrigger2)
                             
                             UNUserNotificationCenter.current().add(request2)
-
                         }
                         
                 }
