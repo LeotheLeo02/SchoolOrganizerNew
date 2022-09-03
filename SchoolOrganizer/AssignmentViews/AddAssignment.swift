@@ -312,15 +312,15 @@ struct AddAssignment: View {
                                     }
                                 }
                             }
-                            ForEach(test){tes in
-                                VStack{
+                        }
+                        ForEach(test){tes in
+                            VStack{
+                            if tes.testtopic == top.topicname{
+                            Image(systemName: "doc.on.clipboard")
+                            }
+                            }.onAppear(){
                                 if tes.testtopic == top.topicname{
-                                Image(systemName: "doc.on.clipboard")
-                                }
-                                }.onAppear(){
-                                    if tes.testtopic == top.topicname{
-                                        attached = true
-                                    }
+                                    attached = true
                                 }
                             }
                         }
