@@ -26,7 +26,6 @@ struct AssignmentsView: View {
     @State private var editpop = false
     @State private var confirm = false
     @State private var newvalue = false
-    @State private var complete = false
     @AppStorage("OnBoarding") var onboarding = true
    private let adaptiveColumns = [
     GridItem(.adaptive(minimum: 160))
@@ -85,7 +84,7 @@ struct AssignmentsView: View {
                                 NavigationLink(destination: EditAssignment(assignment: assign, newvalue: $newvalue)){
                                     ZStack{
                                     Rectangle()
-                                        .frame(minWidth: 160, idealWidth: 160, maxWidth: 200, minHeight: 160, idealHeight: 160, maxHeight: 200)
+                                        .frame(width: 160, height: 160)
                                         .cornerRadius(30)
                                         .if(assign.color == "Blue"){view in
                                             view.foregroundColor(.blue)
@@ -133,27 +132,15 @@ struct AssignmentsView: View {
                                         }
                                         Rectangle()
                                             .fill(.green)
-                                            .frame(width: assign.complete ? 200:0, height: assign.complete ? 200:0)
-                                            .onChange(of: assign.complete, perform: { V in
-                                                if assign.complete{
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
-                                                        withAnimation{
-                                                        complete = true
-                                                        }
-                                                    }
-                                                }
-                                                if !assign.complete{
-                                                    withAnimation{}
-                                                    complete = false
-                                                }
-                                            })
+                                            .frame(width: assign.complete ? 160:0, height: assign.complete ? 160:0)
                                             .cornerRadius(30)
                                             .animation(.spring(), value: assign.complete)
                                             .overlay{
-                                                if complete{
-                                                Image(systemName: "checkmark")
-                                                    .font(.largeTitle)
-                                                    .foregroundColor(.white)
+                                                HStack{
+                                                    Text("Completed")
+                                                        .bold()
+                                                        .foregroundColor(.white)
+                                                        .font(.caption)
                                                 }
                                             }.padding()
                                 }
@@ -245,7 +232,7 @@ struct AssignmentsView: View {
                             NavigationLink(destination: EditAssignment(assignment: assign, newvalue: $newvalue)){
                                 ZStack{
                             Rectangle()
-                                .frame(minWidth: 160, idealWidth: 160, maxWidth: 200, minHeight: 160, idealHeight: 160, maxHeight: 200)
+                                .frame(width: 160, height: 160)
                                 .cornerRadius(30)
                                 .if(assign.color == "Blue"){view in
                                     view.foregroundColor(.blue)
@@ -293,28 +280,16 @@ struct AssignmentsView: View {
                                 }
                                     Rectangle()
                                         .fill(.green)
-                                        .frame(width: assign.complete ? 200:0, height: assign.complete ? 200:0)
-                                        .onChange(of: assign.complete, perform: { V in
-                                            if assign.complete{
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
-                                                    withAnimation{
-                                                    complete = true
-                                                    }
-                                                }
-                                            }
-                                            if !assign.complete{
-                                                withAnimation{}
-                                                complete = false
-                                            }
-                                        })
+                                        .frame(width: assign.complete ? 160:0, height: assign.complete ? 160:0)
                                         .cornerRadius(30)
                                         .animation(.spring(), value: assign.complete)
                                         .overlay{
-                                            if complete{
-                                            Image(systemName: "checkmark")
-                                                    .font(.largeTitle)
-                                                .foregroundColor(.white)
-                                            }
+                                            HStack{
+                                                Text("Completed")
+                                                    .bold()
+                                                    .foregroundColor(.white)
+                                                    .font(.caption)
+                                        }
                                         }.padding()
                                     
                             }
