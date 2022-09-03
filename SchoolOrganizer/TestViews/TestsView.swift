@@ -23,7 +23,7 @@ struct TestsView: View {
             ScrollView{
                 if test.isEmpty{
                     HStack{
-                        Text("No Upcoming Assignments")
+                        Text("No Upcoming Tests")
                         .font(.system(size: 25, weight: .heavy, design: .rounded))
                         .foregroundColor(.gray)
                         Image(systemName:"checkmark.circle.fill")

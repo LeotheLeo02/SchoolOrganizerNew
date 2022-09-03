@@ -25,6 +25,7 @@ struct AssignmentsView: View {
     @State private var editpop = false
     @State private var confirm = false
     @State private var newvalue = false
+    @State private var complete = false
     @AppStorage("OnBoarding") var onboarding = true
    private let adaptiveColumns = [
     GridItem(.adaptive(minimum: 160))
@@ -81,8 +82,9 @@ struct AssignmentsView: View {
                             if assign.topic == filtername{
                                 VStack{
                                 NavigationLink(destination: EditAssignment(assignment: assign, newvalue: $newvalue)){
+                                    ZStack{
                                     Rectangle()
-                                        .frame(width: 160, height: 160)
+                                        .frame(minWidth: 160, idealWidth: 160, maxWidth: 200, minHeight: 160, idealHeight: 160, maxHeight: 200)
                                         .cornerRadius(30)
                                         .if(assign.color == "Blue"){view in
                                             view.foregroundColor(.blue)
@@ -105,8 +107,10 @@ struct AssignmentsView: View {
                                                 Text(assign.name!)
                                                     .fontWeight(.heavy)
                                                     .foregroundColor(.white)
+                                                    .fixedSize(horizontal: false, vertical: true)
                                                 Text(assign.duedate ?? Date.now, style: .date)
                                                     .font(.system(size: 15, weight: .heavy, design: .rounded))
+                                                    .fixedSize(horizontal: false, vertical: true)
                                                     .if(days >= 7){ view in
                                                         view.foregroundColor(.green)
                                                     }
@@ -126,6 +130,33 @@ struct AssignmentsView: View {
                                                 }
                                             }
                                         }
+                                        Rectangle()
+                                            .fill(.green)
+                                            .frame(width: assign.complete ? 200:0, height: assign.complete ? 200:0)
+                                            .onChange(of: assign.complete, perform: { V in
+                                                if assign.complete{
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+                                                        withAnimation{
+                                                        complete = true
+                                                        }
+                                                    }
+                                                }
+                                                if !assign.complete{
+                                                    withAnimation{}
+                                                    complete = false
+                                                }
+                                            })
+                                            .cornerRadius(30)
+                                            .animation(.spring(), value: assign.complete)
+                                            .overlay{
+                                                if complete{
+                                                Image(systemName: "checkmark")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .foregroundColor(.white)
+                                                }
+                                            }.padding()
+                                }
                                         .navigationViewStyle(.stack)
                             }
                                     if assign.editmode{
@@ -147,7 +178,11 @@ struct AssignmentsView: View {
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                                     withAnimation{
                                                         assignmentscompleted += 1
-                                                        HistoryADataController().addAssign(assignname: assign.name!, assigncolor: assign.color!, assigndate: Date.now, context: managedObjContext)
+                                                        if assign.complete{
+                                                        let name  = assign.name ?? ""
+                                                        let color = assign.color ?? ""
+                                                        HistoryADataController().addAssign(assignname: name, assigncolor: color, assigndate: Date.now, context: managedObjContext)
+                                                        }
                                                         if assign.complete != false{
                                                         UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
                                                             let formatter1 = DateFormatter()
@@ -159,7 +194,7 @@ struct AssignmentsView: View {
                                                             let ontime = assign.name! + "ON"
                                                             let rep = assign.name! + "Rep"
                                                             if assign.book{
-                                                            var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime, rep]
+                                                            var identifiers: [String] = [bookassign, bookcomplete]
                                                                 for notification:UNNotificationRequest in notificationRequests {
                                                                     if notification.identifier == "identifierCancel" {
                                                                        identifiers.append(notification.identifier)
@@ -168,7 +203,7 @@ struct AssignmentsView: View {
                                                                 UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
                                                                  print("Deleted Notifcation")
                                                             }else{
-                                                            var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
+                                                                var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!), notif1, notif2,ontime,rep]
                                                                 for notification:UNNotificationRequest in notificationRequests {
                                                                     if notification.identifier == "identifierCancel" {
                                                                        identifiers.append(notification.identifier)
@@ -213,8 +248,9 @@ struct AssignmentsView: View {
                         }else{
                         VStack{
                             NavigationLink(destination: EditAssignment(assignment: assign, newvalue: $newvalue)){
+                                ZStack{
                             Rectangle()
-                                .frame(width: 160, height: 160)
+                                .frame(minWidth: 160, idealWidth: 160, maxWidth: 200, minHeight: 160, idealHeight: 160, maxHeight: 200)
                                 .cornerRadius(30)
                                 .if(assign.color == "Blue"){view in
                                     view.foregroundColor(.blue)
@@ -237,7 +273,9 @@ struct AssignmentsView: View {
                                         Text(assign.name!)
                                             .fontWeight(.heavy)
                                             .foregroundColor(.white)
+                                            .fixedSize(horizontal: false, vertical: true)
                                         Text(assign.duedate ?? Date.now, style: .date)
+                                            .fixedSize(horizontal: false, vertical: true)
                                             .font(.system(size: 15, weight: .heavy, design: .rounded))
                                             .if(days >= 7){ view in
                                                 view.foregroundColor(.green)
@@ -258,6 +296,34 @@ struct AssignmentsView: View {
                                         }
                                     }
                                 }
+                                    Rectangle()
+                                        .fill(.green)
+                                        .frame(width: assign.complete ? 200:0, height: assign.complete ? 200:0)
+                                        .onChange(of: assign.complete, perform: { V in
+                                            if assign.complete{
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+                                                    withAnimation{
+                                                    complete = true
+                                                    }
+                                                }
+                                            }
+                                            if !assign.complete{
+                                                withAnimation{}
+                                                complete = false
+                                            }
+                                        })
+                                        .cornerRadius(30)
+                                        .animation(.spring(), value: assign.complete)
+                                        .overlay{
+                                            if complete{
+                                            Image(systemName: "checkmark")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .foregroundColor(.white)
+                                            }
+                                        }.padding()
+                                    
+                            }
                                 .navigationViewStyle(.stack)
                     }
                             if assign.editmode{
@@ -279,7 +345,11 @@ struct AssignmentsView: View {
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                             withAnimation{
                                                 assignmentscompleted += 1
-                                                HistoryADataController().addAssign(assignname: assign.name!, assigncolor: assign.color!, assigndate: Date.now, context: managedObjContext)
+                                                if assign.complete{
+                                                let name  = assign.name!
+                                                let color = assign.color!
+                                                HistoryADataController().addAssign(assignname: name, assigncolor: color, assigndate: Date.now, context: managedObjContext)
+                                                }
                                                 if assign.complete != false{
                                                 UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
                                                     let formatter1 = DateFormatter()
@@ -291,21 +361,11 @@ struct AssignmentsView: View {
                                                     let ontime = assign.name! + "ON"
                                                     let rep = assign.name! + "Rep"
                                                     if assign.book{
-                                                    var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime, rep]
-                                                        for notification:UNNotificationRequest in notificationRequests {
-                                                            if notification.identifier == "identifierCancel" {
-                                                               identifiers.append(notification.identifier)
-                                                            }
-                                                        }
+                                                        let identifiers: [String] = [bookassign, bookcomplete]
                                                         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-                                                         print("Deleted Notifcation")
+                                                         print(identifiers)
                                                     }else{
-                                                    var identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!)]
-                                                        for notification:UNNotificationRequest in notificationRequests {
-                                                            if notification.identifier == "identifierCancel" {
-                                                               identifiers.append(notification.identifier)
-                                                            }
-                                                        }
+                                                    let identifiers: [String] = [assign.name!, formatter1.string(from: assign.duedate!), notif1,notif2,ontime,rep]
                                                         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
                                                          print("Deleted Notifcation")
                                                     }

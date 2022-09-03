@@ -178,7 +178,7 @@ struct EditAssignment: View {
                         let ontime = assignment.name! + "ON"
                         let rep = assignment.name! + "Rep"
                         if assignment.book{
-                        var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime, rep]
+                        var identifiers: [String] = [bookassign, bookcomplete]
                             for notification:UNNotificationRequest in notificationRequests {
                                 if notification.identifier == "identifierCancel" {
                                    identifiers.append(notification.identifier)
@@ -187,7 +187,7 @@ struct EditAssignment: View {
                             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
                              print("Deleted Notifcation")
                         }else{
-                        var identifiers: [String] = [assignment.name!, formatter1.string(from: assignment.duedate!)]
+                        var identifiers: [String] = [assignment.name!, formatter1.string(from: assignment.duedate!),notif1,notif2,ontime,rep]
                             for notification:UNNotificationRequest in notificationRequests {
                                 if notification.identifier == "identifierCancel" {
                                    identifiers.append(notification.identifier)
@@ -228,7 +228,7 @@ struct EditAssignment: View {
                                             let ontime = assignment.name! + "ON"
                                             let rep = assignment.name! + "Rep"
                                             if assignment.book{
-                                            var identifiers: [String] = [bookassign, bookcomplete, notif1, notif2, ontime, rep]
+                                            var identifiers: [String] = [bookassign, bookcomplete]
                                                 for notification:UNNotificationRequest in notificationRequests {
                                                     if notification.identifier == "identifierCancel" {
                                                        identifiers.append(notification.identifier)
@@ -237,7 +237,7 @@ struct EditAssignment: View {
                                                 UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
                                                  print("Deleted Notifcation")
                                             }else{
-                                            var identifiers: [String] = [assignment.name!, formatter1.string(from: assignment.duedate!)]
+                                            var identifiers: [String] = [assignment.name!, formatter1.string(from: assignment.duedate!), notif1,notif2,ontime,rep]
                                                 for notification:UNNotificationRequest in notificationRequests {
                                                     if notification.identifier == "identifierCancel" {
                                                        identifiers.append(notification.identifier)
