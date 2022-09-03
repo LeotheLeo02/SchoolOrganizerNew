@@ -22,12 +22,6 @@ struct TabManager: View {
                     Text("Tests")
                     Image(systemName: "doc.on.clipboard")
                 }
-            ProjectsView()
-                .tabItem {
-                    Text("Projects")
-                    Image(systemName: "cube.transparent")
-                }
-            
             if !completedtest.isEmpty{
             HistoryView()
                 .tabItem {

@@ -48,21 +48,6 @@
         <attribute name="perioddate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="selected" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
-    <entity name="Projects" representedClassName="Projects" syncable="YES" codeGenerationType="class">
-        <attribute name="check1done" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="check2done" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="check3done" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="checkpoint1" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="checkpoint2" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="checkpoint3" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="duedate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="goal1" optional="YES" attributeType="String"/>
-        <attribute name="goal2" optional="YES" attributeType="String"/>
-        <attribute name="goal3" optional="YES" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="startdate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-    </entity>
     <entity name="StudySessions" representedClassName="StudySessions" syncable="YES" codeGenerationType="class">
         <attribute name="end" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -99,7 +84,6 @@
         <element name="Links" positionX="-36" positionY="45" width="128" height="74"/>
         <element name="PastNames" positionX="-36" positionY="81" width="128" height="59"/>
         <element name="Periods" positionX="-18" positionY="90" width="128" height="104"/>
-        <element name="Projects" positionX="-27" positionY="90" width="128" height="224"/>
         <element name="StudySessions" positionX="-27" positionY="90" width="128" height="89"/>
         <element name="StudyTopics" positionX="-27" positionY="90" width="128" height="89"/>
         <element name="Tests" positionX="-27" positionY="54" width="128" height="164"/>

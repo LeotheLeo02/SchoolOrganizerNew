@@ -417,13 +417,17 @@ struct SessionAddPlus: View{
     @Binding var name: String
     @State private var startdate = Date()
     @State private var same = false
+    @State private var session = ""
     @State private var enddate = Date()
     @State private var startday: Int = 0
     var body: some View{
         NavigationView{
         Form{
-            TextField("Name...", text: $name)
+            TextField("Name...", text: $session)
                 .multilineTextAlignment(.center)
+                .onAppear(){
+                    session = name + " Session"
+                }
             DatePicker(selection: $startdate, in: Date.now..., label: {
                 Text("Starting...")
                     .italic()
@@ -470,9 +474,9 @@ struct SessionAddPlus: View{
                             print(error.localizedDescription)
                         }
                     }
-                    StudyDataController().addStudySession(name: name, start: startdate, end: enddate, context: managedObjContext)
+                    StudyDataController().addStudySession(name: session, start: startdate, end: enddate, context: managedObjContext)
                     let content = UNMutableNotificationContent()
-                    content.title = name
+                    content.title = session
                     let saydate = startdate
                     content.body = "In 15 minutes! \(saydate.formatted(.dateTime.hour().minute()))"
                     let date = startdate
@@ -480,37 +484,37 @@ struct SessionAddPlus: View{
                     content.sound = UNNotificationSound.default
                     let earlycomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: fifteenminutes!)
                     let earlycalendartrigger = UNCalendarNotificationTrigger(dateMatching: earlycomp, repeats: false)
-                    let firstrequest = UNNotificationRequest(identifier: name, content: content, trigger: earlycalendartrigger)
+                    let firstrequest = UNNotificationRequest(identifier: session, content: content, trigger: earlycalendartrigger)
                     
                     UNUserNotificationCenter.current().add(firstrequest)
                     
                     let currentcontent = UNMutableNotificationContent()
-                    currentcontent.title = name
-                    currentcontent.body = "\(name) Session Started"
+                    currentcontent.title = session
+                    currentcontent.body = "\(session) Session Started"
                     let currentdate = startdate
                     let currenttime = Calendar.current.date(byAdding: .day, value: 0, to: currentdate)
                     content.sound = UNNotificationSound.default
                     let currentcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: currenttime!)
                     let currenttrigger = UNCalendarNotificationTrigger(dateMatching: currentcomp , repeats: false)
-                    let identifier = name + "CC"
+                    let identifier = session + "CC"
                     let currentrequest = UNNotificationRequest(identifier: identifier, content: currentcontent, trigger: currenttrigger)
                     UNUserNotificationCenter.current().add(currentrequest)
                     
                     let endcontent = UNMutableNotificationContent()
-                    endcontent.title = "\(name) Session Ending"
+                    endcontent.title = "\(session) Session Ending"
                     endcontent.body = "Finish Up Last Thoughts"
                     let enddate = enddate
                     let endtime = Calendar.current.date(byAdding: .day, value: 0, to: enddate)
                     endcontent.sound = UNNotificationSound.default
                     let endcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: endtime!)
                     let endtrigger = UNCalendarNotificationTrigger(dateMatching: endcomp , repeats: false)
-                    let endidentifier = name + "EE"
+                    let endidentifier = session + "EE"
                     let endrequest = UNNotificationRequest(identifier: endidentifier, content: endcontent, trigger: endtrigger)
                     UNUserNotificationCenter.current().add(endrequest)
                     dismiss()
                 } label: {
                     Text("Submit")
-                }.disabled(name.trimmingCharacters(in: .whitespaces).isEmpty || same)
+                }.disabled(session.trimmingCharacters(in: .whitespaces).isEmpty || same)
 
             }
             ToolbarItem(placement: .cancellationAction) {
