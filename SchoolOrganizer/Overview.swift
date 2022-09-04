@@ -20,12 +20,18 @@ struct Overview: View {
         ScrollView{
             VStack{
                 if assignment.isEmpty && test.isEmpty{
+                    HStack{
                     Text("No Scheduled Assignments Or Tests")
-                        .underline()
-                        .italic()
                         .bold()
                         .foregroundColor(.gray)
-                        .font(.largeTitle)
+                        .font(.title3)
+                        Image(systemName: "xmark.bin.fill")
+                            .font(.title3)
+                            .foregroundColor(.gray)
+                    }.padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(20)
+                        .padding()
                 }else{
                 Section {
                     ForEach(test){tes in
