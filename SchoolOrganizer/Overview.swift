@@ -270,6 +270,7 @@ struct Overview: View {
         }
         .navigationTitle("Overview")
         }
+        .navigationViewStyle(.stack)
     }
     func daysBetween(start: Date, end: Date) -> Int {
         return Calendar.current.dateComponents([.hour], from: start, to: end).hour!

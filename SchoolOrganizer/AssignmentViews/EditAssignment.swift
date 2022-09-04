@@ -108,6 +108,22 @@ struct EditAssignment: View {
                     }
                     if assignment.link != nil {
                     Link("\(assignment.link!)", destination: URL(string: assignment.link!)!)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(.blue)
+                            .cornerRadius(20)
+                            .contextMenu {
+                                Button(role: .destructive){
+                                    withAnimation{
+                                    assignment.link = nil
+                                    AssignmentDataController().save(context: managedObjContext)
+                                    }
+                                } label: {
+                                    Text("Delete")
+                                    Image(systemName: "trash")
+                                }
+
+                            }
                     }
                     if assignment.imagedata != nil{
                         VStack{
