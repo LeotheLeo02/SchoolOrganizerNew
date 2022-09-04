@@ -16,7 +16,6 @@ struct AssignmentsView: View {
     @Environment(\.dismiss) var dismiss
     @State private var Add = false
     @Environment(\.colorScheme) var colorScheme
-    @State private var Schedule = false
     @State private var foldername = ""
     @State private var editname = false
     @State private var showFolder = false
@@ -395,22 +394,6 @@ struct AssignmentsView: View {
                     } label: {
                         Image(systemName: "plus")
                             .font(.title)
-                    }
-
-                }
-                ToolbarItem(placement: .bottomBar) {
-                    Button {
-                        Schedule.toggle()
-                    } label: {
-                        HStack{
-                        Text("View Schedule")
-                        Image(systemName: "calendar")
-                        }
-                    }.disabled(assignment.isEmpty)
-                        .buttonStyle(.borderedProminent)
-                        .buttonBorderShape(.roundedRectangle)
-                    .sheet(isPresented: $Schedule) {
-                        AssignmentScheduleDetails()
                     }
 
                 }
