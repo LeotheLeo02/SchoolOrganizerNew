@@ -22,6 +22,11 @@ struct TabManager: View {
                     Text("Tests")
                     Image(systemName: "doc.on.clipboard")
                 }
+            Overview()
+                .tabItem {
+                    Text("Overview")
+                    Image(systemName: "calendar")
+                }
             if !completedtest.isEmpty{
             HistoryView()
                 .tabItem {
