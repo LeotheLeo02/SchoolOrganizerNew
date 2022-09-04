@@ -71,7 +71,7 @@ struct AssignmentsView: View {
                     Text("No Assignments")
                         .font(.system(size: 25, weight: .heavy, design: .rounded))
                         .foregroundColor(.gray)
-                        Image(systemName:"exclamationmark.octagon")
+                        Image(systemName:"checkmark.circle.fill")
                             .font(.title)
                             .foregroundColor(.gray)
                     }
