@@ -357,6 +357,7 @@ struct AddAssignment: View {
                         }
                     } label: {
                         Image(systemName: "plus")
+                            .font(.title3)
                             .foregroundColor(.green)
                     }.sheet(isPresented: $presentnewassign) {
                     AssignIndiviualTopicView(topicname: $attachtopic)

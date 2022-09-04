@@ -16,6 +16,7 @@ struct AddTestView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.topic)]) var assignment: FetchedResults<Assignment>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.score)]) var test: FetchedResults<Tests>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.number)]) var period: FetchedResults<Periods>
+    @FocusState private var focusonTopic: Bool
     @State private var testname = ""
     @State private var testtopic = ""
     @State private var addtopic = false
@@ -45,6 +46,14 @@ struct AddTestView: View {
                             .onChange(of: undo, perform: { newValue in
                                 testname = ""
                             })
+                            .simultaneousGesture(
+                                TapGesture()
+                                    .onEnded({ _ in
+                                        withAnimation{
+                                        addtopic = false
+                                        }
+                                    })
+                            )
                     } header: {
                         Text("Test Name")
                             .onShake {
@@ -54,6 +63,7 @@ struct AddTestView: View {
                     Section {
                         Button {
                             addsession.toggle()
+                            addtopic = false
                         } label: {
                             HStack{
                                 Text("Add Session")
@@ -168,14 +178,17 @@ struct AddTestView: View {
                                 Button {
                                     withAnimation{
                                     addtopic.toggle()
+                                        focusonTopic.toggle()
                                     }
                                 } label: {
                                     Image(systemName: "plus")
+                                        .font(.title3)
                                         .foregroundColor(.green)
                                 }
                         }
                         if addtopic{
                             TextField("Enter New Topic Name", text: $newtopic)
+                                .focused($focusonTopic)
                                 .onSubmit {
                                     TopicDataController().addTopic(topicname: newtopic.trimmingCharacters(in: .whitespaces), context: managedObjContext)
                                     testtopic = newtopic.trimmingCharacters(in: .whitespaces)
@@ -212,6 +225,7 @@ struct AddTestView: View {
                                 newtestdate = newtime!
                                 simpleSuccess()
                                 timechanged.toggle()
+                                addtopic = false
                             } label: {
                                 HStack{
                                     Text("\(Int64(per.number))")
@@ -320,6 +334,27 @@ struct AddTestView: View {
                         dismiss()
                     } label: {
                         Text("Cancel")
+                    }
+
+                }
+                ToolbarItem(placement: .keyboard) {
+                    Button {
+                        if addtopic{
+                            TopicDataController().addTopic(topicname: newtopic.trimmingCharacters(in: .whitespaces), context: managedObjContext)
+                            withAnimation{
+                                testtopic = newtopic.trimmingCharacters(in: .whitespaces)
+                            addtopic.toggle()
+                                newtopic = ""
+                            }
+                        }
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                    } label: {
+                        Text("Done")
+                            .font(.title)
+                            .bold()
+                            .if(addtopic){view in
+                                view.foregroundColor(.green)
+                            }
                     }
 
                 }
