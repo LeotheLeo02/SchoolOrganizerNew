@@ -22,26 +22,34 @@ struct StudySessionsView: View {
     @State private var intensitystatus = ""
     var body: some View {
         NavigationView{
+            ScrollView{
         VStack{
-            List{
             ForEach(session){study in
                 NavigationLink(destination: SessionEditView(session: study)){
-                VStack{
-                HStack{
+                    VStack(alignment: .leading){
                 Text(study.name!)
-                        .font(.system(size: 15, weight: .heavy, design: .rounded))
+                            .foregroundColor(.gray)
+                            .underline()
+                        .font(.system(size: 20, weight: .heavy, design: .rounded))
                         .fixedSize(horizontal: false, vertical: true)
-                    Spacer()
-                    Text(study.start!, style: .time)
-                        .font(.system(size: 15, weight: .heavy, design: .rounded))
-                        .fixedSize(horizontal: false, vertical: true)
-                    Text(study.start!, style: .date)
-                        .font(.system(size: 15, weight: .heavy, design: .rounded))
-                        .fixedSize(horizontal: false, vertical: true)
-                }.padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(20)
-                    VStack{
+                        HStack{
+                            Text(study.start!, style: .date)
+                                    .foregroundColor(.gray)
+                                .font(.system(size: 15, weight: .heavy, design: .rounded))
+                                .fixedSize(horizontal: false, vertical: true)
+                            Spacer()
+                            Text(study.start!, style: .time)
+                                    .foregroundColor(.gray)
+                                .font(.system(size: 15, weight: .heavy, design: .rounded))
+                                .fixedSize(horizontal: false, vertical: true)
+                            Text("-")
+                                .foregroundColor(.gray)
+                            .font(.system(size: 15, weight: .heavy, design: .rounded))
+                            Text(study.end!, style: .time)
+                                .foregroundColor(.gray)
+                            .font(.system(size: 15, weight: .heavy, design: .rounded))
+                            .fixedSize(horizontal: false, vertical: true)
+                        }.padding()
                         let minuteend = daysBetweenMinute(start: Date.now, end: study.end!)
                         let hours = daysBetween(start: Date.now, end: study.start!)
                         if hours >= 2{
@@ -102,16 +110,15 @@ struct StudySessionsView: View {
                             .foregroundColor(.gray)
                         }
                     }
-                        
-                    }.padding()
+                }.padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(20)
-                }.padding()
+                        .shadow(radius: 5)
+                        .padding()
                 }.onChange(of: add) { V in
                     simpleSuccess()
                     print("Change")
                 }
-            }
             }
             VStack{
                 HStack{
@@ -222,6 +229,7 @@ struct StudySessionsView: View {
 
                 }
             }.background(colorScheme == .dark ? Color(.systemGray4) : .white)
+        }
         }
         .toast(isPresenting: $addedSession, alert: {
             AlertToast(type: .complete(.green), title: "Added",style: .style(backgroundColor: Color(.systemGray5)))
@@ -437,7 +445,7 @@ struct SessionAddPlus: View{
                 .focused($focusname)
                 .multilineTextAlignment(.center)
                 .onAppear(){
-                    session = name
+                    session = name + " Session"
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.6){
                         focusname = true
                     }
