@@ -288,12 +288,19 @@ struct SessionAdd: View{
     @State private var same = false
     @State private var enddate = Date()
     @State private var startday: Int = 0
+    @FocusState var focusname: Bool
     @Binding var added: Bool
     var body: some View{
         NavigationView{
         Form{
             TextField("Name...", text: $name)
+                .focused($focusname)
                 .multilineTextAlignment(.center)
+                .onAppear(){
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6){
+                        focusname = true
+                    }
+                }
             DatePicker(selection: $startdate, in: Date.now..., label: {
                 Text("Starting...")
                     .italic()
@@ -328,6 +335,7 @@ struct SessionAdd: View{
                         same = true
                     }
                 }
+            if !test.isEmpty{
             ScrollView(.horizontal){
                 HStack{
             ForEach(test){tes in
@@ -340,6 +348,7 @@ struct SessionAdd: View{
                 .buttonBorderShape(.roundedRectangle(radius: 30))
             }
             }
+        }
         }
         }
         .navigationTitle("Add Session")
@@ -419,14 +428,19 @@ struct SessionAddPlus: View{
     @State private var same = false
     @State private var session = ""
     @State private var enddate = Date()
+    @FocusState var focusname: Bool
     @State private var startday: Int = 0
     var body: some View{
         NavigationView{
         Form{
             TextField("Name...", text: $session)
+                .focused($focusname)
                 .multilineTextAlignment(.center)
                 .onAppear(){
-                    session = name + " Session"
+                    session = name
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6){
+                        focusname = true
+                    }
                 }
             DatePicker(selection: $startdate, in: Date.now..., label: {
                 Text("Starting...")
