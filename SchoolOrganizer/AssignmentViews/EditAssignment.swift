@@ -125,6 +125,8 @@ struct EditAssignment: View {
 
                             }
                     }
+                    ProgressView(timerInterval: Date.now...assignment.duedate!)
+                        .progressViewStyle(DarkBlueShadowProgressViewStyle())
                     if assignment.imagedata != nil{
                         VStack{
                         Image(uiImage: UIImage(data: assignment.imagedata!)!)
@@ -334,5 +336,12 @@ struct EditAssignment: View {
             // Saves to our database
             AssignmentDataController().save(context: managedObjContext)
         }
+    }
+}
+struct DarkBlueShadowProgressViewStyle: ProgressViewStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        ProgressView(configuration)
+            .shadow(color: Color(red: 0, green: 0, blue: 0.6),
+                    radius: 4.0, x: 1.0, y: 2.0)
     }
 }

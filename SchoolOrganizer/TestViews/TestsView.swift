@@ -35,181 +35,191 @@ struct TestsView: View {
                 Section{
                 ForEach(test){tes in
                     if tes.testtopic == filtername{
-                    NavigationLink(destination: EditTestView(test: tes)){
-                    let days = daysBetween(start: Date.now, end: tes.testdate ?? Date.now)
-                    if days >= 7 && days < 14{
-                        VStack(alignment: .leading){
-                        HStack{
-                        Text(tes.testname!)
-                                .font(.system(size: 20, weight: .heavy, design: .rounded))
-                            Spacer()
-                            Text("Test is next week, start studying soon.")
-                                .font(.system(size: 17, weight: .bold, design: .rounded))
-                                .foregroundColor(.green)
-                                .multilineTextAlignment(.center)
-                                .allowsTightening(true)
-                            
-                        }
-                            HStack{
-                                if tes.score == 0{
-                            Text(tes.testdate ?? Date.now, style: .date)
-                                .bold()
-                                .foregroundColor(.gray)
-                                Image(systemName: "calendar.circle.fill")
-                                    .foregroundColor(.green)
-                                    .font(.title2)
-                                }
-                            }
-                            HStack{
-                            Text("Score")
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
-                                Image(systemName: "square.and.pencil")
-                                    .font(.title3)
-                            }.padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(20)
-                            HStack{
-                                Spacer()
-                            Text(tes.testtopic!)
-                                    .foregroundColor(.green)
-                                    .font(.system(size: 20, weight: .bold, design: .rounded))
-                                    .padding()
+                        NavigationLink(destination: EditTestView(test: tes)){
+                            VStack{
+                            let days = daysBetween(start: Date.now, end: tes.testdate ?? Date.now)
+                            if days >= 7 && days < 14{
+                                VStack(alignment: .leading){
+                                    HStack{
+                                        Text(tes.testname!)
+                                            .font(.system(size: 20, weight: .heavy, design: .rounded))
+                                        Spacer()
+                                        Text("Test is next week, start studying soon.")
+                                            .font(.system(size: 17, weight: .bold, design: .rounded))
+                                            .foregroundColor(.green)
+                                            .multilineTextAlignment(.center)
+                                            .allowsTightening(true)
+                                        
+                                    }
+                                    HStack{
+                                        if tes.score == 0{
+                                            Text(tes.testdate ?? Date.now, style: .date)
+                                                .bold()
+                                                .foregroundColor(.gray)
+                                            Image(systemName: "calendar.circle.fill")
+                                                .foregroundColor(.green)
+                                                .font(.title2)
+                                        }
+                                    }
+                                    HStack{
+                                        Text("Score")
+                                            .font(.system(size: 15, weight: .bold, design: .rounded))
+                                        Image(systemName: "square.and.pencil")
+                                            .font(.title3)
+                                    }.padding()
                                         .background(Color(.systemGray6))
                                         .cornerRadius(20)
-                                Spacer()
-                            }
-                            Divider()
-                        }.padding()
-                    } else if days >= 14{
-                        VStack(alignment: .leading){
-                        HStack{
-                        Text(tes.testname!)
-                                .font(.system(size: 20, weight: .heavy, design: .rounded))
-                            Spacer()
-                            Text("No need to worry, this is test is pretty far")
-                                .foregroundColor(.gray)
-                                .multilineTextAlignment(.center)
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
-                                .allowsTightening(true)
-                            
-                        }
-                            HStack{
-                                if tes.score == 0{
-                            Text(tes.testdate ?? Date.now, style: .date)
-                                .bold()
-                                .foregroundColor(.gray)
-                                Image(systemName: "calendar.circle.fill")
-                                    .foregroundColor(.gray)
-                                    .font(.title3)
-                                }
-                            }
-                            HStack{
-                            Text("Score")
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
-                                Image(systemName: "square.and.pencil")
-                                    .font(.title3)
-                            }.padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(20)
-                            HStack{
-                                Spacer()
-                            Text(tes.testtopic!)
-                                    .foregroundColor(.green)
-                                    .font(.system(size: 20, weight: .bold, design: .rounded))
-                                    .padding()
+                                    HStack{
+                                        Spacer()
+                                        Text(tes.testtopic!)
+                                            .foregroundColor(.green)
+                                            .font(.system(size: 20, weight: .bold, design: .rounded))
+                                            .padding()
+                                            .background(Color(.systemGray6))
+                                            .cornerRadius(20)
+                                        Spacer()
+                                    }
+                                    ProgressView(timerInterval: Date.now...tes.testdate!)
+                                        .progressViewStyle(DarkBlueShadowProgressViewStyle())
+                                    Divider()
+                                }.padding()
+                            } else if days >= 14{
+                                VStack(alignment: .leading){
+                                    HStack{
+                                        Text(tes.testname!)
+                                            .font(.system(size: 20, weight: .heavy, design: .rounded))
+                                        Spacer()
+                                        Text("No need to worry, this is test is pretty far")
+                                            .foregroundColor(.gray)
+                                            .multilineTextAlignment(.center)
+                                            .font(.system(size: 15, weight: .bold, design: .rounded))
+                                            .allowsTightening(true)
+                                        
+                                    }
+                                    HStack{
+                                        if tes.score == 0{
+                                            Text(tes.testdate ?? Date.now, style: .date)
+                                                .bold()
+                                                .foregroundColor(.gray)
+                                            Image(systemName: "calendar.circle.fill")
+                                                .foregroundColor(.gray)
+                                                .font(.title3)
+                                        }
+                                    }
+                                    HStack{
+                                        Text("Score")
+                                            .font(.system(size: 15, weight: .bold, design: .rounded))
+                                        Image(systemName: "square.and.pencil")
+                                            .font(.title3)
+                                    }.padding()
                                         .background(Color(.systemGray6))
                                         .cornerRadius(20)
-                                Spacer()
+                                    HStack{
+                                        Spacer()
+                                        Text(tes.testtopic!)
+                                            .foregroundColor(.green)
+                                            .font(.system(size: 20, weight: .bold, design: .rounded))
+                                            .padding()
+                                            .background(Color(.systemGray6))
+                                            .cornerRadius(20)
+                                        Spacer()
+                                    }
+                                    ProgressView(timerInterval: Date.now...tes.testdate!)
+                                        .progressViewStyle(DarkBlueShadowProgressViewStyle())
+                                    Divider()
+                                }.padding()
                             }
-                            Divider()
-                        }.padding()
-                    }
-                    if days < 7 && days > 3 {
-                        VStack(alignment: .leading){
-                        HStack{
-                        Text(tes.testname!)
-                                .font(.system(size: 20, weight: .heavy, design: .rounded))
-                            Spacer()
-                            Text("Test is less than 7 days away, be ready.")
-                                .foregroundColor(.yellow)
-                                .multilineTextAlignment(.center)
-                                .font(.system(size: 20, weight: .bold, design: .rounded))
-                                .allowsTightening(true)
-                            
-                        }
-                            HStack{
-                                if tes.score == 0{
-                            Text(tes.testdate ?? Date.now, style: .date)
-                                .bold()
-                                .foregroundColor(.gray)
-                                Image(systemName: "calendar.circle.fill")
-                                    .foregroundColor(.yellow)
-                                    .font(.title)
-                                }
-                            }
-                            HStack{
-                            Text("Score")
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
-                                Image(systemName: "square.and.pencil")
-                                    .font(.title3)
-                            }.padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(20)
-                            HStack{
-                                Spacer()
-                            Text(tes.testtopic!)
-                                    .foregroundColor(.green)
-                                    .font(.system(size: 20, weight: .bold, design: .rounded))
-                                    .padding()
+                            if days < 7 && days > 3 {
+                                VStack(alignment: .leading){
+                                    HStack{
+                                        Text(tes.testname!)
+                                            .font(.system(size: 20, weight: .heavy, design: .rounded))
+                                        Spacer()
+                                        Text("Test is less than 7 days away, be ready.")
+                                            .foregroundColor(.yellow)
+                                            .multilineTextAlignment(.center)
+                                            .font(.system(size: 20, weight: .bold, design: .rounded))
+                                            .allowsTightening(true)
+                                        
+                                    }
+                                    HStack{
+                                        if tes.score == 0{
+                                            Text(tes.testdate ?? Date.now, style: .date)
+                                                .bold()
+                                                .foregroundColor(.gray)
+                                            Image(systemName: "calendar.circle.fill")
+                                                .foregroundColor(.yellow)
+                                                .font(.title)
+                                        }
+                                    }
+                                    HStack{
+                                        Text("Score")
+                                            .font(.system(size: 15, weight: .bold, design: .rounded))
+                                        Image(systemName: "square.and.pencil")
+                                            .font(.title3)
+                                    }.padding()
                                         .background(Color(.systemGray6))
                                         .cornerRadius(20)
-                                Spacer()
+                                    HStack{
+                                        Spacer()
+                                        Text(tes.testtopic!)
+                                            .foregroundColor(.green)
+                                            .font(.system(size: 20, weight: .bold, design: .rounded))
+                                            .padding()
+                                            .background(Color(.systemGray6))
+                                            .cornerRadius(20)
+                                        Spacer()
+                                    }
+                                    ProgressView(timerInterval: Date.now...tes.testdate!)
+                                        .progressViewStyle(DarkBlueShadowProgressViewStyle())
+                                    Divider()
+                                }.padding()
                             }
-                            Divider()
-                        }.padding()
-                    }
-                    if days <= 3{
-                        VStack(alignment: .leading){
-                        HStack{
-                        Text(tes.testname!)
-                                .font(.system(size: 20, weight: .heavy, design: .rounded))
-                            Spacer()
-                            Text("Test is coming really soon!")
-                                .font(.system(size: 25, weight: .bold, design: .rounded))
-                                .foregroundColor(.red)
-                                .multilineTextAlignment(.center)
-                        }
-                            HStack{
-                                if tes.score == 0{
-                            Text(tes.testdate ?? Date.now, style: .date)
-                                .bold()
-                                .foregroundColor(.gray)
-                                Image(systemName: "calendar.circle.fill")
-                                    .foregroundColor(.red)
-                                    .font(.largeTitle)
-                                }
-                            }
-                            HStack{
-                            Text("Score")
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
-                                Image(systemName: "square.and.pencil")
-                                    .font(.title3)
-                            }.padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(20)
-                            HStack{
-                                Spacer()
-                            Text(tes.testtopic!)
-                                    .foregroundColor(.green)
-                                    .font(.system(size: 20, weight: .bold, design: .rounded))
-                                    .padding()
+                            if days <= 3{
+                                VStack(alignment: .leading){
+                                    HStack{
+                                        Text(tes.testname!)
+                                            .font(.system(size: 20, weight: .heavy, design: .rounded))
+                                        Spacer()
+                                        Text("Test is coming really soon!")
+                                            .font(.system(size: 25, weight: .bold, design: .rounded))
+                                            .foregroundColor(.red)
+                                            .multilineTextAlignment(.center)
+                                    }
+                                    HStack{
+                                        if tes.score == 0{
+                                            Text(tes.testdate ?? Date.now, style: .date)
+                                                .bold()
+                                                .foregroundColor(.gray)
+                                            Image(systemName: "calendar.circle.fill")
+                                                .foregroundColor(.red)
+                                                .font(.largeTitle)
+                                        }
+                                    }
+                                    HStack{
+                                        Text("Score")
+                                            .font(.system(size: 15, weight: .bold, design: .rounded))
+                                        Image(systemName: "square.and.pencil")
+                                            .font(.title3)
+                                    }.padding()
                                         .background(Color(.systemGray6))
                                         .cornerRadius(20)
-                                Spacer()
+                                    HStack{
+                                        Spacer()
+                                        Text(tes.testtopic!)
+                                            .foregroundColor(.green)
+                                            .font(.system(size: 20, weight: .bold, design: .rounded))
+                                            .padding()
+                                            .background(Color(.systemGray6))
+                                            .cornerRadius(20)
+                                        Spacer()
+                                    }
+                                    ProgressView(timerInterval: Date.now...tes.testdate!)
+                                        .progressViewStyle(DarkBlueShadowProgressViewStyle())
+                                    Divider()
+                                }.padding()
                             }
-                            Divider()
-                        }.padding()
-                    }
+                            }.padding()
                 }
                 }
                 }
@@ -227,179 +237,189 @@ struct TestsView: View {
                 Section{
                 ForEach(test){tes in
                     NavigationLink(destination: EditTestView(test: tes)){
-                    let days = daysBetween(start: Date.now, end: tes.testdate ?? Date.now)
-                    if days >= 7 && days < 14{
-                        VStack(alignment: .leading){
-                        HStack{
-                        Text(tes.testname!)
-                                .font(.system(size: 20, weight: .heavy, design: .rounded))
-                            Spacer()
-                            Text("Test is next week, start studying soon.")
-                                .font(.system(size: 17, weight: .bold, design: .rounded))
-                                .foregroundColor(.green)
-                                .multilineTextAlignment(.center)
-                                .allowsTightening(true)
-                            
-                        }
-                            HStack{
-                                if tes.score == 0{
-                            Text(tes.testdate ?? Date.now, style: .date)
-                                .bold()
-                                .foregroundColor(.gray)
-                                Image(systemName: "calendar.circle.fill")
-                                    .foregroundColor(.green)
-                                    .font(.title2)
+                        VStack{
+                        let days = daysBetween(start: Date.now, end: tes.testdate ?? Date.now)
+                        if days >= 7 && days < 14{
+                            VStack(alignment: .leading){
+                                HStack{
+                                    Text(tes.testname!)
+                                        .font(.system(size: 20, weight: .heavy, design: .rounded))
+                                    Spacer()
+                                    Text("Test is next week, start studying soon.")
+                                        .font(.system(size: 17, weight: .bold, design: .rounded))
+                                        .foregroundColor(.green)
+                                        .multilineTextAlignment(.center)
+                                        .allowsTightening(true)
+                                    
                                 }
-                            }
-                            HStack{
-                            Text("Score")
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
-                                Image(systemName: "square.and.pencil")
-                                    .font(.title3)
-                            }.padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(20)
-                            HStack{
-                                Spacer()
-                            Text(tes.testtopic!)
-                                    .foregroundColor(.green)
-                                    .font(.system(size: 20, weight: .bold, design: .rounded))
-                                    .padding()
+                                HStack{
+                                    if tes.score == 0{
+                                        Text(tes.testdate ?? Date.now, style: .date)
+                                            .bold()
+                                            .foregroundColor(.gray)
+                                        Image(systemName: "calendar.circle.fill")
+                                            .foregroundColor(.green)
+                                            .font(.title2)
+                                    }
+                                }
+                                HStack{
+                                    Text("Score")
+                                        .font(.system(size: 15, weight: .bold, design: .rounded))
+                                    Image(systemName: "square.and.pencil")
+                                        .font(.title3)
+                                }.padding()
+                                    .background(Color(.systemGray6))
+                                    .cornerRadius(20)
+                                HStack{
+                                    Spacer()
+                                    Text(tes.testtopic!)
+                                        .foregroundColor(.green)
+                                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                                        .padding()
                                         .background(Color(.systemGray6))
                                         .cornerRadius(20)
-                                Spacer()
-                            }
-                            Divider()
-                        }.padding()
-                    } else if days >= 14{
-                        VStack(alignment: .leading){
-                        HStack{
-                        Text(tes.testname!)
-                                .font(.system(size: 20, weight: .heavy, design: .rounded))
-                            Spacer()
-                            Text("No need to worry, this is test is pretty far")
-                                .foregroundColor(.gray)
-                                .multilineTextAlignment(.center)
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
-                                .allowsTightening(true)
-                            
-                        }
-                            HStack{
-                                if tes.score == 0{
-                            Text(tes.testdate ?? Date.now, style: .date)
-                                .bold()
-                                .foregroundColor(.gray)
-                                Image(systemName: "calendar.circle.fill")
-                                    .foregroundColor(.gray)
-                                    .font(.title3)
+                                    Spacer()
                                 }
-                            }
-                            HStack{
-                            Text("Score")
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
-                                Image(systemName: "square.and.pencil")
-                                    .font(.title3)
+                                ProgressView(timerInterval: Date.now...tes.testdate!)
+                                    .progressViewStyle(DarkBlueShadowProgressViewStyle())
+                                Divider()
                             }.padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(20)
-                            HStack{
-                                Spacer()
-                            Text(tes.testtopic!)
-                                    .foregroundColor(.green)
-                                    .font(.system(size: 20, weight: .bold, design: .rounded))
-                                    .padding()
+                        } else if days >= 14{
+                            VStack(alignment: .leading){
+                                HStack{
+                                    Text(tes.testname!)
+                                        .font(.system(size: 20, weight: .heavy, design: .rounded))
+                                    Spacer()
+                                    Text("No need to worry, this is test is pretty far")
+                                        .foregroundColor(.gray)
+                                        .multilineTextAlignment(.center)
+                                        .font(.system(size: 15, weight: .bold, design: .rounded))
+                                        .allowsTightening(true)
+                                    
+                                }
+                                HStack{
+                                    if tes.score == 0{
+                                        Text(tes.testdate ?? Date.now, style: .date)
+                                            .bold()
+                                            .foregroundColor(.gray)
+                                        Image(systemName: "calendar.circle.fill")
+                                            .foregroundColor(.gray)
+                                            .font(.title3)
+                                    }
+                                }
+                                HStack{
+                                    Text("Score")
+                                        .font(.system(size: 15, weight: .bold, design: .rounded))
+                                    Image(systemName: "square.and.pencil")
+                                        .font(.title3)
+                                }.padding()
+                                    .background(Color(.systemGray6))
+                                    .cornerRadius(20)
+                                HStack{
+                                    Spacer()
+                                    Text(tes.testtopic!)
+                                        .foregroundColor(.green)
+                                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                                        .padding()
                                         .background(Color(.systemGray6))
                                         .cornerRadius(20)
-                                Spacer()
-                            }
-                            Divider()
-                        }.padding()
-                    }
-                    if days < 7 && days > 3 {
-                        VStack(alignment: .leading){
-                        HStack{
-                        Text(tes.testname!)
-                                .font(.system(size: 20, weight: .heavy, design: .rounded))
-                            Spacer()
-                            Text("Test is less than 7 days away, be ready.")
-                                .foregroundColor(.yellow)
-                                .multilineTextAlignment(.center)
-                                .font(.system(size: 20, weight: .bold, design: .rounded))
-                                .allowsTightening(true)
-                            
-                        }
-                            HStack{
-                                if tes.score == 0{
-                            Text(tes.testdate ?? Date.now, style: .date)
-                                .bold()
-                                .foregroundColor(.gray)
-                                Image(systemName: "calendar.circle.fill")
-                                    .foregroundColor(.yellow)
-                                    .font(.title)
+                                    Spacer()
                                 }
-                            }
-                            HStack{
-                            Text("Score")
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
-                                Image(systemName: "square.and.pencil")
-                                    .font(.title3)
+                                ProgressView(timerInterval: Date.now...tes.testdate!)
+                                    .progressViewStyle(DarkBlueShadowProgressViewStyle())
+                                Divider()
                             }.padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(20)
-                            HStack{
-                                Spacer()
-                            Text(tes.testtopic!)
-                                    .foregroundColor(.green)
-                                    .font(.system(size: 20, weight: .bold, design: .rounded))
-                                    .padding()
+                        }
+                        if days < 7 && days > 3 {
+                            VStack(alignment: .leading){
+                                HStack{
+                                    Text(tes.testname!)
+                                        .font(.system(size: 20, weight: .heavy, design: .rounded))
+                                    Spacer()
+                                    Text("Test is less than 7 days away, be ready.")
+                                        .foregroundColor(.yellow)
+                                        .multilineTextAlignment(.center)
+                                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                                        .allowsTightening(true)
+                                    
+                                }
+                                HStack{
+                                    if tes.score == 0{
+                                        Text(tes.testdate ?? Date.now, style: .date)
+                                            .bold()
+                                            .foregroundColor(.gray)
+                                        Image(systemName: "calendar.circle.fill")
+                                            .foregroundColor(.yellow)
+                                            .font(.title)
+                                    }
+                                }
+                                HStack{
+                                    Text("Score")
+                                        .font(.system(size: 15, weight: .bold, design: .rounded))
+                                    Image(systemName: "square.and.pencil")
+                                        .font(.title3)
+                                }.padding()
+                                    .background(Color(.systemGray6))
+                                    .cornerRadius(20)
+                                HStack{
+                                    Spacer()
+                                    Text(tes.testtopic!)
+                                        .foregroundColor(.green)
+                                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                                        .padding()
                                         .background(Color(.systemGray6))
                                         .cornerRadius(20)
-                                Spacer()
-                            }
-                            Divider()
-                        }.padding()
-                    }
-                    if days <= 3{
-                        VStack(alignment: .leading){
-                        HStack{
-                        Text(tes.testname!)
-                                .font(.system(size: 20, weight: .heavy, design: .rounded))
-                            Spacer()
-                            Text("Test is coming really soon!")
-                                .font(.system(size: 25, weight: .bold, design: .rounded))
-                                .foregroundColor(.red)
-                                .multilineTextAlignment(.center)
-                        }
-                            HStack{
-                                if tes.score == 0{
-                            Text(tes.testdate ?? Date.now, style: .date)
-                                .bold()
-                                .foregroundColor(.gray)
-                                Image(systemName: "calendar.circle.fill")
-                                    .foregroundColor(.red)
-                                    .font(.largeTitle)
+                                    Spacer()
                                 }
-                            }
-                            HStack{
-                            Text("Score")
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
-                                Image(systemName: "square.and.pencil")
-                                    .font(.title3)
+                                ProgressView(timerInterval: Date.now...tes.testdate!)
+                                    .progressViewStyle(DarkBlueShadowProgressViewStyle())
+                                Divider()
                             }.padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(20)
-                            HStack{
-                                Spacer()
-                            Text(tes.testtopic!)
-                                    .foregroundColor(.green)
-                                    .font(.system(size: 20, weight: .bold, design: .rounded))
-                                    .padding()
+                        }
+                        if days <= 3{
+                            VStack(alignment: .leading){
+                                HStack{
+                                    Text(tes.testname!)
+                                        .font(.system(size: 20, weight: .heavy, design: .rounded))
+                                    Spacer()
+                                    Text("Test is coming really soon!")
+                                        .font(.system(size: 25, weight: .bold, design: .rounded))
+                                        .foregroundColor(.red)
+                                        .multilineTextAlignment(.center)
+                                }
+                                HStack{
+                                    if tes.score == 0{
+                                        Text(tes.testdate ?? Date.now, style: .date)
+                                            .bold()
+                                            .foregroundColor(.gray)
+                                        Image(systemName: "calendar.circle.fill")
+                                            .foregroundColor(.red)
+                                            .font(.largeTitle)
+                                    }
+                                }
+                                HStack{
+                                    Text("Score")
+                                        .font(.system(size: 15, weight: .bold, design: .rounded))
+                                    Image(systemName: "square.and.pencil")
+                                        .font(.title3)
+                                }.padding()
+                                    .background(Color(.systemGray6))
+                                    .cornerRadius(20)
+                                HStack{
+                                    Spacer()
+                                    Text(tes.testtopic!)
+                                        .foregroundColor(.green)
+                                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                                        .padding()
                                         .background(Color(.systemGray6))
                                         .cornerRadius(20)
-                                Spacer()
-                            }
-                            Divider()
-                        }.padding()
+                                    Spacer()
+                                }
+                                ProgressView(timerInterval: Date.now...tes.testdate!)
+                                    .progressViewStyle(DarkBlueShadowProgressViewStyle())
+                                Divider()
+                            }.padding()
+                        }
                     }
                 }
                 }

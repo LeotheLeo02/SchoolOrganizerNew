@@ -21,7 +21,7 @@ struct AddAssignment: View {
     @FocusState private var focusonTopic: Bool
     @State private var sidenotes = ""
     @State private var topics = ""
-    @State private var color  = ""
+    @State private var color  = "Red"
     @State private var duedate = Date()
     @Environment(\.colorScheme) var colorScheme
     @State private var addtopic = false
@@ -405,16 +405,16 @@ struct AddAssignment: View {
                     )
                 Picker(selection: $color) {
                     Text("Red").tag("Red")
-                        .font(.system(size: 40, weight: .heavy, design: .rounded))
+                        .font(.title)
                         .foregroundColor(.red)
                     Text("Blue").tag("Blue")
-                        .font(.system(size: 40, weight: .heavy, design: .rounded))
+                        .font(.title)
                         .foregroundColor(.blue)
                     Text("Green").tag("Green")
-                        .font(.system(size: 40, weight: .heavy, design: .rounded))
+                        .font(.title)
                         .foregroundColor(.green)
                     Text("Purple").tag("Purple")
-                        .font(.system(size: 40, weight: .heavy, design: .rounded))
+                        .font(.title)
                         .foregroundColor(.purple)
                 }label: {
                     HStack{
@@ -434,6 +434,7 @@ struct AddAssignment: View {
                     }
                     }
                 }
+                .pickerStyle(.wheel)
             }header:{
                 Text("Color And Side Notes")
             }
