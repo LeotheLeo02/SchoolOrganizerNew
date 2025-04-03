@@ -190,7 +190,7 @@ struct StudySessionsView: View {
                                 topic.managedObjectContext?.delete(topic)
                                     StudyTopicsDataController().save(context: managedObjContext)
                                 }
-                            }label:{
+                            }label: {
                               Text("Delete")
                                 Image(systemName: "trash.fill")
                             }
@@ -232,7 +232,7 @@ struct StudySessionsView: View {
         }
         }
         .toast(isPresenting: $addedSession, alert: {
-            AlertToast(type: .complete(.green), title: "Added",style: .style(backgroundColor: Color(.systemGray5)))
+            AlertToast(type: .complete(.green), title: "Added", style: .style(backgroundColor: Color(.systemGray5)))
         })
         .sheet(isPresented: $add, content: {
             SessionAdd(added: $addedSession)
@@ -363,7 +363,7 @@ struct SessionAdd: View{
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button {
-                    UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound]) { success, error in
+                    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                         if success{
                             print("All Set")
                         }else if let error = error{
@@ -378,7 +378,7 @@ struct SessionAdd: View{
                     let date = startdate
                     let fifteenminutes = Calendar.current.date(byAdding: .minute, value: -15, to: date)
                     content.sound = UNNotificationSound.default
-                    let earlycomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: fifteenminutes!)
+                    let earlycomp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: fifteenminutes!)
                     let earlycalendartrigger = UNCalendarNotificationTrigger(dateMatching: earlycomp, repeats: false)
                     let firstrequest = UNNotificationRequest(identifier: name, content: content, trigger: earlycalendartrigger)
                     
@@ -390,8 +390,8 @@ struct SessionAdd: View{
                     let currentdate = startdate
                     let currenttime = Calendar.current.date(byAdding: .day, value: 0, to: currentdate)
                     content.sound = UNNotificationSound.default
-                    let currentcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: currenttime!)
-                    let currenttrigger = UNCalendarNotificationTrigger(dateMatching: currentcomp , repeats: false)
+                    let currentcomp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: currenttime!)
+                    let currenttrigger = UNCalendarNotificationTrigger(dateMatching: currentcomp, repeats: false)
                     let identifier = name + "CC"
                     let currentrequest = UNNotificationRequest(identifier: identifier, content: currentcontent, trigger: currenttrigger)
                     UNUserNotificationCenter.current().add(currentrequest)
@@ -402,8 +402,8 @@ struct SessionAdd: View{
                     let enddate = enddate
                     let endtime = Calendar.current.date(byAdding: .day, value: 0, to: enddate)
                     endcontent.sound = UNNotificationSound.default
-                    let endcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: endtime!)
-                    let endtrigger = UNCalendarNotificationTrigger(dateMatching: endcomp , repeats: false)
+                    let endcomp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: endtime!)
+                    let endtrigger = UNCalendarNotificationTrigger(dateMatching: endcomp, repeats: false)
                     let endidentifier = name + "EE"
                     let endrequest = UNNotificationRequest(identifier: endidentifier, content: endcontent, trigger: endtrigger)
                     UNUserNotificationCenter.current().add(endrequest)
@@ -489,7 +489,7 @@ struct SessionAddPlus: View{
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button {
-                    UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound]) { success, error in
+                    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                         if success{
                             print("All Set")
                         }else if let error = error{
@@ -504,7 +504,7 @@ struct SessionAddPlus: View{
                     let date = startdate
                     let fifteenminutes = Calendar.current.date(byAdding: .minute, value: -15, to: date)
                     content.sound = UNNotificationSound.default
-                    let earlycomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: fifteenminutes!)
+                    let earlycomp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: fifteenminutes!)
                     let earlycalendartrigger = UNCalendarNotificationTrigger(dateMatching: earlycomp, repeats: false)
                     let firstrequest = UNNotificationRequest(identifier: session, content: content, trigger: earlycalendartrigger)
                     
@@ -516,8 +516,8 @@ struct SessionAddPlus: View{
                     let currentdate = startdate
                     let currenttime = Calendar.current.date(byAdding: .day, value: 0, to: currentdate)
                     content.sound = UNNotificationSound.default
-                    let currentcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: currenttime!)
-                    let currenttrigger = UNCalendarNotificationTrigger(dateMatching: currentcomp , repeats: false)
+                    let currentcomp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: currenttime!)
+                    let currenttrigger = UNCalendarNotificationTrigger(dateMatching: currentcomp, repeats: false)
                     let identifier = session + "CC"
                     let currentrequest = UNNotificationRequest(identifier: identifier, content: currentcontent, trigger: currenttrigger)
                     UNUserNotificationCenter.current().add(currentrequest)
@@ -528,8 +528,8 @@ struct SessionAddPlus: View{
                     let enddate = enddate
                     let endtime = Calendar.current.date(byAdding: .day, value: 0, to: enddate)
                     endcontent.sound = UNNotificationSound.default
-                    let endcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: endtime!)
-                    let endtrigger = UNCalendarNotificationTrigger(dateMatching: endcomp , repeats: false)
+                    let endcomp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: endtime!)
+                    let endtrigger = UNCalendarNotificationTrigger(dateMatching: endcomp, repeats: false)
                     let endidentifier = session + "EE"
                     let endrequest = UNNotificationRequest(identifier: endidentifier, content: endcontent, trigger: endtrigger)
                     UNUserNotificationCenter.current().add(endrequest)

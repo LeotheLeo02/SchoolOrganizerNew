@@ -26,7 +26,7 @@ struct TestsView: View {
                         Text("No Upcoming Tests")
                         .font(.system(size: 25, weight: .heavy, design: .rounded))
                         .foregroundColor(.gray)
-                        Image(systemName:"checkmark.circle.fill")
+                        Image(systemName: "checkmark.circle.fill")
                             .font(.title)
                             .foregroundColor(.gray)
                     }.padding()
@@ -223,7 +223,7 @@ struct TestsView: View {
                 }
                 }
                 }
-                }header:{
+                }header: {
                     if !test.isEmpty{
                         HStack{
                     Text("Upcoming Tests")
@@ -423,7 +423,7 @@ struct TestsView: View {
                     }
                 }
                 }
-                }header:{
+                }header: {
                     if !test.isEmpty{
                         HStack{
                     Text("Upcoming Tests")
@@ -494,7 +494,7 @@ struct TestsView: View {
                                 
                                 TopicDataController().save(context: managedObjContext)
                             }
-                        }label:{
+                        }label: {
                             Text("Delete All")
                             Image(systemName: "trash")
                         }

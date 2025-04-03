@@ -30,7 +30,7 @@ struct EditTestView: View {
                     .multilineTextAlignment(.center)
                     .font(.system(size: 40, weight: .heavy, design: .rounded))
                     .keyboardType(.numberPad)
-                    .onAppear(){
+                    .onAppear {
                         let initial = String(test.score)
                         score = initial
                         name = test.testname!
@@ -49,7 +49,7 @@ struct EditTestView: View {
                     var identifiers: [String] = [name, formatter1.string(from: testdate)]
                     print(formatter1.string(from: testdate))
                     print("\(name)")
-                   for notification:UNNotificationRequest in notificationRequests {
+                   for notification: UNNotificationRequest in notificationRequests {
                        if notification.identifier == "identifierCancel" {
                           identifiers.append(notification.identifier)
                        }
@@ -83,7 +83,7 @@ struct EditTestView: View {
                             badscore.toggle()
                         }
                         TestDataController().editTestScore(test: test, testscore: number, context: managedObjContext)
-                        CompletedTestsDataController().addTest(nameoftest: name, scoreoftest: number, dateoftest: Date.now ,context: managedObjContext)
+                        CompletedTestsDataController().addTest(nameoftest: name, scoreoftest: number, dateoftest: Date.now, context: managedObjContext)
                         TestDataController().editTestDoneDate(test: test, datesubmitted: Date.now, context: managedObjContext)
                         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
@@ -117,7 +117,7 @@ struct EditTestView: View {
                 var identifiers: [String] = [name, formatter1.string(from: testdate)]
                 print(formatter1.string(from: testdate))
                 print("\(name)")
-               for notification:UNNotificationRequest in notificationRequests {
+               for notification: UNNotificationRequest in notificationRequests {
                    if notification.identifier == "identifierCancel" {
                       identifiers.append(notification.identifier)
                    }

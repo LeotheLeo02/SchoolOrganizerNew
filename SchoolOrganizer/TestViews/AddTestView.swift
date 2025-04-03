@@ -130,7 +130,7 @@ struct AddTestView: View {
                                                     }
                                                 })
 
-                                                .onAppear(){
+                                                .onAppear {
                                                     if assign.topic == top.topicname{
                                                         attached = true
                                                     }
@@ -141,7 +141,7 @@ struct AddTestView: View {
                                                 if top.topicname == tes.testtopic{
                                                     Image(systemName: "doc.on.clipboard")
                                                 }
-                                                }.onAppear(){
+                                                }.onAppear {
                                                     if tes.testtopic == top.topicname{
                                                         attached = true
                                                     }
@@ -302,14 +302,14 @@ struct AddTestView: View {
                             let date = newtestdate
                             let TwoDaysEarly = Calendar.current.date(byAdding: .day, value: -2, to: date)
                             content.sound = UNNotificationSound.default
-                            let twoComp = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute], from: TwoDaysEarly!)
+                            let twoComp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: TwoDaysEarly!)
 
                             let calendarTriggerTwo  = UNCalendarNotificationTrigger(dateMatching: twoComp, repeats: false)
                             let today = newtestdate
                             let formatter1 = DateFormatter()
                             formatter1.dateStyle = .long
                             print(formatter1.string(from: today))
-                            let request = UNNotificationRequest(identifier: formatter1.string(from: newtestdate) , content: content, trigger: calendarTriggerTwo)
+                            let request = UNNotificationRequest(identifier: formatter1.string(from: newtestdate), content: content, trigger: calendarTriggerTwo)
                             
                             UNUserNotificationCenter.current().add(request)
                         }
