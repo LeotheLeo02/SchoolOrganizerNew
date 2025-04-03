@@ -3,7 +3,6 @@
 //  SchoolOrganizerPlus
 //
 //  Created by Nate on 9/4/22.
-//
 
 import SwiftUI
 
