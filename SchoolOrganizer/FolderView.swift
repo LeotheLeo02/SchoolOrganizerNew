@@ -118,7 +118,7 @@ struct FolderView: View {
             
                 Section{
                     HStack{
-            if image.count != 0 {
+            if !image.isEmpty {
                 Menu {
                     Button {
                         imagepicker.toggle()
@@ -224,7 +224,7 @@ struct FolderView: View {
                                 }
                         }
                     }.onDelete(perform: deleteImage)
-                }header:{
+                }header: {
                     if !Images.isEmpty{
                         Text("Images")
                     }
@@ -270,7 +270,7 @@ struct FolderView: View {
         if !UIApplication.shared.canOpenURL(url) { return false }
 
         let regEx = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
-        let predicate = NSPredicate(format:"SELF MATCHES %@", argumentArray:[regEx])
+        let predicate = NSPredicate(format: "SELF MATCHES %@", argumentArray: [regEx])
         return predicate.evaluate(with: string)
     }
     private func deleteLink(offsets: IndexSet) {
@@ -302,7 +302,7 @@ struct AddSchoolPeriod: View{
     @State private var periodname = ""
     @State private var periodtime = Date()
     @State private var periodnumber: Int64 = 0
-    @State private var numbers: [Int64] = [1,2,3,4,5,6,7]
+    @State private var numbers: [Int64] = [1, 2, 3, 4, 5, 6, 7]
     @State private var existingalert = false
     @State private var present = false
     @State private var replacenumber: Int = 0

@@ -26,7 +26,7 @@ struct SessionEditView: View {
                             .foregroundColor(changed ? .white : .gray)
                             .animation(.easeInOut, value: changed)
                         
-                            .onAppear(){
+                            .onAppear {
                                 name = session.name!
                             }
                         Spacer()
@@ -38,9 +38,9 @@ struct SessionEditView: View {
                                 UNUserNotificationCenter.current().getPendingNotificationRequests{ (notificationRequests) in
                                     let formatter1 = DateFormatter()
                                     formatter1.dateStyle = .long
-                                    //See if it ever fixes
+                                    // See if it ever fixes
                                     var identifiers: [String] = [name, name + "CC", name + "EE"]
-                                   for notification:UNNotificationRequest in notificationRequests {
+                                   for notification: UNNotificationRequest in notificationRequests {
                                        if notification.identifier == "identifierCancel" {
                                           identifiers.append(notification.identifier)
                                        }
@@ -48,7 +48,7 @@ struct SessionEditView: View {
                                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
                                     print("Deleted Notifcation")
                                 }
-                                UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound]) { success, error in
+                                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                                     if success{
                                         print("All Set")
                                     }else if let error = error{
@@ -63,7 +63,7 @@ struct SessionEditView: View {
                                     let date = newstart
                                     let fifteenminutes = Calendar.current.date(byAdding: .minute, value: -15, to: date)
                                     content.sound = UNNotificationSound.default
-                                    let earlycomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: fifteenminutes!)
+                                    let earlycomp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: fifteenminutes!)
                                     let earlycalendartrigger = UNCalendarNotificationTrigger(dateMatching: earlycomp, repeats: false)
                                     let firstrequest = UNNotificationRequest(identifier: name, content: content, trigger: earlycalendartrigger)
                                     
@@ -75,8 +75,8 @@ struct SessionEditView: View {
                                     let currentdate = newstart
                                     let currenttime = Calendar.current.date(byAdding: .day, value: 0, to: currentdate)
                                     content.sound = UNNotificationSound.default
-                                    let currentcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: currenttime!)
-                                    let currenttrigger = UNCalendarNotificationTrigger(dateMatching: currentcomp , repeats: false)
+                                    let currentcomp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: currenttime!)
+                                    let currenttrigger = UNCalendarNotificationTrigger(dateMatching: currentcomp, repeats: false)
                                     let identifier = name + "CC"
                                     let currentrequest = UNNotificationRequest(identifier: identifier, content: currentcontent, trigger: currenttrigger)
                                     UNUserNotificationCenter.current().add(currentrequest)
@@ -87,8 +87,8 @@ struct SessionEditView: View {
                                     let enddate = newend
                                     let endtime = Calendar.current.date(byAdding: .day, value: 0, to: enddate)
                                     endcontent.sound = UNNotificationSound.default
-                                    let endcomp = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute], from: endtime!)
-                                    let endtrigger = UNCalendarNotificationTrigger(dateMatching: endcomp , repeats: false)
+                                    let endcomp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: endtime!)
+                                    let endtrigger = UNCalendarNotificationTrigger(dateMatching: endcomp, repeats: false)
                                     let endidentifier = name + "EE"
                                     let endrequest = UNNotificationRequest(identifier: endidentifier, content: endcontent, trigger: endtrigger)
                                     UNUserNotificationCenter.current().add(endrequest)
@@ -114,7 +114,7 @@ struct SessionEditView: View {
                             .font(.system(size: 20, weight: .bold, design: .rounded))
                             .foregroundColor(changed ? .white :.gray)
                             .animation(.easeInOut, value: changed)
-                    }.onAppear(){
+                    }.onAppear {
                         newstart = session.start!
                     }
                     DatePicker(selection: $newend, displayedComponents: .hourAndMinute) {
@@ -122,7 +122,7 @@ struct SessionEditView: View {
                             .font(.system(size: 20, weight: .bold, design: .rounded))
                             .foregroundColor(changed ? .white :.gray)
                             .animation(.easeInOut, value: changed)
-                    }.onAppear(){
+                    }.onAppear {
                         newend = session.end!
                     }
                     
@@ -138,9 +138,9 @@ struct SessionEditView: View {
                 UNUserNotificationCenter.current().getPendingNotificationRequests{ (notificationRequests) in
                     let formatter1 = DateFormatter()
                     formatter1.dateStyle = .long
-                    //See if it ever fixes
+                    // See if it ever fixes
                     var identifiers: [String] = [name, name + "CC", name + "EE"]
-                   for notification:UNNotificationRequest in notificationRequests {
+                   for notification: UNNotificationRequest in notificationRequests {
                        if notification.identifier == "identifierCancel" {
                           identifiers.append(notification.identifier)
                        }

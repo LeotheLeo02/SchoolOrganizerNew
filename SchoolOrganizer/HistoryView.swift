@@ -73,7 +73,7 @@ struct HistoryView: View {
                             }
                                 Text(com.dateoftest!, style: .date)
                                     .font(.system(size: 13, weight: .heavy, design: .serif))
-                                //Hi
+                                // Hi
                                 Text(com.dateoftest!, style: .time)
                                     .font(.system(size: 13, weight: .heavy, design: .serif))
                             }.padding()
@@ -92,7 +92,7 @@ struct HistoryView: View {
 
                                 }
                         }.onDelete(perform: deleteCompletedTest)
-                    }header:{
+                    }header: {
                         if !completedtest.isEmpty{
                             HStack{
                         Text("Completed Tests")

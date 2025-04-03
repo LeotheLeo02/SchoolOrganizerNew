@@ -10,7 +10,7 @@ import SwiftUI
 struct TabManager: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.dateoftest, order: .reverse)]) var completedtest: FetchedResults<CompletedTest>
     var body: some View {
-        TabView{
+        TabView {
             AssignmentsView()
                 .tabItem {
                     Text("Assignments")
@@ -27,7 +27,7 @@ struct TabManager: View {
                     Text("Overview")
                     Image(systemName: "calendar")
                 }
-            if !completedtest.isEmpty{
+            if !completedtest.isEmpty {
             HistoryView()
                 .tabItem {
                     Text("Past Tests")
@@ -47,15 +47,15 @@ extension Color: RawRepresentable {
 
     public init?(rawValue: String) {
         
-        guard let data = Data(base64Encoded: rawValue) else{
+        guard let data = Data(base64Encoded: rawValue) else {
             self = .black
             return
         }
         
-        do{
+        do {
             let color = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? UIColor ?? .black
             self = Color(color)
-        }catch{
+        }catch {
             self = .black
         }
         
@@ -63,11 +63,11 @@ extension Color: RawRepresentable {
 
     public var rawValue: String {
         
-        do{
+        do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: UIColor(self), requiringSecureCoding: false) as Data
             return data.base64EncodedString()
             
-        }catch{
+        }catch {
             
             return ""
             
