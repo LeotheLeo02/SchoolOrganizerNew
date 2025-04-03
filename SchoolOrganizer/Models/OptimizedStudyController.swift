@@ -4,9 +4,13 @@
 
 import Foundation
 import CoreData
+import os.log
 
 class OptimizedStudyController {
+    
     private let dataController = SharedDataController.shared
+    
+    private let logger = Logger(subsystem: "com.schoolorganizer", category: "StudyController")
     
     
     func addStudySession(name: String, topic: String, startTime: Date, endTime: Date, intensity: Int64) {
@@ -20,10 +24,20 @@ class OptimizedStudyController {
         session.endtime = endTime
         session.intensity = intensity
         
+        logger.debug("Adding new study session: \(name) for topic: \(topic)")
         dataController.saveViewContext()
     }
     
     func updateStudySession(session: StudySessions, updates: [StudySessionUpdate]) {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [weak self] in
+                self?.updateStudySession(session: session, updates: updates)
+            }
+            return
+        }
+        
+        logger.debug("Updating study session: \(session.name ?? "unknown")")
+        
         for update in updates {
             switch update {
             case .name(let name):
@@ -46,12 +60,15 @@ class OptimizedStudyController {
         let predicate = NSPredicate(format: "topic == %@", oldTopic)
         let propertiesToUpdate = ["topic": newTopic]
         
+        logger.debug("Batch updating study sessions from topic '\(oldTopic)' to '\(newTopic)'")
         dataController.batchUpdate(entityType: StudySessions.self, predicate: predicate, propertiesToUpdate: propertiesToUpdate)
     }
     
     func deleteStudySessions(matching predicate: NSPredicate) {
+        logger.debug("Batch deleting study sessions with predicate: \(predicate)")
         dataController.batchDelete(entityType: StudySessions.self, predicate: predicate)
     }
+    
     
     func getStudySessions(
         matching predicate: NSPredicate? = nil,
@@ -64,9 +81,11 @@ class OptimizedStudyController {
         )
         
         do {
-            return try dataController.viewContext.fetch(request)
+            let results = try dataController.viewContext.fetch(request)
+            logger.debug("Fetched \(results.count) study sessions")
+            return results
         } catch {
-            print("Error fetching study sessions: \(error.localizedDescription)")
+            logger.error("Error fetching study sessions: \(error.localizedDescription)")
             return []
         }
     }

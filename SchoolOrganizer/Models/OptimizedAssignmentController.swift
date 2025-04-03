@@ -4,9 +4,13 @@
 
 import Foundation
 import CoreData
+import os.log
 
 class OptimizedAssignmentController {
+    
     private let dataController = SharedDataController.shared
+    
+    private let logger = Logger(subsystem: "com.schoolorganizer", category: "AssignmentController")
     
     
     func addAssignment(topic: String, color: String, duedate: Date, name: String, complete: Bool, book: Bool, sidenotes: String) {
@@ -22,6 +26,7 @@ class OptimizedAssignmentController {
         assign.book = book
         assign.sidenotes = sidenotes
         
+        logger.debug("Adding new assignment: \(name) for topic: \(topic)")
         dataController.saveViewContext()
     }
     
@@ -29,6 +34,7 @@ class OptimizedAssignmentController {
         let predicate = NSPredicate(format: "topic == %@", oldTopic)
         let propertiesToUpdate = ["topic": newTopic, "changedtopic": true]
         
+        logger.debug("Batch updating assignments from topic '\(oldTopic)' to '\(newTopic)'")
         dataController.batchUpdate(entityType: Assignment.self, predicate: predicate, propertiesToUpdate: propertiesToUpdate)
     }
     
@@ -37,11 +43,19 @@ class OptimizedAssignmentController {
         let predicate = NSPredicate(format: "id IN %@", uuidStrings)
         let propertiesToUpdate = ["complete": true]
         
+        logger.debug("Batch completing \(ids.count) assignments")
         dataController.batchUpdate(entityType: Assignment.self, predicate: predicate, propertiesToUpdate: propertiesToUpdate)
     }
     
     func updateAssignment(assignment: Assignment, updates: [AssignmentUpdate]) {
-        let context = dataController.viewContext
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [weak self] in
+                self?.updateAssignment(assignment: assignment, updates: updates)
+            }
+            return
+        }
+        
+        logger.debug("Updating assignment: \(assignment.name ?? "unknown")")
         
         for update in updates {
             switch update {
@@ -76,8 +90,10 @@ class OptimizedAssignmentController {
     }
     
     func deleteAssignments(matching predicate: NSPredicate) {
+        logger.debug("Batch deleting assignments with predicate: \(predicate)")
         dataController.batchDelete(entityType: Assignment.self, predicate: predicate)
     }
+    
     
     func getAssignments(
         matching predicate: NSPredicate? = nil,
@@ -92,11 +108,24 @@ class OptimizedAssignmentController {
         )
         
         do {
-            return try dataController.viewContext.fetch(request)
+            let results = try dataController.viewContext.fetch(request)
+            logger.debug("Fetched \(results.count) assignments")
+            return results
         } catch {
-            print("Error fetching assignments: \(error.localizedDescription)")
+            logger.error("Error fetching assignments: \(error.localizedDescription)")
             return []
         }
+    }
+    
+    func getUpcomingAssignments(within hours: Int = 48) -> [Assignment] {
+        let now = Date()
+        let futureDate = Calendar.current.date(byAdding: .hour, value: hours, to: now)!
+        
+        let predicate = NSPredicate(format: "duedate >= %@ AND duedate <= %@ AND complete == NO", 
+                                   now as NSDate, futureDate as NSDate)
+        let sortDescriptors = [NSSortDescriptor(key: "duedate", ascending: true)]
+        
+        return getAssignments(matching: predicate, sortedBy: sortDescriptors)
     }
 }
 

@@ -4,9 +4,13 @@
 
 import Foundation
 import CoreData
+import os.log
 
 class OptimizedTestController {
+    
     private let dataController = SharedDataController.shared
+    
+    private let logger = Logger(subsystem: "com.schoolorganizer", category: "TestController")
     
     
     func addTest(testname: String, topic: String, testdate: Date) {
@@ -18,6 +22,7 @@ class OptimizedTestController {
         test.testtopic = topic
         test.testdate = testdate
         
+        logger.debug("Adding new test: \(testname) for topic: \(topic)")
         dataController.saveViewContext()
     }
     
@@ -25,11 +30,19 @@ class OptimizedTestController {
         let predicate = NSPredicate(format: "testtopic == %@", oldTopic)
         let propertiesToUpdate = ["testtopic": newTopic, "changedtopic": true]
         
+        logger.debug("Batch updating tests from topic '\(oldTopic)' to '\(newTopic)'")
         dataController.batchUpdate(entityType: Tests.self, predicate: predicate, propertiesToUpdate: propertiesToUpdate)
     }
     
     func updateTest(test: Tests, updates: [TestUpdate]) {
-        let context = dataController.viewContext
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [weak self] in
+                self?.updateTest(test: test, updates: updates)
+            }
+            return
+        }
+        
+        logger.debug("Updating test: \(test.testname ?? "unknown")")
         
         for update in updates {
             switch update {
@@ -55,8 +68,10 @@ class OptimizedTestController {
     }
     
     func deleteTests(matching predicate: NSPredicate) {
+        logger.debug("Batch deleting tests with predicate: \(predicate)")
         dataController.batchDelete(entityType: Tests.self, predicate: predicate)
     }
+    
     
     func getTests(
         matching predicate: NSPredicate? = nil,
@@ -71,9 +86,11 @@ class OptimizedTestController {
         )
         
         do {
-            return try dataController.viewContext.fetch(request)
+            let results = try dataController.viewContext.fetch(request)
+            logger.debug("Fetched \(results.count) tests")
+            return results
         } catch {
-            print("Error fetching tests: \(error.localizedDescription)")
+            logger.error("Error fetching tests: \(error.localizedDescription)")
             return []
         }
     }
@@ -89,7 +106,11 @@ class OptimizedTestController {
     }
     
     func addCompletedTest(from test: Tests, score: Int64) {
-        dataController.performBackgroundTask { context in
+        logger.debug("Adding completed test record for: \(test.testname ?? "unknown") with score: \(score)")
+        
+        dataController.performBackgroundTask { [weak self] context in
+            guard let self = self else { return }
+            
             let completedTest = CompletedTests(context: context)
             completedTest.id = UUID()
             completedTest.testname = test.testname
@@ -97,6 +118,7 @@ class OptimizedTestController {
             completedTest.score = score
             completedTest.dateoftest = Date()
             
+            self.logger.debug("Completed test record created successfully")
         }
     }
 }
